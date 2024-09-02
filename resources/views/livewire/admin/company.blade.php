@@ -19,7 +19,7 @@
                         {{ mb_strtolower($company->address->province) }}
                     </x-table-row-item>
                     <x-table-row-item>
-                        <a href="hiringmanager/edit/{{ $company->id }}"
+                        <a href="company/edit/{{ $company->id }}"
                             class="font-medium text-blue-600  hover:underline">Edit</a>
                         <button class="font-medium text-red-600  hover:underline" wire:click="delete({{ $company->id }})"
                             wire:confirm="Are you sure about that?">Delete</button>
