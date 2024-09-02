@@ -1,9 +1,24 @@
     <div class="p-4 md:p-5">
+        @error('error')
+            <div>{{ $message }}</div>
+        @enderror
         <h2 class="text-3xl mb-2">Create Company</h2>
         <div class="space-y-4">
             <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900 " for="file_input">Upload
+                    Logo <x-required /> </label>
+                <input
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none   "
+                    id="file_input" type="file" accept="image/png, image/jpeg, image/jpg" wire:model="profile">
+                @error('profile')
+                    <div class="text-red-600">
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+            </div>
+            <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">
-                    First Name<x-required /></label>
+                    Name<x-required /></label>
                 <input type="text" name="name" id="name"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
                     placeholder="ex. Juan" required wire:model="name" />
@@ -20,29 +35,25 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
                     placeholder="ex. Dela" required wire:model="url" />
             </div>
+
             <div>
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 ">
-                    Last Name<x-required /></label>
-                <input type="text" name="description" id="description"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                    placeholder="ex. Cruz" required wire:model="description" />
+                    Description</label>
+                <textarea id="description" rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  "
+                    wire:model="description"></textarea>
                 @error('description')
                     <div class="text-red-600">
                         <span>{{ $message }}</span>
                     </div>
                 @enderror
             </div>
-            <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 ">Your
-                    Description</label>
-                <textarea id="description" rows="4"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  "
-                    wire:model="description"></textarea>
-            </div>
         </div>
         <h6 class="text-2xl mb-2 mt-2">Address</h6>
+
         <div <label for="street" class="block mb-2 text-sm font-medium text-gray-900 ">
-            House No./Street<x-required /></label>
+            House No./Street<x-required />
+            </label>
             <input type="text" name="street" id="street"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
                 required wire:model="street" />

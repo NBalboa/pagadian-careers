@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Company::create([
+            'profile' => "profile/company/sample.jfif",
             'name' => "Balboa Corp.",
             'url' => "link.com",
             'description' => "Amazing Company",

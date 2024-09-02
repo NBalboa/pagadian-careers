@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Address;
-use App\Models\Company;
 use App\Models\HiringManager as ModelsHiringManager;
 use App\Models\User;
 use Livewire\Attributes\Layout;
