@@ -69,8 +69,8 @@ class CreateCompany extends Component
             redirect('company')->with(['success' => 'Company created successfully']);
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
-            if (Storage::disk("public")->exists($validated['image'])) {
-                Storage::disk('public')->delete($validated['image']);
+            if (Storage::disk("public")->exists($validated['profile'])) {
+                Storage::disk('public')->delete($validated['profile']);
             }
             Log::error('Error creating Company: ' . $e->getMessage());
             DB::rollBack();
