@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use App\Livewire\Admin\Company;
 use App\Livewire\Admin\CreateCompany;
 use App\Livewire\Admin\CreateHiringManager;
@@ -23,3 +24,5 @@ Route::get('/hiringmanager/edit/{id}', EditHiringManager::class);
 Route::get('/company', Company::class);
 Route::get('/company/create', CreateCompany::class);
 Route::get('/company/edit/{id}', EditCompany::class);
+
+Route::get('/login', [UserController::class, 'login']);
