@@ -26,3 +26,4 @@ Route::get('/company/create', CreateCompany::class);
 Route::get('/company/edit/{id}', EditCompany::class);
 
 Route::get('/login', [UserController::class, 'login']);
+Route::post('/signin', [UserController::class, 'signin']);
