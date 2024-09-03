@@ -26,7 +26,6 @@ class UserController extends Controller
 
         $user = User::where('email', $attributes['emailOrPhone'])->orWhere('phone_no', $attributes['emailOrPhone'])->first();
 
-
         if ($user && Hash::check($attributes['password'], $user->password)) {
             Auth::login($user);
 
@@ -41,7 +40,7 @@ class UserController extends Controller
                 dd('applicants');
             }
         } else {
-            redirect('login')->with(['error', 'Invalid Email/Phone and Password']);
+            return redirect('login')->withInput()->withErrors(['error' => 'Invalid Email/Phone and Password']);
         }
     }
 }

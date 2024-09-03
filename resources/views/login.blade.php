@@ -9,16 +9,25 @@
                     <form class="space-y-4 md:space-y-6" action="/signin" method="POST">
                         @csrf
                         <div>
+                            @error('error')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                             <label for="emailOrPhone" class="block mb-2 text-sm font-medium text-gray-900">Your
                                 email</label>
                             <input type="text" name="emailOrPhone" id="emailOrPhone"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="">
+                                placeholder="" value="{{ old('emailOrPhone') }}">
+                            @error('emailOrPhone')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div>
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                            <input type="password" name="password" id="password"
+                            <input type="password" name="password" id="password" value="{{ old('password') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            @error('password')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-start">
