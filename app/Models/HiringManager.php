@@ -11,6 +11,8 @@ class HiringManager extends Model
     use HasFactory;
     protected $fillable = ['user_id', 'company_id', 'address_id'];
 
+
+
     public function user()
     {
         return $this->belongsTo(User::class, "user_id");
@@ -24,5 +26,10 @@ class HiringManager extends Model
     public function address()
     {
         return $this->belongsTo(Address::class, 'address_id');
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Work::class, 'hiring_manager_id');
     }
 }
