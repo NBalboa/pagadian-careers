@@ -57,6 +57,8 @@ class CreateJob extends Component
     #[Rule('required|in:10')]
     public int $total_score;
 
+    public $previousValuesQualifcations = [];
+    public $previousValuesResponsibilities = [];
 
     protected function messages()
     {
@@ -65,6 +67,22 @@ class CreateJob extends Component
         ];
     }
 
+
+    public function saveEditedResponsibilities($index)
+    {
+        if (empty($this->responsibilities[$index]['description'])) {
+            $this->responsibilities[$index]['description'] = $this->previousValuesResponsibilities[$index]['description'];
+        }
+        $this->previousValuesResponsibilities = $this->responsibilities;
+    }
+
+    public function saveEditedQualification($index)
+    {
+        if (empty($this->qualifications[$index]['description'])) {
+            $this->qualifications[$index]['description'] = $this->previousValuesQualifcations[$index]['description'];
+        }
+        $this->previousValuesQualifcations = $this->qualifications;
+    }
 
     public function save()
     {
@@ -188,6 +206,7 @@ class CreateJob extends Component
 
         unset($this->qualifications[$value]);
         $this->qualifications = array_values($this->qualifications);
+        $this->previousValuesQualifcations = $this->qualifications;
     }
 
     public function addJobQualification()
@@ -198,6 +217,7 @@ class CreateJob extends Component
         ]);
 
         $this->qualifications[] = ['description' => $this->qualification];
+        $this->previousValuesQualifcations = $this->qualifications;
 
         $this->qualification = '';
     }
@@ -207,6 +227,7 @@ class CreateJob extends Component
 
         unset($this->responsibilities[$value]);
         $this->responsibilities = array_values($this->responsibilities);
+        $this->previousValuesResponsibilities = $this->responsibilities;
     }
 
     public function addJobResponsibility()
@@ -217,6 +238,7 @@ class CreateJob extends Component
         ]);
 
         $this->responsibilities[] = ['description' => $this->reponsibility];
+        $this->previousValuesResponsibilities = $this->responsibilities;
 
         $this->reponsibility = '';
     }

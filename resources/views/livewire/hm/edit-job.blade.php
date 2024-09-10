@@ -1,5 +1,8 @@
     <div class="p-4 md:p-5">
         <h2 class="text-3xl mb-2">Create Jobs</h2>
+        @if (session('success'))
+            <h3 class="text-green-400 text-center pt-2 pb-2">{{ session('success') }}</h3>
+        @endif
         <div class="space-y-4">
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 ">
@@ -68,7 +71,7 @@
                     Salary<x-required /></label>
                 <input type="text" name="salary" id="salary"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                    placeholder="ex. Cruz" required wire:model="salary" />
+                    placeholder="ex. Cruz" wire:model="salary" />
 
                 @error('salary')
                     <div class="text-red-600">
@@ -97,6 +100,52 @@
                     </div>
                 @enderror
             </div>
+
+            <h6 class="text-2xl mb-2 mt-2">Scoring <span class="text-sm italic">(must be total of 10)</span></h6>
+            @error('total_score')
+                <div class="text-red-600">
+                    <span>{{ $message }}</span>
+                </div>
+            @enderror
+            <div>
+                <label for="education_score" class="block mb-2 text-sm font-medium text-gray-900 ">
+                    Education</label>
+                <input type="number" name="education_score" id="education_score"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
+                    placeholder="ex. Dela" required wire:model="education_score" />
+                @error('education_score')
+                    <div class="text-red-600">
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+            </div>
+            <div>
+                <label for="skill_score" class="block mb-2 text-sm font-medium text-gray-900 ">
+                    Skill</label>
+                <input type="number" name="skill_score" id="skill_score"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
+                    placeholder="ex. Dela" required wire:model="skill_score" />
+                @error('skill_score')
+                    <div class="text-red-600">
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+            </div>
+            <div>
+                <label for="experience_score" class="block mb-2 text-sm font-medium text-gray-900 ">
+                    Experience</label>
+                <input type="number" name="experience_score" id="experience_score"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
+                    placeholder="ex. Dela" required wire:model="experience_score" />
+                @error('experience_score')
+                    <div class="text-red-600">
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+            </div>
+            <button
+                class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                wire:click='save'>Save Changes</button>
             <div>
                 <label for="qualification" class="block mb-2 text-sm font-medium text-gray-900 ">
                     Qualifications</label>
@@ -247,49 +296,5 @@
                     @endforeach
                 </ul>
             </div>
-            <h6 class="text-2xl mb-2 mt-2">Scoring <span class="text-sm italic">(must be total of 10)</span></h6>
-            @error('total_score')
-                <div class="text-red-600">
-                    <span>{{ $message }}</span>
-                </div>
-            @enderror
-            <div>
-                <label for="education_score" class="block mb-2 text-sm font-medium text-gray-900 ">
-                    Education</label>
-                <input type="number" name="education_score" id="education_score"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                    placeholder="ex. Dela" required wire:model="education_score" />
-                @error('education_score')
-                    <div class="text-red-600">
-                        <span>{{ $message }}</span>
-                    </div>
-                @enderror
-            </div>
-            <div>
-                <label for="skill_score" class="block mb-2 text-sm font-medium text-gray-900 ">
-                    Skill</label>
-                <input type="number" name="skill_score" id="skill_score"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                    placeholder="ex. Dela" required wire:model="skill_score" />
-                @error('skill_score')
-                    <div class="text-red-600">
-                        <span>{{ $message }}</span>
-                    </div>
-                @enderror
-            </div>
-            <div>
-                <label for="experience_score" class="block mb-2 text-sm font-medium text-gray-900 ">
-                    Experience</label>
-                <input type="number" name="experience_score" id="experience_score"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                    placeholder="ex. Dela" required wire:model="experience_score" />
-                @error('experience_score')
-                    <div class="text-red-600">
-                        <span>{{ $message }}</span>
-                    </div>
-                @enderror
-            </div>
-            <button
-                class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                wire:click='save'>Create Job</button>
+
         </div>

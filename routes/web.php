@@ -9,6 +9,7 @@ use App\Livewire\Admin\EditCompany;
 use App\Livewire\Admin\EditHiringManager;
 use App\Livewire\Admin\HiringManager;
 use App\Livewire\Hm\CreateJob;
+use App\Livewire\Hm\EditJob;
 use App\Livewire\Hm\Job;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,4 @@ Route::post('/signin', [UserController::class, 'signin']);
 
 Route::get('/job', Job::class);
 Route::get('/job/create', CreateJob::class);
+Route::get('/job/edit/{hiring_manager}/{job}', EditJob::class);
