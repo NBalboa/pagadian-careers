@@ -44,22 +44,26 @@
                 </svg>
             </button>
             <div class="border-b-2 border-black ">
-                <h2 class="p-3 text-gray-900  font-medium text-xl relative">Ell Bitch
+                <h2 class="p-3 text-gray-900  font-medium text-xl relative">{{ auth()->user()->first_name }}
+                    {{ auth()->user()->last_name }}
                     <span
-                        class="absolute text-blue-400 text-xs px-3 transition-transform transform translate-y-1 bottom-2 left-0">Admin</span>
+                        class="absolute text-blue-400 text-xs px-3 transition-transform transform translate-y-1 bottom-2 left-0">Hiring
+                        Manager</span>
                 </h2>
 
             </div>
             <ul class="space-y-2 font-medium">
-                <x-nav-item href="/dashboard">
+                <x-nav-item href="/hiringmanager/dashboard">
                     Dashboard
                 </x-nav-item>
                 <x-nav-item href="/job">
                     Jobs
                 </x-nav-item>
-                <x-nav-item href="#">
-                    Logout
-                </x-nav-item>
+                <form action="/logout" method="POST"
+                    class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group active">
+                    @csrf
+                    <input type="submit" value="Logout" class="ms-3" />
+                </form>
             </ul>
         </div>
     </aside>

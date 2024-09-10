@@ -4,6 +4,7 @@ namespace App\Livewire\Hm;
 
 use App\Enums\Layouts;
 use App\Models\Education;
+use App\Models\HiringManager;
 use App\Models\Score;
 use App\Models\Skill;
 use App\Models\Work;
@@ -11,6 +12,7 @@ use App\Rules\ExistEducation;
 use App\Rules\ExistSkill;
 use App\Rules\NotExistEducation;
 use App\Rules\NotExistSkill;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Rule;
@@ -60,6 +62,13 @@ class CreateJob extends Component
     public $previousValuesQualifcations = [];
     public $previousValuesResponsibilities = [];
 
+    public $hiring_manager;
+
+    public function mount()
+    {
+        $this->hiring_manager = HiringManager::findOrFail(Auth::user()->id);
+    }
+
     protected function messages()
     {
         return [
@@ -89,9 +98,7 @@ class CreateJob extends Component
         $this->total_score
             = $this->experience_score + $this->education_score + $this->skill_score;
 
-        $attributes = $this->validate();
-
-        // dd($attributes);
+        $this->validate();
 
         DB::beginTransaction();
         try {
@@ -104,7 +111,7 @@ class CreateJob extends Component
                 ]);
 
             $job = Work::create([
-                'hiring_manager_id' => 1,
+                'hiring_manager_id' => $this->hiring_manager->id,
                 'job_title' => $this->job_title,
                 'job_setup' => $this->job_setup,
                 'job_type' => $this->job_type,

@@ -28,19 +28,25 @@ class UserController extends Controller
 
         if ($user && Hash::check($attributes['password'], $user->password)) {
             Auth::login($user);
-
             session()->regenerate();
             $role = auth()->user()->role;
 
             if (UserRole::ADMIN->value == $role) {
                 dd('admin');
             } else if (UserRole::HIRING_MANAGER->value === $role) {
-                dd('hiring_manager');
+                return redirect('/hiringmanager/dashboard');
             } else {
                 dd('applicants');
             }
         } else {
             return redirect('login')->withInput()->withErrors(['error' => 'Invalid Email/Phone and Password']);
         }
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+        session()->regenerate();
+        return redirect('/');
     }
 }
