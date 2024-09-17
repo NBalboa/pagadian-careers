@@ -13,6 +13,7 @@ use App\Rules\ExistEducation;
 use App\Rules\ExistSkill;
 use App\Rules\NotExistEducation;
 use App\Rules\NotExistSkill;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -62,9 +63,9 @@ class EditJob extends Component
 
     public $score;
 
-    public function mount(HiringManager $hiring_manager, Work $job)
+    public function mount(Work $job)
     {
-        $this->hiring_manager = $hiring_manager;
+        $this->hiring_manager = HiringManager::findOrFail(Auth::user()->id);
         $this->job = $this->hiring_manager->jobs()->where('id', $job->id)->firstOrFail();
         $this->job_title = $this->job->job_title;
         $this->description = $this->job->description;

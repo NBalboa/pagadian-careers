@@ -9,10 +9,12 @@ use App\Livewire\Admin\CreateHiringManager;
 use App\Livewire\Admin\EditCompany;
 use App\Livewire\Admin\EditHiringManager;
 use App\Livewire\Admin\HiringManager;
+use App\Livewire\Applicant\Profile;
 use App\Livewire\Hm\CreateJob;
 use App\Livewire\Hm\Dashboard;
 use App\Livewire\Hm\EditJob;
 use App\Livewire\Hm\Job;
+use App\Livewire\Applicant\Register;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,13 +33,17 @@ Route::get('/company/create', CreateCompany::class);
 Route::get('/company/edit/{id}', EditCompany::class);
 
 Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/register', Register::class);
 Route::post('/signin', [UserController::class, 'signin']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+
+
+Route::get('/my/profile', Profile::class);
 
 
 Route::middleware([HiringManagerOnly::class, 'auth'])->group(function () {
     Route::get('/hiringmanager/dashboard', Dashboard::class);
     Route::get('/job', Job::class);
     Route::get('/job/create', CreateJob::class);
-    Route::get('/job/edit/{hiring_manager}/{job}', EditJob::class);
+    Route::get('/job/edit/{job}', EditJob::class);
 });

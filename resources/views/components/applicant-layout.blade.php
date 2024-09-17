@@ -7,8 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+    <script src="https://kit.fontawesome.com/c393acf5ae.js" crossorigin="anonymous"></script>
     <script src="/js/navbar.js"></script>
+    <script src="/js/contact-validation.js"></script>
     @vite('resources/css/app.css')
 </head>
 
@@ -49,10 +50,23 @@
                         <a href="#"
                             class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Contact</a>
                     </li>
-                    <li>
-                        <a href="/login"
-                            class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Login</a>
-                    </li>
+                    @guest
+                        <li>
+                            <a href="/login"
+                                class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Login</a>
+                        </li>
+                        <li>
+                            <a href="/register"
+                                class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Register</a>
+                        </li>
+                    @endguest
+                    @auth
+                        <form action="/logout" method="POST"
+                            class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                            @csrf
+                            <input type="submit" value="Logout" class="ms-3" />
+                        </form>
+                    @endauth
                 </ul>
             </div>
         </div>

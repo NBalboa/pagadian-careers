@@ -18,7 +18,7 @@
                     <x-table-row-item>{{ $job->salary }}</x-table-row-item>
                     <x-table-row-item>0</x-table-row-item>
                     <x-table-row-item>
-                        <a href="/job/edit/{{ $hiring_manager->id }}/{{ $job->id }}"
+                        <a href="/job/edit/{{ $job->id }}"
                             class="font-medium text-blue-600  hover:underline">Edit</a>
                         <button class="font-medium text-red-600  hover:underline" wire:click="delete({{ $job->id }})"
                             wire:confirm="Are you sure about that?">Delete</button>
