@@ -12,10 +12,18 @@ class Profile extends Component
 {
     public $applicant;
     public $applicant_educations;
+    public $applicant_skills;
     public function mount()
     {
         $this->applicant = Applicant::with('user')->where('user_id', Auth::user()->id)->firstOrFail();
         $this->applicant_educations = $this->applicant->educations()->get()->toArray();
+        $this->applicant_skills = $this->applicant->skills()->get()->toArray();
+    }
+
+    public function removeApplicantSkill($id)
+    {
+        $this->applicant->skills()->detach([$id]);
+        return redirect('/my/profile');
     }
     public function removeApplicantEducation($id)
     {

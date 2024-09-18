@@ -72,8 +72,23 @@
         </div>
     </div>
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
+        <a href="/my/profile/create/skill"
+            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add</a>
         <h3 class="text-md font-bold">Skill</h3>
-        <p class=" ">PHP • JAVASCRIPT • Communitcation • JAVASCRIPT • Communitcation • JAVASCRIPT • Communitcation
-            • JAVASCRIPT • Communitcation • JAVASCRIPT • Communitcation</p>
+        <p>
+            @foreach ($applicant_skills as $index => $skill)
+                @if (count($applicant_skills) - 1 !== $index)
+                    {{ $skill['name'] }} <button
+                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"
+                        wire:click="removeApplicantSkill({{ $skill['id'] }})"><i
+                            class="fa-solid fa-trash"></i></button> •
+                @else
+                    {{ $skill['name'] }} <button
+                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"
+                        wire:click="removeApplicantSkill({{ $skill['id'] }})"><i
+                            class="fa-solid fa-trash"></i></button>
+                @endif
+            @endforeach
+        </p>
     </div>
 </div>

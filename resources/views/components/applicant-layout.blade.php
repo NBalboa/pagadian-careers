@@ -61,7 +61,7 @@
                         <form action="/logout" method="POST"
                             class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
                             @csrf
-                            <input type="submit" value="Logout" class="ms-3" />
+                            <input type="submit" value="Logout" />
                         </form>
                     @endauth
                 </ul>

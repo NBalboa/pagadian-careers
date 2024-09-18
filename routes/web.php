@@ -11,6 +11,7 @@ use App\Livewire\Admin\EditCompany;
 use App\Livewire\Admin\EditHiringManager;
 use App\Livewire\Admin\HiringManager;
 use App\Livewire\Applicant\CreateEducation;
+use App\Livewire\Applicant\CreateSkill;
 use App\Livewire\Applicant\EditEducation;
 use App\Livewire\Applicant\Profile;
 use App\Livewire\Hm\CreateJob;
@@ -35,7 +36,7 @@ Route::get('/company', Company::class);
 Route::get('/company/create', CreateCompany::class);
 Route::get('/company/edit/{id}', EditCompany::class);
 
-Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
 Route::get('/register', Register::class);
 Route::post('/signin', [UserController::class, 'signin']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
@@ -46,6 +47,7 @@ Route::middleware([ApplicantOnly::class, 'auth'])->group(function () {
     Route::get('/my/profile', Profile::class);
     Route::get('/my/profile/create/education', CreateEducation::class);
     Route::get('/my/profile/edit/education/{id}', EditEducation::class);
+    Route::get('/my/profile/create/skill', CreateSkill::class);
 });
 
 
