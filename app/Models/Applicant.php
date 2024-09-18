@@ -20,4 +20,15 @@ class Applicant extends Model
     {
         return $this->belongsTo(User::class, "user_id");
     }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'applicant_skills');
+    }
+
+    public function educations()
+    {
+        return $this->belongsToMany(Education::class, 'applicant_educations')
+            ->withPivot('from', 'to', 'school_name', 'id');
+    }
 }

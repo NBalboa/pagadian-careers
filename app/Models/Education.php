@@ -17,4 +17,9 @@ class Education extends Model
     {
         return $this->belongsToMany(Work::class, 'work_education');
     }
+
+    public function applicants()
+    {
+        return $this->belongsToMany(Applicant::class, 'applicant_educations');
+    }
 }
