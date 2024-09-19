@@ -13,11 +13,21 @@ class Profile extends Component
     public $applicant;
     public $applicant_educations;
     public $applicant_skills;
+    public $applicant_experiences;
+
     public function mount()
     {
         $this->applicant = Applicant::with('user')->where('user_id', Auth::user()->id)->firstOrFail();
         $this->applicant_educations = $this->applicant->educations()->get()->toArray();
         $this->applicant_skills = $this->applicant->skills()->get()->toArray();
+        $this->applicant_experiences = $this->applicant->experiences()->get();
+    }
+
+    public function deleteExperience($id)
+    {
+        $experience = $this->applicant->experiences()->where('id', $id)->firstOrFail();
+        $experience->delete();
+        return redirect('/my/profile/');
     }
 
     public function removeApplicantSkill($id)

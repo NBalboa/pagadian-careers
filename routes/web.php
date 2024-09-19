@@ -11,8 +11,10 @@ use App\Livewire\Admin\EditCompany;
 use App\Livewire\Admin\EditHiringManager;
 use App\Livewire\Admin\HiringManager;
 use App\Livewire\Applicant\CreateEducation;
+use App\Livewire\Applicant\CreateExperience;
 use App\Livewire\Applicant\CreateSkill;
 use App\Livewire\Applicant\EditEducation;
+use App\Livewire\Applicant\EditExperience;
 use App\Livewire\Applicant\Profile;
 use App\Livewire\Hm\CreateJob;
 use App\Livewire\Hm\Dashboard;
@@ -48,6 +50,8 @@ Route::middleware([ApplicantOnly::class, 'auth'])->group(function () {
     Route::get('/my/profile/create/education', CreateEducation::class);
     Route::get('/my/profile/edit/education/{id}', EditEducation::class);
     Route::get('/my/profile/create/skill', CreateSkill::class);
+    Route::get('/my/profile/create/experience', CreateExperience::class);
+    Route::get('/my/profile/edit/experience/{id}', EditExperience::class);
 });
 
 
