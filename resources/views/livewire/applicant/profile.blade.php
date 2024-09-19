@@ -33,7 +33,9 @@
 
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
         <a href="/my/profile/create/education"
-            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center">Add</a>
+            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center">
+            {{ count($applicant_educations) > 0 ? 'Edit' : 'Add' }}
+        </a>
         <h3 class="text-md font-bold">Education</h3>
 
         @foreach ($applicant_educations as $index => $education)
@@ -71,7 +73,9 @@
     </div>
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
         <a href="/my/profile/create/experience"
-            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center ">Add</a>
+            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center ">
+            {{ count($applicant_experiences) > 0 ? 'Edit' : 'Add' }}
+        </a>
         <h3 class="text-md font-bold">Experience</h3>
 
         @foreach ($applicant_experiences as $index => $experience)
@@ -118,7 +122,9 @@
     </div>
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
         <a href="/my/profile/create/skill"
-            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center ">Add</a>
+            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center ">
+            {{ count($applicant_skills) > 0 ? 'Edit' : 'Add' }}
+        </a>
         <h3 class="text-md font-bold">Skill</h3>
         <p>
             @foreach ($applicant_skills as $index => $skill)
