@@ -9,7 +9,7 @@ class Applicant extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id',  'address_id', 'profile', 'gender'];
+    protected $fillable = ['user_id',  'address_id', 'profile', 'gender', 'about'];
 
     public function address()
     {

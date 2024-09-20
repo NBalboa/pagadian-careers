@@ -1,7 +1,7 @@
 <div class="my-5">
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
-        <a href="/"
-            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit</a>
+        <a href="/my/account/setting"
+            class="float-right text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Settings</a>
         <div>
             <div class="rounded-full overflow-hidden h-32 w-32 border border-4 border-gray-500 ">
                 <img src="{{ asset('storage/' . $applicant->profile) }}" alt="sample image" class="object-cover">
@@ -12,8 +12,10 @@
                 {{ ucfirst($applicant->user->last_name) }} <span
                     class="font-normal text-sm">({{ $this->getGender($applicant->gender) }})</span>
             </h3>
-
-            <p class="text-sm">Pagadian City {{ $applicant->address }}</p>
+            @if ($address)
+                <p class="text-sm">{{ $address->street }}, {{ $address->barangay }}, {{ $address->city }},
+                    {{ $address->province }}</p>
+            @endif
         </div>
     </div>
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
@@ -27,8 +29,7 @@
     </div>
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
         <h3 class="text-md font-bold">About</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro enim rem perferendis tempora accusantium
-            debitis aut voluptates, natus in quae?</p>
+        <p>{{ $applicant->about }}</p>
     </div>
 
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">

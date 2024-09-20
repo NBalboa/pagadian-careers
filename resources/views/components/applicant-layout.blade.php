@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/c393acf5ae.js" crossorigin="anonymous"></script>
     <script src="/js/navbar.js"></script>
     <script src="/js/contact-validation.js"></script>
+    <script src="/js/address.js"></script>
     @vite('resources/css/app.css')
 </head>
 
