@@ -39,10 +39,7 @@
                             class="block py-2 px-3 md:p-2 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700   "
                             aria-current="page">Home</a>
                     </li>
-                    <li>
-                        <a href="#"
-                            class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Jobs</a>
-                    </li>
+
 
                     @guest
                         <li>
@@ -55,6 +52,10 @@
                         </li>
                     @endguest
                     @auth
+                        <li>
+                            <a href="/jobs"
+                                class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Jobs</a>
+                        </li>
                         <li>
                             <a href="/my/profile/"
                                 class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Profile</a>

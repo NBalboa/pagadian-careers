@@ -92,7 +92,6 @@ class EditJob extends Component
 
     public function save()
     {
-
         $this->total_score
             = $this->experience_score + $this->education_score + $this->skill_score;
 
@@ -117,24 +116,25 @@ class EditJob extends Component
         $score_changes = $score->getDirty();
         $job_changes = $job->getDirty();
 
+
         if ($score_changes && $job_changes) {
 
             $this->job->update($job_changes);
             $this->score->update($score_changes);
 
-            return redirect('job/edit/' . $this->hiring_manager->id . '/' . $this->job->id)
+            return redirect('/my/job/edit/' . $this->job->id)
                 ->with(['success' => 'Successfully save Job details and Score details changes']);
         }
         if ($score_changes) {
 
             $this->score->update($score_changes);
-            return redirect('job/edit/' . $this->hiring_manager->id . '/' . $this->job->id)
+            return redirect('/my/job/edit/' . $this->job->id)
                 ->with(['success' => 'Successfully Score details changes']);
         }
         if ($job_changes) {
 
             $this->job->update($job_changes);
-            return redirect('job/edit/' . $this->hiring_manager->id . '/' . $this->job->id)
+            return redirect('/my/job/edit/' . $this->job->id)
                 ->with(['success' => 'Successfully save Job details changes']);
         }
     }

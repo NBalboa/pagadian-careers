@@ -56,7 +56,7 @@
                 <x-nav-item href="/hiringmanager/dashboard">
                     Dashboard
                 </x-nav-item>
-                <x-nav-item href="/job">
+                <x-nav-item href="/my/job">
                     Jobs
                 </x-nav-item>
                 <form action="/logout" method="POST"

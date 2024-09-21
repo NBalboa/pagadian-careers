@@ -115,6 +115,7 @@ class CreateJob extends Component
                 'job_title' => $this->job_title,
                 'job_setup' => $this->job_setup,
                 'job_type' => $this->job_type,
+                'salary' => $this->salary,
                 'score_id' => $score->id,
                 'description' => $this->description,
                 'experience' => $this->experience,
@@ -132,7 +133,7 @@ class CreateJob extends Component
 
 
             DB::commit();
-            redirect('job')->with(['success' => 'Job created successfully']);
+            redirect('/my/job')->with(['success' => 'Job created successfully']);
         } catch (\Exception $e) {
             dd($e);
             Log::error('Error creating Hiring Manager: ' . $e->getMessage());

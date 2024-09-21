@@ -17,7 +17,8 @@ class Work extends Model
         'score_id',
         'description',
         'experience',
-        'salary'
+        'salary',
+        'show_salary'
     ];
 
     public function skills()
