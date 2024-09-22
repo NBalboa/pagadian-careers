@@ -16,7 +16,7 @@
                     <x-table-row-item>{{ $this->getJobSetup($job->job_setup) }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getJobType($job->job_type) }}</x-table-row-item>
                     <x-table-row-item>{{ $job->salary }}</x-table-row-item>
-                    <x-table-row-item>0</x-table-row-item>
+                    <x-table-row-item>{{ $this->getTotalApplicants($job->id) }}</x-table-row-item>
                     <x-table-row-item>
                         <a href="/my/job/edit/{{ $job->id }}"
                             class="font-medium text-blue-600  hover:underline">Edit</a>

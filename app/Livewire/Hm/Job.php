@@ -21,6 +21,10 @@ class Job extends Component
         $this->jobs = $this->hiring_manager->jobs()->get();
     }
 
+    public function getTotalApplicants($id)
+    {
+        return $this->jobs->find($id)->applicants()->get()->count();
+    }
     public function getJobSetup($value)
     {
         return JobSetup::fromValue($value)->stringValue();

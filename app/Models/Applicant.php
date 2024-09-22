@@ -32,6 +32,11 @@ class Applicant extends Model
             ->withPivot('from', 'to', 'school_name', 'id');
     }
 
+    public function jobs()
+    {
+        return $this->belongsToMany(Work::class, 'jobs_applicants');
+    }
+
     public function experiences()
     {
         return $this->hasMany(Experience::class);

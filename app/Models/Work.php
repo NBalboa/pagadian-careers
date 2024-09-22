@@ -36,6 +36,12 @@ class Work extends Model
         return $this->belongsTo(HiringManager::class, 'hiring_manager_id')->with('user', 'company.address');
     }
 
+
+    public function applicants()
+    {
+        return $this->belongsToMany(Applicant::class, 'jobs_applicants');
+    }
+
     public function score()
     {
         return $this->belongsTo(Score::class, 'score_id');
