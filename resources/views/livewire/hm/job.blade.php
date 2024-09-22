@@ -22,6 +22,8 @@
                             class="font-medium text-blue-600  hover:underline">Edit</a>
                         <button class="font-medium text-red-600  hover:underline" wire:click="delete({{ $job->id }})"
                             wire:confirm="Are you sure about that?">Delete</button>
+                        <a href="/my/job/{{ $job->id }}/applicants"
+                            class="font-medium text-green-600  hover:underline">View</a>
                     </x-table-row-item>
                 </x-table-row>
             @endforeach

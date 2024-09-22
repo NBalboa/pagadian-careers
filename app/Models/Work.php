@@ -39,7 +39,8 @@ class Work extends Model
 
     public function applicants()
     {
-        return $this->belongsToMany(Applicant::class, 'jobs_applicants');
+        return $this->belongsToMany(Applicant::class, 'jobs_applicants')
+            ->withPivot('status', 'remarks');
     }
 
     public function score()
