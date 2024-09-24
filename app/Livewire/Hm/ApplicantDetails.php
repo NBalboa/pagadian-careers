@@ -22,7 +22,7 @@ class ApplicantDetails extends Component
         $this->applicants = $this->job->applicants()->with('user', 'address')->get();
         foreach ($this->applicants as $applicant) {
             $this->statuses[$applicant->id] = $applicant->jobs()->find($job->id)->pivot->status;
-            $this->remarks[$applicant->id] = $applicant->jobs()->find($job->id)->pivot->remarks;
+            $this->remarks[$applicant->id] = "";
         }
     }
 
@@ -47,6 +47,8 @@ class ApplicantDetails extends Component
         $applicant->pivot->remarks = $this->remarks[$id];
 
         $applicant->pivot->save();
+
+        $this->remarks[$id] = "";
         return redirect('/my/job/' . $this->job->id . '/applicants');
     }
     public function render()

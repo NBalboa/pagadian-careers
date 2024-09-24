@@ -18,6 +18,7 @@ use App\Livewire\Applicant\EditEducation;
 use App\Livewire\Applicant\EditExperience;
 use App\Livewire\Applicant\JobDetails;
 use App\Livewire\Applicant\Jobs;
+use App\Livewire\Applicant\MyJobs;
 use App\Livewire\Applicant\Profile;
 use App\Livewire\Hm\CreateJob;
 use App\Livewire\Hm\Dashboard;
@@ -59,6 +60,7 @@ Route::middleware([ApplicantOnly::class, 'auth'])->group(function () {
     Route::get('/my/profile/create/experience', CreateExperience::class);
     Route::get('/my/profile/edit/experience/{id}', EditExperience::class);
     Route::get('/my/account/setting', AccountSettings::class);
+    Route::get('/my/jobs', MyJobs::class);
     Route::get('/jobs', Jobs::class);
     Route::get('/jobs/{job}', JobDetails::class);
 });

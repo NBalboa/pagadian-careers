@@ -8,13 +8,15 @@ enum JobStatus: int
     case PENDING = 0;
     case INTERVIEW = 1;
     case HIRED = 2;
+    case REJECTED = 3;
 
     public static function fromValue(int $value): self
     {
         return match ($value) {
             0 => self::PENDING,
             1 => self::INTERVIEW,
-            2 => self::HIRED
+            2 => self::HIRED,
+            3 => self::REJECTED,
         };
     }
 
@@ -25,6 +27,7 @@ enum JobStatus: int
             self::PENDING => 'Pending',
             self::INTERVIEW => 'Interview',
             self::HIRED => 'Hired',
+            self::REJECTED => 'Rejected'
         };
     }
 }

@@ -34,6 +34,7 @@
                             <option value="0">PENDING</option>
                             <option value="1">INTERVIEW</option>
                             <option value="2">HIRED</option>
+                            <option value="3">REJECTED</option>
                         </select>
                     </x-table-row-item>
                     <x-table-row-item>
