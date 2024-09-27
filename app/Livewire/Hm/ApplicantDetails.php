@@ -6,12 +6,14 @@ use App\Enums\ApplicantGender;
 use App\Enums\JobStatus;
 use App\Enums\Layouts;
 use App\Models\Work;
+use App\Services\JobRecommendationService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 
 class ApplicantDetails extends Component
 {
     public $job;
-    public $applicants;
+    public $applicants_w;
     public $statuses = [];
     public $remarks = [];
 
@@ -19,10 +21,10 @@ class ApplicantDetails extends Component
     public function mount(Work $job)
     {
         $this->job = $job;
-        $this->applicants = $this->job->applicants()->with('user', 'address')->get();
-        foreach ($this->applicants as $applicant) {
-            $this->statuses[$applicant->id] = $applicant->jobs()->find($job->id)->pivot->status;
-            $this->remarks[$applicant->id] = "";
+        $this->applicants_w = $this->getApplicantScore();
+        foreach ($this->applicants_w as $applicant) {
+            $this->statuses[$applicant['applicant']->id] = $applicant['applicant']->jobs()->find($job->id)->pivot->status;
+            $this->remarks[$applicant['applicant']->id] = "";
         }
     }
 
@@ -39,6 +41,52 @@ class ApplicantDetails extends Component
         return JobStatus::fromValue($status)->stringValue();
     }
 
+    public function getApplicantScore()
+    {
+        $applicants = $this->job->applicants()->with('user', 'address')->get();
+        $jobRecommendation = new JobRecommendationService();
+
+
+        $result = [];
+        foreach ($applicants as $applicant) {
+            $score = $jobRecommendation->calculateScore($this->job, $applicant);
+            $result[] = [
+                'applicant' => $applicant,
+                'score' => $score
+            ];
+        }
+
+        usort($result, function ($a, $b) {
+            return $b['score'] <=> $a['score'];
+        });
+
+        foreach ($result as $index => $item) {
+            $result[$index]['rank'] = $index + 1;
+        }
+
+        return $result;
+    }
+
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (LengthAwarePaginator::resolveCurrentPage() ?? 1);
+        $items = collect($items); // Convert array to collection
+
+        $currentPageItems = $items->slice(($page - 1) * $perPage, $perPage)->values();
+        $paginator =
+            new LengthAwarePaginator(
+                $currentPageItems,
+                $items->count(), // Total number of items
+                $perPage,        // Items per page
+                $page,           // Current page number
+                $options
+            );
+
+        $paginator->setPath(url()->current());
+
+        return $paginator;
+    }
+
     public function save($id)
     {
         $applicant = $this->job->applicants()->find($id);
@@ -53,6 +101,12 @@ class ApplicantDetails extends Component
     }
     public function render()
     {
-        return view('livewire.hm.applicant-details')->layout(Layouts::HM->value);
+        $applicants = $this->paginate($this->applicants_w, 10);
+        return view(
+            'livewire.hm.applicant-details',
+            [
+                'applicants' => $applicants
+            ]
+        )->layout(Layouts::HM->value);
     }
 }
