@@ -33,7 +33,7 @@ class Work extends Model
 
     public function hiring_manager()
     {
-        return $this->belongsTo(HiringManager::class, 'hiring_manager_id')->with('user', 'company.address');
+        return $this->belongsTo(HiringManager::class, 'hiring_manager_id')->with('user', 'company', 'company.address');
     }
 
 

@@ -10,11 +10,14 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class Jobs extends Component
 {
     use WithPagination;
     public $applicant;
+    public $search = "";
+    public $searchBy = "";
     public function mount()
     {
         $this->applicant =
@@ -42,7 +45,10 @@ class Jobs extends Component
 
         return $recommendations;
     }
-
+    public function search_jobs()
+    {
+        $this->resetPage();
+    }
     public function paginate($items, $perPage = 5, $page = null, $options = [])
     {
         $page = $page ?: (LengthAwarePaginator::resolveCurrentPage() ?? 1);
@@ -67,6 +73,30 @@ class Jobs extends Component
     {
         $recommendations = [];
         $jobs = Work::with('hiring_manager')->paginate(10);
+        if (!empty($this->search)) {
+            $search = $this->search;
+            $jobs = Work::with("hiring_manager");
+            if ($this->searchBy === "Company") {
+                $jobs = $jobs->whereHas('hiring_manager', function ($query) use ($search) {
+                    $query->whereHas('company', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
+                });
+            } else if ($this->searchBy === "Address") {
+                $jobs =
+                    $jobs->whereHas('hiring_manager', function ($query) use ($search) {
+                        $query->whereHas('company', function ($query) use ($search) {
+                            $query->whereHas('address', function ($query) use ($search) {
+                                $query->where(DB::raw("CONCAT(street, ' ', barangay, ' ', city, ' ', province)"), 'like', '%' . $search . '%');
+                            });
+                        });
+                    });
+            } else {
+                $jobs = $jobs->where('job_title', 'like', '%' . $search . '%');
+            }
+
+            $jobs = $jobs->paginate(10);
+        }
         if (!$this->applicant->educations()->get()->isEmpty() && !$this->applicant->skills()->get()->isEmpty() && !$this->applicant->experiences()->get()->isEmpty()) {
             $recommendations = $this->paginate($this->getRecommendation(), 10);
         }
