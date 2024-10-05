@@ -1,3 +1,3 @@
-<th scope="col" class="px-6 py-3">
+<th scope="col" class="px-2 py-2">
     {{ $slot }}
 </th>
