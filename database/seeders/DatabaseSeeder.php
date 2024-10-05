@@ -13,6 +13,7 @@ use App\Models\Score;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\Work;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,91 +25,121 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = Faker::create();
 
-        $hm_user_1 = User::create([
-            'email' => "hm@mycompany.com",
-            'first_name' => "John",
-            'last_name' => "Doe",
-            'phone_no' => "09123456789",
-            'password' => Hash::make("password"),
-            'remember_token' => Str::random(10),
-            'role' => UserRole::HIRING_MANAGER->value
-        ]);
+        $barangays = [
+            'San Lorenzo',
+            'La Paz',
+            'Bahay Toro',
+            'Bagong Pag-asa',
+            'Malibay',
+            'Old Balara',
+            'Bel-Air',
+            'Poblacion',
+            'Quezon City',
+            'Fort Bonifacio',
+            'Malate',
+            'Pasay'
+        ];
 
-        $hm_user_2 = User::create([
-            'email' => "hm@lazada.com",
-            'first_name' => "John",
-            'last_name' => "Mark",
-            'phone_no' => "09123456780",
-            'password' => Hash::make("password"),
-            'remember_token' => Str::random(10),
-            'role' => UserRole::HIRING_MANAGER->value
-        ]);
+        $cities = [
+            'Quezon City',
+            'Makati',
+            'Manila',
+            'Cebu City',
+            'Davao City',
+            'Bacolod',
+            'Zamboanga',
+            'Pasig',
+            'Taguig',
+            'Iloilo City',
+            'Antipolo',
+            'Cagayan de Oro'
+        ];
 
+        $provinces = [
+            'Metro Manila',
+            'Cebu',
+            'Davao del Sur',
+            'Negros Occidental',
+            'Pangasinan',
+            'Batangas',
+            'Laguna',
+            'Bulacan',
+            'Rizal',
+            'Quezon',
+            'Cavite',
+            'Iloilo'
+        ];
 
-        $applicant_user = User::create(
-            [
-                'email' => "nickojek2x@gmail.com",
-                'first_name' => "John",
-                'last_name' => "Mark",
-                'phone_no' => "09123456781",
+        // create applicant
+        for ($i = 1; $i <= 10; $i++) {
+            $user = User::create([
+                'email' => $faker->unique()->safeEmail,
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'phone_no' => "09" . $faker->unique()->numberBetween(10000000, 99999999),
                 'password' => Hash::make("password"),
                 'remember_token' => Str::random(10),
                 'role' => UserRole::APPLICANTS->value
-            ]
-        );
+            ]);
 
+            $address = Address::create([
+                'street' => $faker->streetAddress,
+                'barangay' => "Barangay" . $faker->randomElement($barangays),
+                'city' => $faker->randomElement($cities),
+                "province" => $faker->randomElement($provinces)
+            ]);
 
-        $address_1 = Address::create([
-            'street' => 'Sta. Lucia Street',
-            'province' => 'Zamboanga Del Sur',
-            'city' => 'Pagadian City',
-            'barangay' => 'Sta. Lucia'
-        ]);
+            Applicant::create([
+                'user_id' => $user->id,
+                'address_id' => $address->id,
+                'profile' => 'profile/user/male.jpg',
+                'gender' => ApplicantGender::MALE->value,
+                'about' => ""
+            ]);
+        }
+        // create hms
+        for ($i = 1; $i <= 10; $i++) {
+            $user = User::create([
+                'email' => $faker->unique()->safeEmail,
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'phone_no' => "09" . $faker->unique()->numberBetween(10000000, 99999999),
+                'password' => Hash::make("password"),
+                'remember_token' => Str::random(10),
+                'role' => UserRole::HIRING_MANAGER->value
+            ]);
 
-        $address_2 = Address::create([
-            'street' => 'St. Rita Street',
-            'province' => 'Metro Manila',
-            'city' => 'Pasay City',
-            'barangay' => 'Baragay 178'
-        ]);
+            $address_company = Address::create([
+                'street' => $faker->streetAddress,
+                'barangay' => "Barangay " . $faker->randomElement($barangays),
+                'city' => $faker->randomElement($cities),
+                "province" => $faker->randomElement($provinces)
+            ]);
 
-        Applicant::create([
-            'user_id' => $applicant_user->id,
-            'profile' => 'profile/user/male.jpg',
-            'gender' => ApplicantGender::MALE->value,
-            'about' => 'Nothing Worthy'
-        ]);
+            $address_hm = Address::create([
+                'street' => $faker->streetAddress,
+                'barangay' => "Barangay" . $faker->randomElement($barangays),
+                'city' => $faker->randomElement($cities),
+                "province" => $faker->randomElement($provinces)
+            ]);
 
+            $company = Company::create([
+                'profile' => "profile/company/baLG7WMPyyfjCe8trSlmW7dJtx15914alUiBZRaJ.png",
+                'name' => $faker->company,
+                'url' => "link.com",
+                'description' =>
+                $faker->catchPhrase,
+                'address_id' => $address_company->id
+            ]);
 
-        $company_1 = Company::create([
-            'profile' => "profile/company/baLG7WMPyyfjCe8trSlmW7dJtx15914alUiBZRaJ.png",
-            'name' => "Balboa Corp.",
-            'url' => "link.com",
-            'description' => "Amazing Company",
-            'address_id' => $address_1->id
-        ]);
-
-        $company_2 = Company::create([
-            'profile' => "profile/company/baLG7WMPyyfjCe8trSlmW7dJtx15914alUiBZRaJ.png",
-            'name' => "Lazada Inc.",
-            'url' => "link.com",
-            'description' => "Amazing Company",
-            'address_id' => $address_2->id
-        ]);
-
-        $hm_1 = HiringManager::create([
-            'user_id' => $hm_user_1->id,
-            'company_id' => $company_1->id,
-            'address_id' => $address_1->id
-        ]);
-
-        $hm_2 = HiringManager::create([
-            'user_id' => $hm_user_2->id,
-            'company_id' => $company_2->id,
-            'address_id' => $address_2->id
-        ]);
-
+            HiringManager::create([
+                'user_id' => $user->id,
+                'company_id' => $company->id,
+                'address_id' => $address_hm->id
+            ]);
+        }
 
 
         $jobs = [
@@ -321,9 +352,7 @@ class DatabaseSeeder extends Seeder
                 ]
             ]
         ];
-
-
-
+        $hm_ids = HiringManager::pluck('id');
         foreach ($jobs as $index => $job) {
             $score = Score::create([
                 'education' => 7,
@@ -332,11 +361,9 @@ class DatabaseSeeder extends Seeder
             ]);
 
             $job['score_id'] = $score->id;
-            if ($index % 2 === 0) {
-                $job['hiring_manager_id'] = $hm_1->id;
-            } else {
-                $job['hiring_manager_id'] = $hm_2->id;
-            }
+
+            $job['hiring_manager_id'] = $faker->randomElement($hm_ids);
+
             $job['experience'] = 1;
 
             $skills = $job['skills'];
@@ -370,39 +397,8 @@ class DatabaseSeeder extends Seeder
             foreach ($qualifications as $qualification) {
                 $job_created->qualifications()->create(['description' => $qualification]);
             }
+
+            $job_created->applicants()->attach(Applicant::pluck('id'));
         }
-        // $education1 = Education::create([
-        //     'name' => 'Bachelor of Science in Computer Science'
-        // ]);
-
-        // $education2 = Education::create([
-        //     'name' => 'Bachelor of Science in Information Technology'
-        // ]);
-
-        // $skill1 = Skill::create(
-        //     [
-        //         'name' => 'PHP'
-        //     ]
-        // );
-        // $skill2 = Skill::create(
-        //     [
-        //         'name' => 'Javascript'
-        //     ]
-        // );
-
-        // $job->responsibilities()->createMany([
-        //     ['description' => 'sadasdas'],
-        //     ['description' => 'sadasdas'],
-        //     ['description' => 'sadasdas']
-        // ]);
-
-        // $job->qualifications()->createMany([
-        //     ['description' => 'qualification sadasdas'],
-        //     ['description' => 'sadasdas'],
-        //     ['description' => 'sadasdas']
-        // ]);
-
-        // $job->educations()->attach([$education1->id, $education2->id]);
-        // $job->skills()->attach([$skill1->id, $skill2->id]);
     }
 }

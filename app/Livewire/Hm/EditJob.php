@@ -65,7 +65,7 @@ class EditJob extends Component
 
     public function mount(Work $job)
     {
-        $this->hiring_manager = HiringManager::findOrFail(Auth::user()->id);
+        $this->hiring_manager = HiringManager::where('user_id', Auth::user()->id)->first();
         $this->job = $this->hiring_manager->jobs()->where('id', $job->id)->firstOrFail();
         $this->job_title = $this->job->job_title;
         $this->description = $this->job->description;

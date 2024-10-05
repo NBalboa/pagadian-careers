@@ -10,14 +10,20 @@ use App\Enums\Layouts;
 use App\Models\HiringManager;
 use Illuminate\Support\Facades\Auth;
 
+use function Laravel\Prompts\alert;
+
 class Job extends Component
 {
     #[Layout(Layouts::HM->value)]
     public $hiring_manager;
     public $jobs;
+    public $job_type = "";
+    public $job_setup = "";
+    public $search = "";
     public function mount()
     {
-        $this->hiring_manager = HiringManager::findOrFail(Auth::user()->id);
+
+        $this->hiring_manager = HiringManager::where('user_id', Auth::user()->id)->first();
         $this->jobs = $this->hiring_manager->jobs()->get();
     }
 
@@ -28,6 +34,25 @@ class Job extends Component
     public function getJobSetup($value)
     {
         return JobSetup::fromValue($value)->stringValue();
+    }
+
+    public function searchJob()
+    {
+        $this->jobs = $this->hiring_manager->jobs();
+        // dd($this->job_setup);
+        if (!empty($this->search)) {
+            $this->jobs->where('job_title', 'like', '%' . $this->search . '%');
+        }
+
+        if ($this->job_setup !== "") {
+            $this->jobs->where('job_setup', '=', $this->job_setup);
+        }
+
+        if ($this->job_type !== "") {
+            $this->jobs->where('job_type', '=', $this->job_type);
+        }
+
+        $this->jobs = $this->jobs->get();
     }
 
     public function getJobType($value)

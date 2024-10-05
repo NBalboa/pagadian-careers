@@ -66,7 +66,7 @@ class CreateJob extends Component
 
     public function mount()
     {
-        $this->hiring_manager = HiringManager::findOrFail(Auth::user()->id);
+        $this->hiring_manager = HiringManager::where('user_id', Auth::user()->id)->first();
     }
 
     protected function messages()
