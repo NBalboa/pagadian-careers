@@ -60,7 +60,7 @@
                 <x-nav-item href="/company">
                     Company
                 </x-nav-item>
-                <x-nav-item href="#">
+                <x-nav-item href="/applicants">
                     Applicant
                 </x-nav-item>
                 <x-nav-item href="#">

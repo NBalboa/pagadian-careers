@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ApplicantOnly;
 use App\Http\Middleware\HiringManagerOnly;
+use App\Livewire\Admin\Applicants;
 use App\Livewire\Admin\Company;
 use App\Livewire\Admin\CreateCompany;
 use App\Livewire\Admin\CreateHiringManager;
@@ -40,7 +41,7 @@ Route::get('/dashboard', [AdminController::class, 'dashboard']);
 Route::get('/hiringmanager', HiringManager::class);
 Route::get('/hiringmanager/create', CreateHiringManager::class);
 Route::get('/hiringmanager/edit/{id}', EditHiringManager::class);
-
+Route::get('/applicants', Applicants::class);
 Route::get('/company', Company::class);
 Route::get('/company/create', CreateCompany::class);
 Route::get('/company/edit/{id}', EditCompany::class);
