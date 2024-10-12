@@ -23,6 +23,26 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Search by</option>
                 <option value="address">Address</option>
+                <option value="verifier">Verifier</option>
+            </select>
+
+
+        </div>
+        <div class="w-full md:w-1/4">
+            <select wire:model.live="gender"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option selected value="">Gender</option>
+                <option value="0">MALE</option>
+                <option value="1">FEMALE</option>
+
+            </select>
+        </div>
+        <div class="w-full md:w-1/4">
+            <select wire:model.live="verifieds"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option selected value="">All</option>
+                <option value="0">Not</option>
+                <option value="1">Verified</option>
             </select>
         </div>
     </div>

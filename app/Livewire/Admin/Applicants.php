@@ -16,8 +16,8 @@ class Applicants extends Component
     public $search;
     public $searchBy;
     public $verified;
-
-    public $show_salary = true;
+    public $verifieds;
+    public $gender;
     public function searchJobs()
     {
         $this->resetPage();
@@ -58,6 +58,8 @@ class Applicants extends Component
                         'province'
                     ], 'like', '%' . $search . '%');
                 });
+            } else if ($this->searchBy === 'verifier') {
+                $applicants = $applicants->where('verifier', 'like', '%' . $search . '%');
             } else {
 
                 $applicants = $applicants->whereHas('user', function ($query) use ($search) {
@@ -71,6 +73,14 @@ class Applicants extends Component
                     ], 'like', '%' . $search . '%');
                 });
             }
+        }
+
+        if (!empty($this->gender)) {
+            $applicants = $applicants->where('gender', '=', $this->gender);
+        }
+
+        if (!empty($this->verifieds)) {
+            $applicants = $applicants->where('verified', '=', $this->verified);
         }
 
 
