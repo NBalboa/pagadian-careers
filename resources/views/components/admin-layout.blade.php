@@ -64,9 +64,11 @@
                 <x-nav-item href="/applicants">
                     Applicant
                 </x-nav-item>
-                <x-nav-item href="#">
-                    Logout
-                </x-nav-item>
+                <form action="/logout" method="POST"
+                    class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group active">
+                    @csrf
+                    <input type="submit" value="Logout" class="ms-3" />
+                </form>
             </ul>
         </div>
     </aside>

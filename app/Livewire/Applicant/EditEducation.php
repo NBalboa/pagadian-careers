@@ -42,15 +42,18 @@ class EditEducation extends Component
     public function saveChanges()
     {
         $this->validate();
+        if ($this->to >= $this->from) {
+            $this->applicant->educations()->updateExistingPivot($this->applicant_education['id'], [
+                'from' => $this->from,
+                'to' => $this->to,
+                'school_name' => $this->school_name,
+            ]);
 
-
-        $this->applicant->educations()->updateExistingPivot($this->applicant_education['id'], [
-            'from' => $this->from,
-            'to' => $this->to,
-            'school_name' => $this->school_name,
-        ]);
-
-        return redirect('/my/profile');
+            return redirect('/my/profile');
+        } else {
+            $this->addError('from', 'FROM must be greater than or equal to To');
+            return;
+        }
     }
 
     public function saveEducation()

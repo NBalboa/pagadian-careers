@@ -35,17 +35,24 @@ class CreateExperience extends Component
     public function addApplicantExperience()
     {
         $this->validate();
-        $this->applicant->experiences()->create(
-            [
-                'title' => $this->title,
-                'company_name' => $this->company_name,
-                'description' => $this->description,
-                'start' => $this->start,
-                'end' => $this->end,
-            ]
-        );
 
-        return redirect('/my/profile/create/experience');
+        if ($this->end >= $this->start) {
+
+            $this->applicant->experiences()->create(
+                [
+                    'title' => $this->title,
+                    'company_name' => $this->company_name,
+                    'description' => $this->description,
+                    'start' => $this->start,
+                    'end' => $this->end,
+                ]
+            );
+
+            return redirect('/my/profile/create/experience');
+        } else {
+            $this->addError('start', 'Start must be greater than or equal to End');
+            return;
+        }
     }
 
     public function delete($id)

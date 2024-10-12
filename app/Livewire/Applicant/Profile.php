@@ -3,6 +3,7 @@
 namespace App\Livewire\Applicant;
 
 use App\Enums\ApplicantGender;
+use App\Enums\EducationAttainment;
 use App\Enums\Layouts;
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,11 @@ class Profile extends Component
     public function getGender($value)
     {
         return ApplicantGender::fromValue($value)->stringValue();
+    }
+
+    public function getEduAttainment($value)
+    {
+        return EducationAttainment::fromValue($value)->stringValue();
     }
     public function render()
     {

@@ -38,6 +38,12 @@
             {{ count($applicant_educations) > 0 ? 'Edit' : 'Add' }}
         </a>
         <h3 class="text-md font-bold">Education</h3>
+        @if ($applicant->edu_attainment)
+            <div class="mb-2">
+                <p class="text-md">{{ $this->getEduAttainment($applicant->edu_attainment) }} <span
+                        class="text-sm">(Education Attainment)</span></p>
+            </div>
+        @endif
 
         @foreach ($applicant_educations as $index => $education)
             @if (count($applicant_educations) - 1 !== $index)

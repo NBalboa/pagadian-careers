@@ -97,7 +97,12 @@ class Jobs extends Component
 
             $jobs = $jobs->paginate(10);
         }
-        if (!$this->applicant->educations()->get()->isEmpty() && !$this->applicant->skills()->get()->isEmpty() && !$this->applicant->experiences()->get()->isEmpty()) {
+        if (
+            !$this->applicant->educations()->get()->isEmpty()
+            && !$this->applicant->skills()->get()->isEmpty()
+            && !$this->applicant->experiences()->get()->isEmpty()
+            && $this->applicant->edu_attainment
+        ) {
             $recommendations = $this->paginate($this->getRecommendation(), 10);
         }
 

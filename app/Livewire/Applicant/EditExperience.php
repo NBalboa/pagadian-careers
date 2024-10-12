@@ -49,9 +49,15 @@ class EditExperience extends Component
         $changes = $experience->getDirty();
 
         if ($changes) {
-            $this->applicant_experience->update($changes);
+            if ($this->end >= $this->start) {
 
-            return redirect('/my/profile');
+                $this->applicant_experience->update($changes);
+
+                return redirect('/my/profile');
+            } else {
+                $this->addError('start', 'Start must be greater than or equal to End');
+                return;
+            }
         };
     }
     public function render()

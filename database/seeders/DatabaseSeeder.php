@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\ApplicantGender;
+use App\Enums\EducationAttainment;
 use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Applicant;
@@ -375,6 +376,7 @@ class DatabaseSeeder extends Seeder
             $job['hiring_manager_id'] = $faker->randomElement($hm_ids);
 
             $job['experience'] = 1;
+            $job['edu_attainment'] = EducationAttainment::BachelorDegree->value;
 
             $skills = $job['skills'];
             $responsibilities = $job['responsibilities'];

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('verified')->default(0); //0 Not Verified, 1 Verified
             $table->string('verifier')->nullable();
             $table->string('about')->nullable();
+            $table->tinyInteger('edu_attainment')->nullable();
             $table->timestamps();
         });
     }

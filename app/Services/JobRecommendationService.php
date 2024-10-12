@@ -35,12 +35,17 @@ class JobRecommendationService
         $applicantEducations = $applicant->educations()->get()->pluck('name')->toArray();
 
         $hasMatchingEducation = array_intersect($jobEducations, $applicantEducations);
-
+        $score = $job->score()->get()->first()->education / 2;
+        $total_score = 0;
         if ($hasMatchingEducation) {
-            return $job->score()->get()->first()->education;
-        } else {
-            return 0;
+            $total_score += $score;
         }
+
+        if ($applicant->edu_attainment >= $job->edu_attainment) {
+            $total_score += $score;
+        }
+
+        return $total_score;
     }
 
     protected function getSkillScore($job, $applicant)

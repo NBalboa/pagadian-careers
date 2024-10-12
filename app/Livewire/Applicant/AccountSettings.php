@@ -39,6 +39,8 @@ class AccountSettings extends Component
     public $confirm_password;
 
 
+    public $edu_attainment;
+
     public $showPassword = false;
     public function mount()
     {
@@ -53,16 +55,19 @@ class AccountSettings extends Component
         $this->email = $this->user->email;
         $this->telephone_no = $this->user->telephone_no;
         $this->about = $this->applicant->about;
+        $this->edu_attainment = $this->applicant->edu_attainment;
     }
 
     public function saveChangesAccountInformation()
     {
+
         $this->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'middle_name' => 'required|string',
+            'middle_name' => 'nullable|string',
             'image' => 'nullable|sometimes|image',
-            'gender' => 'required|numeric'
+            'gender' => 'required|numeric',
+            'edu_attainment' => 'nullable'
         ]);
 
         if ($this->image) {
@@ -73,7 +78,12 @@ class AccountSettings extends Component
                 $this->applicant->update($changeProfile);
             }
         }
-        $applicant = $this->applicant->fill(['gender' => $this->gender]);
+        $applicant = $this->applicant->fill(
+            [
+                'gender' => $this->gender,
+                'edu_attainment' => $this->edu_attainment
+            ]
+        );
 
         $applicantChanges = $applicant->getDirty();
 

@@ -18,7 +18,8 @@ class Work extends Model
         'description',
         'experience',
         'salary',
-        'show_salary'
+        'show_salary',
+        'edu_attainment'
     ];
 
     public function skills()

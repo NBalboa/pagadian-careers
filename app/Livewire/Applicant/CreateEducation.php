@@ -56,18 +56,22 @@ class CreateEducation extends Component
     public function addApplicantEducation()
     {
         $this->validate();
+        if ($this->to >= $this->from) {
+            $education = Education::firstOrCreate([
+                'name' => $this->input_educations
+            ]);
 
-        $education = Education::firstOrCreate([
-            'name' => $this->input_educations
-        ]);
+            $this->applicant->educations()->attach($education->id, [
+                'from' => $this->from,
+                'to' => $this->to,
+                'school_name' => $this->school_name
+            ]);
 
-        $this->applicant->educations()->attach($education->id, [
-            'from' => $this->from,
-            'to' => $this->to,
-            'school_name' => $this->school_name
-        ]);
-
-        return redirect('/my/profile/create/education')->with('success', 'Successffully added Education');
+            return redirect('/my/profile/create/education')->with('success', 'Successffully added Education');
+        } else {
+            $this->addError('from', 'FROM must be greater than or equal to To');
+            return;
+        }
     }
     public function render()
     {

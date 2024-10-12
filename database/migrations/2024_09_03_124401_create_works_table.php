@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyInteger('job_type'); //0 = permanent, 1 = part_time, 2 full_time, 3= contractual
             $table->tinyInteger('show_salary')->default(1); //0-off //on-1
             $table->string('salary')->nullable();
+            $table->tinyInteger('edu_attainment');
             $table->tinyInteger('experience');
             $table->timestamps();
         });
