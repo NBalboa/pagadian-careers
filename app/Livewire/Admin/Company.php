@@ -7,16 +7,14 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use  App\Models\Company as CompanyModels;
 use Illuminate\Support\Facades\Storage;
+use Livewire\WithPagination;
 
 class Company extends Component
 {
 
-    public $companies;
-
-    public function mount()
-    {
-        $this->companies = CompanyModels::with('address')->get();
-    }
+    use WithPagination;
+    public $search;
+    public $searchBy;
 
     public function delete($id)
     {
@@ -31,10 +29,44 @@ class Company extends Component
 
         redirect('hiringmanager')->with(['success' => 'Hiring Manager deleted successfully']);
     }
+    public function searchJobs()
+    {
+        $this->resetPage();
+    }
 
     #[Layout('components.admin-layout')]
     public function render()
     {
-        return view('livewire.admin.company');
+        $companies = CompanyModels::with('address');
+        if (!empty($this->search)) {
+
+            $search = $this->search;
+            if ($this->searchBy === 'address') {
+                $companies = $companies->whereHas('address', function ($query) use ($search) {
+                    $query->whereAny([
+                        'street',
+                        'barangay',
+                        'city',
+                        'province'
+                    ], 'like', '%' . $search . '%');
+                });
+            } else {
+
+                $companies = $companies->whereAny(
+                    [
+                        'name',
+                        'url'
+                    ],
+                    'like',
+                    '%' . $search . '%'
+                );
+            }
+        }
+
+        $companies = $companies->paginate(10);
+
+        return view('livewire.admin.company', [
+            'companies' => $companies
+        ]);
     }
 }

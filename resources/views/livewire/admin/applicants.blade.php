@@ -98,12 +98,8 @@
                     <x-table-row-item>
                         {{ $applicant->verifier }}
                     </x-table-row-item>
-
                     <x-table-row-item>
                         <a href="#" class="font-medium text-blue-600  hover:underline">Profile</a>
-                        <button class="font-medium text-green-600  hover:underline"
-                            wire:click="delete({{ $applicant->id }})"
-                            wire:confirm="Are you sure about that?">Save</button>
                     </x-table-row-item>
                 </x-table-row>
             @endforeach
