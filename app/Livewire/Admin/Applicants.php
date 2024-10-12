@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Enums\ApplicantGender;
 use App\Enums\Layouts;
 use App\Models\Applicant;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,7 +15,9 @@ class Applicants extends Component
 
     public $search;
     public $searchBy;
+    public $verified;
 
+    public $show_salary = true;
     public function searchJobs()
     {
         $this->resetPage();
@@ -23,6 +26,20 @@ class Applicants extends Component
     public function getGender($value)
     {
         return ApplicantGender::fromValue($value)->stringValue();
+    }
+
+    public function verifyApplicant($id)
+    {
+        $applicant = Applicant::find($id);
+        $verified = $this->verified[$id];
+        $applicant->verified = $verified;
+        if ($verified === false) {
+            $applicant->verifier = '';
+        } else {
+
+            $applicant->verifier = Auth::user()->first_name . ' ' . Auth::user()->last_name;
+        }
+        $applicant->save();
     }
 
     public function render()
@@ -57,8 +74,12 @@ class Applicants extends Component
         }
 
 
+
         $applicants = $applicants->paginate(10);
 
+        foreach ($applicants as $applicant) {
+            $this->verified[$applicant->id] = $applicant->verified === 1 ? true : false;
+        }
         return view(
             'livewire.admin.applicants',
             [

@@ -27,6 +27,16 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Faker::create();
 
+        User::create([
+            'email' => 'admin@admin.com',
+            'first_name' => $faker->firstName,
+            'last_name' => $faker->lastName,
+            'phone_no' => "09" . $faker->unique()->numberBetween(10000000, 99999999),
+            'password' => Hash::make("password"),
+            'remember_token' => Str::random(10),
+            'role' => UserRole::ADMIN->value
+        ]);
+
         $barangays = [
             'San Lorenzo',
             'La Paz',

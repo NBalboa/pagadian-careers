@@ -44,7 +44,8 @@
                 </svg>
             </button>
             <div class="border-b-2 border-black ">
-                <h2 class="p-3 text-gray-900  font-medium text-xl relative">Ell Bitch
+                <h2 class="p-3 text-gray-900  font-medium text-xl relative">{{ auth()->user()->first_name }}
+                    {{ auth()->user()->last_name }}
                     <span
                         class="absolute text-blue-400 text-xs px-3 transition-transform transform translate-y-1 bottom-2 left-0">Admin</span>
                 </h2>

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('address_id')->nullable();
             $table->string('profile');
             $table->tinyInteger('gender');
+            $table->tinyInteger('verified')->default(0); //0 Not Verified, 1 Verified
+            $table->string('verifier')->nullable();
             $table->string('about')->nullable();
             $table->timestamps();
         });

@@ -32,7 +32,7 @@ class UserController extends Controller
             $role = auth()->user()->role;
 
             if (UserRole::ADMIN->value == $role) {
-                dd('admin');
+                return redirect('/dashboard');
             } else if (UserRole::HIRING_MANAGER->value === $role) {
                 return redirect('/hiringmanager/dashboard');
             } else {
