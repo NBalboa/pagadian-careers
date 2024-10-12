@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\ApplicantOnly;
 use App\Http\Middleware\HiringManagerOnly;
+use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Applicants;
 use App\Livewire\Admin\Company;
 use App\Livewire\Admin\CreateCompany;
@@ -44,7 +45,7 @@ Route::post('/signin', [UserController::class, 'signin']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 Route::middleware([AdminOnly::class, 'auth'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/dashboard', AdminDashboard::class);
     Route::get('/hiringmanager', HiringManager::class);
     Route::get('/hiringmanager/create', CreateHiringManager::class);
     Route::get('/hiringmanager/edit/{id}', EditHiringManager::class);
