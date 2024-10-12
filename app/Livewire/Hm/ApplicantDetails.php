@@ -9,23 +9,22 @@ use App\Models\Work;
 use App\Services\JobRecommendationService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ApplicantDetails extends Component
 {
+    use WithPagination;
     public $job;
-    public $applicants_w;
     public $statuses = [];
     public $remarks = [];
-
+    public $search;
+    public $searchBy;
+    public $gender;
+    public $job_status;
 
     public function mount(Work $job)
     {
         $this->job = $job;
-        $this->applicants_w = $this->getApplicantScore();
-        foreach ($this->applicants_w as $applicant) {
-            $this->statuses[$applicant['applicant']->id] = $applicant['applicant']->jobs()->find($job->id)->pivot->status;
-            $this->remarks[$applicant['applicant']->id] = "";
-        }
     }
 
     public function getGender($value)
@@ -33,38 +32,54 @@ class ApplicantDetails extends Component
         return ApplicantGender::fromValue($value)->stringValue();
     }
 
+
+    public function initStatus($applicants)
+    {
+        foreach ($applicants as $applicant) {
+            $this->statuses[$applicant->id] = $applicant->jobs()->find($this->job->id)->pivot->status;
+            $this->remarks[$applicant->id] = "";
+        }
+    }
     public function applicantJobStatus($id)
     {
-
         $status = $this->job->applicants()->find($id)->pivot->status;
 
         return JobStatus::fromValue($status)->stringValue();
     }
 
-    public function getApplicantScore()
+    public function searchJobs()
     {
-        $applicants = $this->job->applicants()->with('user', 'address')->get();
-        $jobRecommendation = new JobRecommendationService();
+        $this->resetPage();
+    }
+
+    public function getApplicantScore($applicants)
+    {
+        // $applicants = $this->job->applicants()->with('user', 'address')->get();
+        if (count($applicants) > 0) {
+            $this->initStatus($applicants);
+            $jobRecommendation = new JobRecommendationService();
 
 
-        $result = [];
-        foreach ($applicants as $applicant) {
-            $score = $jobRecommendation->calculateScore($this->job, $applicant);
-            $result[] = [
-                'applicant' => $applicant,
-                'score' => $score
-            ];
+            $result = [];
+            foreach ($applicants as $applicant) {
+                $score = $jobRecommendation->calculateScore($this->job, $applicant);
+                $result[] = [
+                    'applicant' => $applicant,
+                    'score' => $score
+                ];
+            }
+
+            usort($result, function ($a, $b) {
+                return $b['score'] <=> $a['score'];
+            });
+
+            foreach ($result as $index => $item) {
+                $result[$index]['rank'] = $index + 1;
+            }
+            return $result;
+        } else {
+            return [];
         }
-
-        usort($result, function ($a, $b) {
-            return $b['score'] <=> $a['score'];
-        });
-
-        foreach ($result as $index => $item) {
-            $result[$index]['rank'] = $index + 1;
-        }
-
-        return $result;
     }
 
     public function paginate($items, $perPage = 5, $page = null, $options = [])
@@ -99,13 +114,53 @@ class ApplicantDetails extends Component
         $this->remarks[$id] = "";
         return redirect('/my/job/' . $this->job->id . '/applicants');
     }
+
+
     public function render()
     {
-        $applicants = $this->paginate($this->applicants_w, 10);
+        $applicants = $this->job->applicants()->with('user', 'address');
+
+        if (!empty($this->search)) {
+            $search = $this->search;
+            if ($this->searchBy === 'address') {
+                $applicants = $applicants->whereHas('address', function ($query) use ($search) {
+                    $query->whereAny([
+                        'street',
+                        'barangay',
+                        'city',
+                        'province'
+                    ], 'like', '%' . $search . '%');
+                });
+            } else {
+                $applicants = $applicants->whereHas('user', function ($query) use ($search) {
+                    $query->whereAny([
+                        'first_name',
+                        'last_name',
+                        'middle_name',
+                        'email',
+                        'phone_no',
+                        'telephone_no'
+                    ], 'like', '%' . $search . '%');
+                });
+            }
+        }
+
+        if (!empty($this->gender)) {
+            $applicants = $applicants->where('gender', '=', $this->gender);
+        }
+
+        if (!empty($this->job_status)) {
+            $applicants = $applicants->wherePivot('status', '=', $this->job_status);
+        }
+
+        $applicants = $applicants->get();
+
+        $applicants = $this->paginate($this->getApplicantScore($applicants), 10);
         return view(
             'livewire.hm.applicant-details',
             [
-                'applicants' => $applicants
+                'applicants' =>  $applicants,
+
             ]
         )->layout(Layouts::HM->value);
     }
