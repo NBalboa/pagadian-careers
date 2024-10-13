@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\ApplicantOnly;
 use App\Http\Middleware\HiringManagerOnly;
+use App\Http\Middleware\isLogin;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Applicants;
 use App\Livewire\Admin\Company;
@@ -30,7 +31,6 @@ use App\Livewire\Hm\Job;
 use App\Livewire\Applicant\Register;
 use App\Livewire\Hm\ApplicantDetails;
 use App\Livewire\Hm\ApplicantProfile;
-use App\Models\Applicant;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,8 +39,10 @@ Route::get('/', function () {
 
 
 
-Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
-Route::get('/register', Register::class);
+Route::middleware([isLogin::class, 'guest'])->group(function () {
+    Route::get('/login', [UserController::class, 'login'])->name('login');
+    Route::get('/register', Register::class);
+});
 Route::post('/signin', [UserController::class, 'signin']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 

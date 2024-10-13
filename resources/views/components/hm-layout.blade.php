@@ -60,7 +60,7 @@
                     Jobs
                 </x-nav-item>
                 <form action="/logout" method="POST"
-                    class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group active">
+                    class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group active cursor-pointer">
                     @csrf
                     <input type="submit" value="Logout" class="ms-3" />
                 </form>

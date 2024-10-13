@@ -62,7 +62,24 @@
                     </div>
                 @enderror
             </div>
-
+            <div>
+                <label for="edu_attainment" class="block mb-2 mt-2 text-sm font-medium text-gray-900 ">Education
+                    Attainment<x-required /></label>
+                <select id="edu_attainment"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                    wire:model="edu_attainment">
+                    <option selected value="">Select Education Attainment</option>
+                    <option value="0">Elementary Graduate</option>
+                    <option value="1">High School Graduate</option>
+                    <option value="2">Associate Degree</option>
+                    <option value="3">Bachelor's Degree</option>
+                    <option value="4">Master's Degree</option>
+                    <option value="5">Doctorate Degree</option>
+                </select>
+                @error('edu_attainment')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
             <div>
                 <label for="salary" class="block mb-2 text-sm font-medium text-gray-900 ">
                     Salary<x-required /></label>
@@ -137,6 +154,20 @@
             <div>
                 <label for="reponsibility" class="block mb-2 text-sm font-medium text-gray-900 ">
                     Responsibilities</label>
+                @foreach ($responsibilities as $index => $reponsiblity)
+                    <div class="flex flex-col sm:flex-row w-full space-y-2 sm:space-y-0 sm:space-x-2 mt-2 mb-2">
+                        <input type="text" wire:model='responsibilities.{{ $index }}.description'
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full sm:w-full md:w-3/4"
+                            name="responsibilities.{{ $index }}.description"
+                            wire:blur="saveEditedResponsibilities({{ $index }})" />
+
+                        <button type="button"
+                            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full sm:w-full md:w-1/4"
+                            wire:click="removeResponsibility({{ $index }})">
+                            Remove
+                        </button>
+                    </div>
+                @endforeach
                 <input type="text" name="reponsibility" id="reponsibility"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder="ex. Dela" required wire:model="reponsibility" />
@@ -154,20 +185,7 @@
                     class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addJobResponsibility'>Add Job Responsibility</button>
 
-                @foreach ($responsibilities as $index => $reponsiblity)
-                    <div class="flex flex-col sm:flex-row w-full space-y-2 sm:space-y-0 sm:space-x-2 mt-2">
-                        <input type="text" wire:model='responsibilities.{{ $index }}.description'
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full sm:w-full md:w-3/4"
-                            name="responsibilities.{{ $index }}.description"
-                            wire:blur="saveEditedResponsibilities({{ $index }})" />
 
-                        <button type="button"
-                            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full sm:w-full md:w-1/4"
-                            wire:click="removeResponsibilities({{ $index }})">
-                            Remove
-                        </button>
-                    </div>
-                @endforeach
             </div>
             <div>
                 <label for="educations" class="block mb-2 text-sm font-medium text-gray-900 ">
@@ -194,9 +212,6 @@
                 <button
                     class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addJobEducation'>Add Job Education</button>
-                <button
-                    class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    wire:click='saveEducation'>Add Education</button>
                 <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside">
                     @foreach ($job_educations as $education)
                         <li>
@@ -233,9 +248,6 @@
                 <button
                     class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addJobSkill'>Save Job Skill</button>
-                <button
-                    class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    wire:click='saveSkill'>Add Skill</button>
                 <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside">
                     @foreach ($job_skills as $skill)
                         <li>

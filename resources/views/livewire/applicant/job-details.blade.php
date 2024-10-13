@@ -26,7 +26,7 @@
 
         <p> {{ $job->description }} </p>
 
-        <h3 class="text-md font-bold">Experience</h3>
+        <h3 class="text-md font-bold">Years of Experience</h3>
         <p>{{ $job->experience }}</p>
 
         <h3 class="text-md font-bold">Skill</h3>

@@ -8,10 +8,6 @@ use App\Models\HiringManager;
 use App\Models\Score;
 use App\Models\Skill;
 use App\Models\Work;
-use App\Rules\ExistEducation;
-use App\Rules\ExistSkill;
-use App\Rules\NotExistEducation;
-use App\Rules\NotExistSkill;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -58,6 +54,8 @@ class CreateJob extends Component
     public int $experience_score = 0;
     #[Rule('required|in:10')]
     public int $total_score;
+    #[Rule('required')]
+    public int $edu_attainment;
 
     public $previousValuesQualifcations = [];
     public $previousValuesResponsibilities = [];
@@ -119,7 +117,8 @@ class CreateJob extends Component
                 'score_id' => $score->id,
                 'description' => $this->description,
                 'experience' => $this->experience,
-                'show_salary' => ($this->show_salary ? 1 : 0)
+                'show_salary' => ($this->show_salary ? 1 : 0),
+                'edu_attainment' => $this->edu_attainment
             ]);
 
             $job->responsibilities()->createMany($this->responsibilities);
@@ -140,36 +139,6 @@ class CreateJob extends Component
             DB::rollBack();
         }
     }
-
-    function saveSkill()
-    {
-
-        $this->validate([
-            'input_skills' => ['required', new NotExistSkill()]
-        ]);
-
-        if (!empty($this->input_skills)) {
-            Skill::create([
-                'name' => $this->input_skills,
-            ]);
-        }
-
-        $this->input_skills = "";
-    }
-
-    function saveEducation()
-    {
-        $this->validate([
-            'input_educations' => ['required', new NotExistEducation()]
-        ]);
-
-        if (!empty($this->input_skills)) {
-            Education::create([
-                'name' => $this->input_educations,
-            ]);
-        }
-    }
-
 
     public function updatedInputEducations()
     {
@@ -196,14 +165,24 @@ class CreateJob extends Component
     public function addJobEducation()
     {
         $this->validate([
-            'input_educations' => ['required', new ExistEducation()]
+            'input_educations' => ['required']
         ]);
 
-        $education = Education::where('name', 'like', $this->input_educations)->first();
+        $education = Education::firstOrCreate([
+            'name' => $this->input_educations
+        ]);
+
+        foreach ($this->job_educations as $education_list) {
+            if ($education_list['id'] === $education->id) {
+                $this->addError('input_educations', 'The education already already exist');
+                return;
+            }
+        }
 
         if ($education) {
             $this->job_educations[] = ['id' => $education->id, 'name' => $education->name];
         }
+
 
         $this->input_educations = "";
     }
@@ -255,10 +234,21 @@ class CreateJob extends Component
     public function addJobSkill()
     {
         $this->validate([
-            'input_skills' => ['required', new ExistSkill()]
+            'input_skills' => ['required']
         ]);
 
-        $skill = Skill::where('name', 'like', $this->input_skills)->first();
+        $skill =
+            Skill::firstOrCreate([
+                'name' => $this->input_skills
+            ]);
+
+
+        foreach ($this->job_skills as $skill_list) {
+            if ($skill_list['id'] === $skill->id) {
+                $this->addError('input_skills', 'The skill already already exist');
+                return;
+            }
+        }
         if ($skill) {
             $this->job_skills[] = ['id' => $skill->id, 'name' => $skill->name];
         }

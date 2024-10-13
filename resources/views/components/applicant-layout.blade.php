@@ -67,7 +67,7 @@
                             </a>
                         </li>
                         <form action="/logout" method="POST"
-                            class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">
+                            class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 cursor-pointer">
                             @csrf
                             <input type="submit" value="Logout" />
                         </form>
