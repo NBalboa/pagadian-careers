@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/c393acf5ae.js" crossorigin="anonymous"></script>
     <script src="/js/sidebar.js"></script>
     <script src="/js/contact-validation.js"></script>
     <script src="/js/address.js"></script>
@@ -63,6 +64,9 @@
                 </x-nav-item>
                 <x-nav-item href="/applicants">
                     Applicant
+                </x-nav-item>
+                <x-nav-item href="/account-settings">
+                    Account Settings
                 </x-nav-item>
                 <form action="/logout" method="POST"
                     class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group active cursor-pointer">

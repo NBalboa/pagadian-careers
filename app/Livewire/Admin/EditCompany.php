@@ -79,8 +79,7 @@ class EditCompany extends Component
         if (Storage::disk("public")->exists($this->company->profile)) {
             Storage::disk('public')->delete($this->company->profile);
         }
-
-        $this->company->update([$validated['profile']]);
+        $this->company->update(['profile' => $validated['profile']]);
 
         redirect("company/edit/" . $this->company->id)->with(['success' => 'Logo updated successfully']);
     }

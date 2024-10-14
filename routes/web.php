@@ -31,13 +31,14 @@ use App\Livewire\Hm\Job;
 use App\Livewire\Applicant\Register;
 use App\Livewire\Hm\ApplicantDetails;
 use App\Livewire\Hm\ApplicantProfile;
+use App\Livewire\MyAccountSettings;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('/account-settings', MyAccountSettings::class);
 
 Route::middleware([isLogin::class, 'guest'])->group(function () {
     Route::get('/login', [UserController::class, 'login'])->name('login');
