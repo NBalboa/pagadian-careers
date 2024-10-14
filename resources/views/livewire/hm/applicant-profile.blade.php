@@ -10,6 +10,7 @@
                 <img src="{{ asset('storage/' . $applicant->profile) }}" alt="sample image" class="object-cover">
             </div>
         </div>
+
         <div class="mt-2">
             <h3 class="text-xl font-bold tracking-light">{{ ucfirst($applicant->user->first_name) }}
                 {{ ucfirst($applicant->user->last_name) }} <span
@@ -20,6 +21,12 @@
                     {{ $address->province }}</p>
             @endif
         </div>
+
+        @if ($applicant->resume)
+            <div>
+                <a href="{{ asset('storage/' . $applicant->resume) }}" class="text-blue-500">Applicant Resume</a>
+            </div>
+        @endif
     </div>
     <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
         <h3 class="text-md font-bold">Contact Info</h3>

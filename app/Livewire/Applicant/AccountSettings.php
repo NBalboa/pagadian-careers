@@ -38,9 +38,9 @@ class AccountSettings extends Component
     public $new_password;
     public $confirm_password;
 
-
     public $edu_attainment;
-
+    public $resume;
+    public $applicant_resume;
     public $showPassword = false;
     public function mount()
     {
@@ -56,6 +56,7 @@ class AccountSettings extends Component
         $this->telephone_no = $this->user->telephone_no;
         $this->about = $this->applicant->about;
         $this->edu_attainment = $this->applicant->edu_attainment;
+        $this->applicant_resume = $this->applicant->resume;
     }
 
     public function saveChangesAccountInformation()
@@ -67,7 +68,8 @@ class AccountSettings extends Component
             'middle_name' => 'nullable|string',
             'image' => 'nullable|sometimes|image',
             'gender' => 'required|numeric',
-            'edu_attainment' => 'nullable'
+            'edu_attainment' => 'nullable',
+            'resume' => 'nullable|mimes:pdf|max:10240'
         ]);
 
         if ($this->image) {
@@ -76,6 +78,16 @@ class AccountSettings extends Component
             $changeProfile = $applicant->getDirty();
             if ($changeProfile) {
                 $this->applicant->update($changeProfile);
+            }
+        }
+
+        if ($this->resume) {
+            $resume = $this->resume->store('resume', 'public');
+            $applicant = $this->applicant->fill(['resume' => $resume]);
+            $changeResume = $applicant->getDirty();
+
+            if ($changeResume) {
+                $this->applicant->update($changeResume);
             }
         }
         $applicant = $this->applicant->fill(

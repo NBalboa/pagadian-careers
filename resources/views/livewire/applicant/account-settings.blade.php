@@ -15,6 +15,11 @@
                         </div>
                     @endif
                 </div>
+                @if ($applicant_resume)
+                    <div>
+                        <a href="{{ asset('storage/' . $applicant->resume) }}" class="text-blue-500">My Resume</a>
+                    </div>
+                @endif
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900 " for="file_input">Change
                         Profile Picture<x-required /> </label>
@@ -22,6 +27,17 @@
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none   "
                         id="file_input" type="file" accept="image/png, image/jpeg, image/jpg" wire:model="image">
                     @error('image')
+                        <div class="text-red-600">
+                            <span>{{ $message }}</span>
+                        </div>
+                    @enderror
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">Resume</label>
+                    <input
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none   "
+                        type="file" accept=".pdf" wire:model="resume">
+                    @error('resume')
                         <div class="text-red-600">
                             <span>{{ $message }}</span>
                         </div>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('verifier')->nullable();
             $table->string('about')->nullable();
             $table->tinyInteger('edu_attainment')->nullable();
+            $table->string('resume')->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,8 @@ class Applicant extends Model
         'profile',
         'gender',
         'about',
-        'edu_attainment'
+        'edu_attainment',
+        'resume'
     ];
 
     public function address()
