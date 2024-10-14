@@ -60,6 +60,9 @@
                 <x-nav-item href="/my/job">
                     Jobs
                 </x-nav-item>
+                <x-nav-item href="/my/company">
+                    Company
+                </x-nav-item>
                 <x-nav-item href="/account-settings">
                     Account Settings
                 </x-nav-item>

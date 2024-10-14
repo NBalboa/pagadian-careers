@@ -31,6 +31,7 @@ use App\Livewire\Hm\Job;
 use App\Livewire\Applicant\Register;
 use App\Livewire\Hm\ApplicantDetails;
 use App\Livewire\Hm\ApplicantProfile;
+use App\Livewire\Hm\MyCompany;
 use App\Livewire\MyAccountSettings;
 use Illuminate\Support\Facades\Route;
 
@@ -79,4 +80,5 @@ Route::middleware([HiringManagerOnly::class, 'auth'])->group(function () {
     Route::get('/my/job/edit/{job}', EditJob::class);
     Route::get('/my/job/{job}/applicants', ApplicantDetails::class);
     Route::get('/my/job/{job}/applicant/profile/{applicant}', ApplicantProfile::class);
+    Route::get('/my/company', MyCompany::class);
 });

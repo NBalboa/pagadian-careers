@@ -3,16 +3,15 @@
     @if (session('success'))
         <h3 class="text-green-400 text-center pt-2 pb-2">{{ session('success') }}</h3>
     @endif
-
+    @if ($company_profile)
+        <div class="rounded-full overflow-hidden h-32 w-32 border border-4 border-gray-500 mb-2">
+            <img src="{{ asset('storage/' . $company_profile) }}" alt="sample image" class="object-cover">
+        </div>
+    @endif
     <div>
         <h6 class="text-2xl mb-2 mt-2">Logo</h6>
         <label class="block mb-2 text-sm font-medium text-gray-900 " for="file_input">Upload
             Logo <x-required /> </label>
-        @if ($company_profile)
-            <div class="rounded-full overflow-hidden h-32 w-32 border border-4 border-gray-500 mb-2">
-                <img src="{{ asset('storage/' . $company_profile) }}" alt="sample image" class="object-cover">
-            </div>
-        @endif
         <input
             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none   "
             id="file_input" type="file" accept="image/png, image/jpeg, image/jpg" wire:model="profile">
