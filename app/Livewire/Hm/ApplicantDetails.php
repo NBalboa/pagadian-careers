@@ -5,9 +5,13 @@ namespace App\Livewire\Hm;
 use App\Enums\ApplicantGender;
 use App\Enums\JobStatus;
 use App\Enums\Layouts;
+use App\Mail\JobStatusHired;
+use App\Mail\JobStatusInterview;
+use App\Mail\JobStatusRejected;
 use App\Models\Work;
 use App\Services\JobRecommendationService;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,6 +20,7 @@ class ApplicantDetails extends Component
     use WithPagination;
     public $job;
     public $statuses = [];
+    public $prev_statuses = [];
     public $remarks = [];
     public $search;
     public $searchBy;
@@ -37,6 +42,7 @@ class ApplicantDetails extends Component
     {
         foreach ($applicants as $applicant) {
             $this->statuses[$applicant->id] = $applicant->jobs()->find($this->job->id)->pivot->status;
+            $this->prev_statuses[$applicant->id] = $applicant->jobs()->find($this->job->id)->pivot->status;
             $this->remarks[$applicant->id] = "";
         }
     }
@@ -104,15 +110,28 @@ class ApplicantDetails extends Component
 
     public function save($id)
     {
-        $applicant = $this->job->applicants()->find($id);
 
-        $applicant->pivot->status = $this->statuses[$id];
-        $applicant->pivot->remarks = $this->remarks[$id];
+        if ($this->prev_statuses[$id] !== $this->statuses[$id]) {
+            $applicant = $this->job->applicants()->find($id);
 
-        $applicant->pivot->save();
+            $applicant->pivot->status = $this->statuses[$id];
+            $applicant->pivot->remarks = $this->remarks[$id];
 
-        $this->remarks[$id] = "";
-        return redirect('/my/job/' . $this->job->id . '/applicants');
+            $applicant->pivot->save();
+            $applicant_user = $applicant->user()->get()->first();
+            if ($this->statuses[$id] == JobStatus::INTERVIEW->value) {
+                Mail::to($applicant_user->email)
+                    ->send(new JobStatusInterview($applicant_user, $this->job));
+            } else if ($this->statuses[$id] == JobStatus::HIRED->value) {
+                Mail::to($applicant_user->email)
+                    ->send(new JobStatusHired($applicant_user, $this->job));
+            } else if ($this->statuses[$id] == JobStatus::REJECTED->value) {
+                Mail::to($applicant_user->email)
+                    ->send(new JobStatusRejected($applicant_user, $this->job));
+            }
+            $this->remarks[$id] = "";
+            return redirect('/my/job/' . $this->job->id . '/applicants');
+        }
     }
 
 
