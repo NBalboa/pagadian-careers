@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Mail\HiringManagerCreated;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\User;
@@ -13,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Models\HiringManager as ModelsHiringManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CreateHiringManager extends Component
 {
@@ -54,6 +56,8 @@ class CreateHiringManager extends Component
 
         $this->validate();
 
+        $randomPassword = Str::random(12);
+
         DB::beginTransaction();
         try {
             $user = User::create([
@@ -63,7 +67,7 @@ class CreateHiringManager extends Component
                 'middle_name' => $this->middle_name,
                 'phone_no' => $this->phone_no,
                 'telephone_no' => $this->telephone_no,
-                'password' => Hash::make("password"),
+                'password' => Hash::make($randomPassword),
                 'remember_token' => Str::random(10),
                 'role' => 2
             ]);
@@ -82,6 +86,9 @@ class CreateHiringManager extends Component
             ]);
 
             DB::commit();
+
+            Mail::to($user->email)->send(new HiringManagerCreated($user, $randomPassword));
+
             redirect('hiringmanager')->with(['success' => 'Hiring Manager created successfully']);
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to create Hiring Manager');

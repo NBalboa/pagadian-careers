@@ -33,11 +33,18 @@ use App\Livewire\Hm\ApplicantDetails;
 use App\Livewire\Hm\ApplicantProfile;
 use App\Livewire\Hm\MyCompany;
 use App\Livewire\MyAccountSettings;
+use App\Mail\HiringManagerCreated;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('test', function () {
+//     Mail::to('nickojek2x@gmail.com')->send(new HiringManagerCreated());
+//     return 'done';
+// });
 
 Route::get('/account-settings', MyAccountSettings::class);
 
