@@ -241,7 +241,8 @@ class AccountSettings extends Component
         ]);
 
         if (Hash::check($this->old_password, $this->user->password)) {
-            $this->user->password = $this->new_password;
+            $new_password = $this->new_password;
+            $this->user->password = Hash::make($new_password);
             $this->user->save();
 
             auth()->logout();

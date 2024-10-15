@@ -7,6 +7,7 @@ use App\Enums\UserRole;
 use App\Models\Applicant;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -51,7 +52,7 @@ class Register extends Component
                 'last_name' => $this->last_name,
                 'middle_name' => $this->middle_name,
                 'phone_no' => $this->phone_no,
-                'password' => $this->password,
+                'password' => Hash::make($this->password),
                 'remember_token' => Str::random(10),
                 'role' => UserRole::APPLICANTS->value
             ]);
@@ -63,7 +64,7 @@ class Register extends Component
             ]);
 
             DB::commit();
-            redirect('/')->with(['success' => 'Hiring Manager created successfully']);
+            return redirect('/')->with(['success' => 'Hiring Manager created successfully']);
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to create Applicant');
             dd($e);

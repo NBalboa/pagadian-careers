@@ -30,7 +30,7 @@
                             @enderror
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="flex items-start">
+                            <div class="flex items-start hidden">
                                 <div class="flex items-center h-5">
                                     <input id="remember" aria-describedby="remember" type="checkbox"
                                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300">
@@ -39,7 +39,8 @@
                                     <label for="remember" class="text-gray-500">Remember me</label>
                                 </div>
                             </div>
-                            <a href="#" class="text-sm font-medium text-primary-600 hover:underline">Forgot
+                            <a href="/forgot-password"
+                                class="text-sm font-medium text-primary-600 hover:underline">Forgot
                                 password?</a>
                         </div>
                         <button type="submit"
