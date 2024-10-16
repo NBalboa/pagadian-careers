@@ -3,6 +3,7 @@
 namespace App\Livewire\Applicant;
 
 use App\Enums\JobStatus;
+use App\Enums\JobType;
 use App\Enums\Layouts;
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,7 @@ class MyJobs extends Component
     public $search;
     public $searchBy;
     public $job_status = null;
+    public $job_histories;
     public function mount()
     {
         $this->applicant = Applicant::where('user_id', Auth::user()->id)->firstOrFail();
@@ -27,6 +29,7 @@ class MyJobs extends Component
         $this->total_interview += $this->getJobStatusTotal(JobStatus::INTERVIEW->value);
         $this->total_rejected += $this->getJobStatusTotal(JobStatus::REJECTED->value);
         $this->total_hired += $this->getJobStatusTotal(JobStatus::HIRED->value);
+        $this->job_histories = $this->applicant->jobs()->with('hiring_manager')->wherePivot('status', '=', JobStatus::HIRED)->get();
     }
 
     public function getJobStatusTotal($status)
@@ -42,6 +45,12 @@ class MyJobs extends Component
 
         return JobStatus::fromValue($status)->stringValue();
     }
+
+    public function getJobType($value)
+    {
+        return JobType::fromValue($value)->stringValue();
+    }
+
     public function render()
     {
 

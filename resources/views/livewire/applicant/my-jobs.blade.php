@@ -127,4 +127,33 @@
             </tbody>
         </x-table-layout>
     </div>
+
+    @if ($job_histories)
+
+        <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 ">
+
+            <h3 class="text-md font-bold">Job History</h3>
+            <p>
+                @foreach ($job_histories as $index => $job_history)
+                    @if (count($job_histories) - 1 !== $index)
+                        <div class="border-b-2 border-gray-200 py-2">
+                            <h4 class="font-normal text-md">{{ $job_history->job_title }} at
+                                {{ $job_history->hiring_manager->company->name }}
+                                ({{ $this->getJobType($job_history->job_type) }})
+                            </h4>
+
+                        </div>
+                    @else
+                        <div class="border-b-2 border-gray-200 py-2">
+                            <h4 class="font-normal text-md">{{ $job_history->job_title }} at
+                                {{ $job_history->hiring_manager->company->name }}
+                                ({{ $this->getJobType($job_history->job_type) }})
+                            </h4>
+                        </div>
+                    @endif
+                @endforeach
+            </p>
+        </div>
+    @endif
+
 </div>
