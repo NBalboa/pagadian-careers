@@ -16,8 +16,14 @@ class Applicants extends Component
     public $search;
     public $searchBy;
     public $verified;
-    public $verifieds;
+    public $is_verified;
     public $gender;
+
+    public $MALE = ApplicantGender::MALE->value + 1;
+    public $FEMALE = ApplicantGender::FEMALE->value + 1;
+    public $NOT_VERIFIED = 0 + 1;
+    public $VERIFIED = 1 + 1;
+
     public function searchJobs()
     {
         $this->resetPage();
@@ -49,8 +55,19 @@ class Applicants extends Component
 
         if (!empty($this->search)) {
             $search = $this->search;
-            if ($this->searchBy === 'address') {
-                $applicants = $applicants->whereHas('address', function ($query) use ($search) {
+
+            $applicants = $applicants->whereHas('user', function ($query) use ($search) {
+                $query->whereAny([
+                    'first_name',
+                    'last_name',
+                    'middle_name',
+                    'email',
+                    'phone_no',
+                    'telephone_no',
+                    'verifier'
+                ], 'like', '%' . $search . '%');
+            })
+                ->orWhereHas('address', function ($query) use ($search) {
                     $query->whereAny([
                         'street',
                         'barangay',
@@ -58,29 +75,14 @@ class Applicants extends Component
                         'province'
                     ], 'like', '%' . $search . '%');
                 });
-            } else if ($this->searchBy === 'verifier') {
-                $applicants = $applicants->where('verifier', 'like', '%' . $search . '%');
-            } else {
-
-                $applicants = $applicants->whereHas('user', function ($query) use ($search) {
-                    $query->whereAny([
-                        'first_name',
-                        'last_name',
-                        'middle_name',
-                        'email',
-                        'phone_no',
-                        'telephone_no'
-                    ], 'like', '%' . $search . '%');
-                });
-            }
         }
 
         if (!empty($this->gender)) {
-            $applicants = $applicants->where('gender', '=', $this->gender);
+            $applicants = $applicants->where('gender', '=', $this->gender - 1);
         }
 
-        if (!empty($this->verifieds)) {
-            $applicants = $applicants->where('verified', '=', $this->verified);
+        if (!empty($this->is_verified)) {
+            $applicants = $applicants->where('verified', '=', $this->is_verified - 1);
         }
 
 

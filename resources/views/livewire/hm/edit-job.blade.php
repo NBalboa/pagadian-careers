@@ -1,5 +1,5 @@
     <div class="p-4 md:p-5">
-        <h2 class="text-3xl mb-2">Create Jobs</h2>
+        <h2 class="text-3xl mb-2">Edit Jobs</h2>
         @if (session('success'))
             <h3 class="text-green-400 text-center pt-2 pb-2">{{ session('success') }}</h3>
         @endif

@@ -14,7 +14,6 @@ class Company extends Component
 
     use WithPagination;
     public $search;
-    public $searchBy;
 
     public function delete($id)
     {
@@ -41,8 +40,16 @@ class Company extends Component
         if (!empty($this->search)) {
 
             $search = $this->search;
-            if ($this->searchBy === 'address') {
-                $companies = $companies->whereHas('address', function ($query) use ($search) {
+
+            $companies = $companies->whereAny(
+                [
+                    'name',
+                    'url'
+                ],
+                'like',
+                '%' . $search . '%'
+            )
+                ->orWhereHas('address', function ($query) use ($search) {
                     $query->whereAny([
                         'street',
                         'barangay',
@@ -50,17 +57,6 @@ class Company extends Component
                         'province'
                     ], 'like', '%' . $search . '%');
                 });
-            } else {
-
-                $companies = $companies->whereAny(
-                    [
-                        'name',
-                        'url'
-                    ],
-                    'like',
-                    '%' . $search . '%'
-                );
-            }
         }
 
         $companies = $companies->paginate(10);

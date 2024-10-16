@@ -24,31 +24,31 @@
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="search" id="default-search" wire:model="search"
+                <input type="search" id="default-search" wire:model.live="search"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Search Mockups, Logos..." required />
+                    placeholder=""" required />
                 <button type="submit" wire:click="searchJob"
                     class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
             </div>
         </div>
         <div class="w-full md:w-1/4">
-            <select wire:model="job_setup"
+            <select wire:model.live="job_setup"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Setup</option>
-                <option value="0">On-Site</option>
-                <option value="1">Remote</option>
-                <option value="2">Hybrid</option>
+                <option value="{{ $JOB_ON_SITE }}">On-Site</option>
+                <option value="{{ $JOB_REMOTE }}">Remote</option>
+                <option value="{{ $JOB_HYBRID }}">Hybrid</option>
             </select>
         </div>
 
         <div class="w-full md:w-1/4">
-            <select wire:model="job_type"
+            <select wire:model.live="job_type"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Type</option>
-                <option value="0">Permanent</option>
-                <option value="1">Part-Time</option>
-                <option value="2">Full-Time</option>
-                <option value="3">Contractual</option>
+                <option value="{{ $JOB_PERMANENT }}">Permanent</option>
+                <option value="{{ $JOB_PART_TIME }}">Part-Time</option>
+                <option value="{{ $JOB_FULL_TIME }}">Full-Time</option>
+                <option value="{{ $JOB_CONTRACTUAL }}">Contractual</option>
             </select>
         </div>
 
@@ -69,7 +69,7 @@
                     <x-table-row-item>{{ $this->getJobSetup($job->job_setup) }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getJobType($job->job_type) }}</x-table-row-item>
                     <x-table-row-item>{{ $job->salary }}</x-table-row-item>
-                    <x-table-row-item>{{ $this->getTotalApplicants($job->id) }}</x-table-row-item>
+                    <x-table-row-item>{{ $this->getTotalApplicants($job) }}</x-table-row-item>
                     <x-table-row-item>
                         <a href="/my/job/edit/{{ $job->id }}"
                             class="font-medium text-blue-600  hover:underline">Edit</a>

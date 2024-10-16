@@ -19,9 +19,16 @@ class MyJobs extends Component
     public $total_rejected = 0;
     public $total_hired;
     public $search;
-    public $searchBy;
     public $job_status = null;
     public $job_histories;
+    public $companies;
+
+    public $JOB_PENDING = JobStatus::PENDING->value + 1;
+    public $JOB_INTERVIEW = JobStatus::INTERVIEW->value + 1;
+    public $JOB_HIRED = JobStatus::HIRED->value + 1;
+    public $JOB_REJECTED = JobStatus::REJECTED->value + 1;
+
+    public $company_search;
     public function mount()
     {
         $this->applicant = Applicant::where('user_id', Auth::user()->id)->firstOrFail();
@@ -30,8 +37,17 @@ class MyJobs extends Component
         $this->total_rejected += $this->getJobStatusTotal(JobStatus::REJECTED->value);
         $this->total_hired += $this->getJobStatusTotal(JobStatus::HIRED->value);
         $this->job_histories = $this->applicant->jobs()->with('hiring_manager')->wherePivot('status', '=', JobStatus::HIRED)->get();
-    }
 
+        $this->companies = $this->applicant->jobs()
+            ->with('hiring_manager.company')
+            ->get()
+            ->pluck('hiring_manager.company')
+            ->unique();
+    }
+    public function getJobStatus($value)
+    {
+        return JobStatus::fromValue($value - 1)->stringValue();
+    }
     public function getJobStatusTotal($status)
     {
         return $this->applicant->jobs()->wherePivot('status', '=', $status)->count();
@@ -58,38 +74,36 @@ class MyJobs extends Component
 
         if (!empty($this->search)) {
             $search = $this->search;
-            if ($this->searchBy === 'address') {
-                $jobs =
-                    $jobs->whereHas('hiring_manager', function ($query) use ($search) {
-                        $query->whereHas('company', function ($query) use ($search) {
-                            $query->whereHas('address', function ($query) use ($search) {
-                                $query->whereAny(
-                                    [
-                                        'street',
-                                        'barangay',
-                                        'city',
-                                        'province'
-                                    ],
-                                    'like',
-                                    '%' . $search . '%'
-                                );
-                            });
+            $jobs = $jobs->where('job_title', 'like', '%' . $search . '%')
+                ->orWhereHas('hiring_manager', function ($query) use ($search) {
+                    $query->whereHas('company', function ($query) use ($search) {
+                        $query->whereHas('address', function ($query) use ($search) {
+                            $query->whereAny(
+                                [
+                                    'street',
+                                    'barangay',
+                                    'city',
+                                    'province'
+                                ],
+                                'like',
+                                '%' . $search . '%'
+                            );
                         });
                     });
-            } else if ($this->searchBy === 'company') {
-                $jobs = $jobs->whereHas('hiring_manager', function ($query) use ($search) {
-                    $query->whereHas('company', function ($query) use ($search) {
-                        $query->where('name', 'like', '%' . $search . '%');
-                    });
                 });
-            } else {
-                $jobs = $jobs->where('job_title', 'like', '%' . $search . '%');
-            }
+        }
+
+        if (!empty($this->company_search)) {
+            $search = $this->company_search;
+            $jobs = $jobs->whereHas('hiring_manager', function ($query) use ($search) {
+                $query->whereHas('company', function ($query) use ($search) {
+                    $query->where('id', '=', $search);
+                });
+            });
         }
 
         if (!empty($this->job_status)) {
-            $status = intval($this->job_status, 10) - 1;
-            $jobs = $jobs->wherePivot('status', '=', $status);
+            $jobs = $jobs->wherePivot('status', '=', $this->job_status - 1);
         }
 
         // dd($jobs->paginate(10));

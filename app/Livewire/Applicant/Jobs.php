@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Applicant;
 
+use App\Enums\JobSetup;
+use App\Enums\JobType;
 use App\Enums\Layouts;
 use App\Models\Applicant;
+use App\Models\Company;
 use App\Models\Work;
 use App\Services\JobRecommendationService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -17,16 +20,41 @@ class Jobs extends Component
     use WithPagination;
     public $applicant;
     public $search = "";
-    public $searchBy = "";
+    public $companies;
+
+    public $JOB_PERMANENT = JobType::PERMANENT->value;
+    public $JOB_PART_TIME = JobType::PART_TIME->value;
+    public $JOB_FULL_TIME = JobType::FULL_TIME->value;
+    public $JOB_CONTRACTUAL = JobType::CONTRACTUAL->value;
+
+    public $JOB_ON_SITE = JobSetup::ON_SITE->value;
+    public $JOB_REMOTE = JobSetup::REMOTE->value;
+    public $JOB_HYBRID = JobSetup::HYBRID->value;
+
+    public $company_search;
+    public $job_type;
+    public $job_setup;
+
     public function mount()
     {
         $this->applicant =
             Applicant::where('user_id', Auth::user()->id)->firstOrFail();
+
+        $this->companies = Company::all();
     }
 
-    public function getRecommendation()
+    public function getJobType($value)
     {
-        $jobs = Work::all();
+        return JobType::fromValue($value)->stringValue();
+    }
+    public function getJobSetup($value)
+    {
+        return JobSetup::fromValue($value)->stringValue();
+    }
+
+    public function getRecommendation($jobs)
+    {
+        $jobs = $jobs;
         $jobRecommendation = new JobRecommendationService();
 
 
@@ -45,7 +73,7 @@ class Jobs extends Component
 
         return $recommendations;
     }
-    public function search_jobs()
+    public function searchJobs()
     {
         $this->resetPage();
     }
@@ -72,39 +100,57 @@ class Jobs extends Component
     public function render()
     {
         $recommendations = [];
-        $jobs = Work::with('hiring_manager')->paginate(10);
+        $jobs = Work::with('hiring_manager');
         if (!empty($this->search)) {
             $search = $this->search;
-            $jobs = Work::with("hiring_manager");
-            if ($this->searchBy === "Company") {
-                $jobs = $jobs->whereHas('hiring_manager', function ($query) use ($search) {
-                    $query->whereHas('company', function ($query) use ($search) {
-                        $query->where('name', 'like', '%' . $search . '%');
-                    });
-                });
-            } else if ($this->searchBy === "Address") {
-                $jobs =
-                    $jobs->whereHas('hiring_manager', function ($query) use ($search) {
-                        $query->whereHas('company', function ($query) use ($search) {
-                            $query->whereHas('address', function ($query) use ($search) {
-                                $query->where(DB::raw("CONCAT(street, ' ', barangay, ' ', city, ' ', province)"), 'like', '%' . $search . '%');
-                            });
+            $jobs =
+                $jobs->where('job_title', 'like', '%' . $search . '%')
+                ->orWhereHas('hiring_manager', function ($query) use ($search) {
+                    $query = $query->whereHas('company', function ($query) use ($search) {
+                        $query = $query->whereHas('address', function ($query) use ($search) {
+                            $query = $query->whereAny(
+                                [
+                                    'street',
+                                    'barangay',
+                                    'city',
+                                    'province'
+                                ],
+                                'like',
+                                '%' . $search . '%'
+                            );
                         });
                     });
-            } else {
-                $jobs = $jobs->where('job_title', 'like', '%' . $search . '%');
-            }
-
-            $jobs = $jobs->paginate(10);
+                });
         }
+
+        if (!empty($this->company_search)) {
+            $company_search = $this->company_search;
+            $jobs = $jobs->whereHas('hiring_manager', function ($query) use ($company_search) {
+                $query = $query->whereHas('company', function ($query) use ($company_search) {
+                    $query = $query->where('id', '=', $company_search);
+                });
+            });
+        }
+
+        if (!empty($this->job_type)) {
+            $jobs = $jobs->where('job_type', '=', $this->job_type - 1);
+        }
+
+        if (!empty($this->job_setup)) {
+            $jobs = $jobs->where('job_setup', '=', $this->job_setup - 1);
+        }
+
         if (
             !$this->applicant->educations()->get()->isEmpty()
             && !$this->applicant->skills()->get()->isEmpty()
             && !$this->applicant->experiences()->get()->isEmpty()
             && $this->applicant->edu_attainment
         ) {
-            $recommendations = $this->paginate($this->getRecommendation(), 10);
+            $recommendations = $this->paginate($this->getRecommendation($jobs->get()), 10);
         }
+
+        $jobs = $jobs->paginate(10);
+
 
 
         return view(

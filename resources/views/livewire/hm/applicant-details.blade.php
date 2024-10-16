@@ -20,37 +20,30 @@
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="search" id="default-search" wire:model="search"
+                <input type="search" id="default-search" wire:model.lazy="search"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Search Mockups, Logos..." required />
+                    placeholder="" required />
                 <button type="submit" wire:click="searchJobs"
                     class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
             </div>
         </div>
-        <div class="w-full md:w-1/4">
-            <select wire:model="searchBy"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option selected value="">Search by</option>
-                <option value="address">Address</option>
-            </select>
-        </div>
 
         <div class="w-full md:w-1/4">
-            <select wire:model="gender"
+            <select wire:model.lazy="gender"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Gender</option>
-                <option value="0">Male</option>
-                <option value="1">Female</option>
+                <option value="{{ $MALE }}">Male</option>
+                <option value="{{ $FEMALE }}">Female</option>
             </select>
         </div>
         <div class="w-full md:w-1/4">
-            <select wire:model="job_status"
+            <select wire:model.lazy="job_status"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Status</option>
-                <option value="0">Pending</option>
-                <option value="1">Interview</option>
-                <option value="2">Hired</option>
-                <option value="3">Rejected</option>
+                <option value="{{ $JOB_PENDING }}">Pending</option>
+                <option value="{{ $JOB_INTERVIEW }}">Interview</option>
+                <option value="{{ $JOB_HIRED }}">Hired</option>
+                <option value="{{ $JOB_REJECTED }}">Rejected</option>
             </select>
         </div>
     </div>

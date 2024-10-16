@@ -76,27 +76,28 @@
                     </div>
                     <input type="search" id="default-search" wire:model.live="search"
                         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Search Mockups, Logos..." required />
+                        placeholder="" required />
                     <button type="submit" wire:click="searchJobs"
                         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
                 </div>
             </div>
             <div class="w-full md:w-1/4">
-                <select wire:model.live="searchBy"
+                <select wire:model.live="company_search"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option selected value="">Search by</option>
-                    <option value="address">Address</option>
-                    <option value="company">Company</option>
+                    <option selected value="">Company</option>
+                    @foreach ($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="w-full md:w-1/4">
                 <select wire:model.live="job_status"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option selected value="">Status</option>
-                    <option value="1">Pending</option>
-                    <option value="2">Interview</option>
-                    <option value="3">Hired</option>
-                    <option value="4">Rejected</option>
+                    <option value="{{ $JOB_PENDING }}">{{ $this->getJobStatus($JOB_PENDING) }}</option>
+                    <option value="{{ $JOB_INTERVIEW }}">{{ $this->getJobStatus($JOB_INTERVIEW) }}</option>
+                    <option value="{{ $JOB_HIRED }}">{{ $this->getJobStatus($JOB_HIRED) }}</option>
+                    <option value="{{ $JOB_REJECTED }}">{{ $this->getJobStatus($JOB_REJECTED) }}</option>
                 </select>
             </div>
         </div>

@@ -13,36 +13,25 @@
                 </div>
                 <input type="search" id="default-search" wire:model.live="search"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Search Mockups, Logos..." required />
+                    placeholder="" required />
                 <button type="submit" wire:click="searchJobs"
                     class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
             </div>
         </div>
         <div class="w-full md:w-1/4">
-            <select wire:model.live="searchBy"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option selected value="">Search by</option>
-                <option value="address">Address</option>
-                <option value="verifier">Verifier</option>
-            </select>
-
-
-        </div>
-        <div class="w-full md:w-1/4">
             <select wire:model.live="gender"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Gender</option>
-                <option value="0">MALE</option>
-                <option value="1">FEMALE</option>
-
+                <option value="{{ $MALE }}">MALE</option>
+                <option value="{{ $FEMALE }}">FEMALE</option>
             </select>
         </div>
         <div class="w-full md:w-1/4">
-            <select wire:model.live="verifieds"
+            <select wire:model.live="is_verified"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option selected value="">All</option>
-                <option value="0">Not</option>
-                <option value="1">Verified</option>
+                <option selected value="">Is Verified?</option>
+                <option value="{{ $VERIFIED }}">Yes</option>
+                <option value="{{ $NOT_VERIFIED }}">No</option>
             </select>
         </div>
     </div>

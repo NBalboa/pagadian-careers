@@ -27,6 +27,16 @@ class ApplicantDetails extends Component
     public $gender;
     public $job_status;
 
+
+    public $JOB_PENDING = JobStatus::PENDING->value + 1;
+    public $JOB_INTERVIEW = JobStatus::INTERVIEW->value + 1;
+    public $JOB_HIRED = JobStatus::HIRED->value + 1;
+    public $JOB_REJECTED = JobStatus::REJECTED->value + 1;
+
+
+    public $MALE = ApplicantGender::MALE->value + 1;
+    public $FEMALE = ApplicantGender::FEMALE->value + 1;
+
     public function mount(Work $job)
     {
         $this->job = $job;
@@ -141,35 +151,32 @@ class ApplicantDetails extends Component
 
         if (!empty($this->search)) {
             $search = $this->search;
-            if ($this->searchBy === 'address') {
-                $applicants = $applicants->whereHas('address', function ($query) use ($search) {
-                    $query->whereAny([
-                        'street',
-                        'barangay',
-                        'city',
-                        'province'
-                    ], 'like', '%' . $search . '%');
-                });
-            } else {
-                $applicants = $applicants->whereHas('user', function ($query) use ($search) {
-                    $query->whereAny([
-                        'first_name',
-                        'last_name',
-                        'middle_name',
-                        'email',
-                        'phone_no',
-                        'telephone_no'
-                    ], 'like', '%' . $search . '%');
-                });
-            }
+
+            $applicants = $applicants->whereHas('user', function ($query) use ($search) {
+                $query->whereAny([
+                    'first_name',
+                    'last_name',
+                    'middle_name',
+                    'email',
+                    'phone_no',
+                    'telephone_no'
+                ], 'like', '%' . $search . '%');
+            })->orWhereHas('address', function ($query) use ($search) {
+                $query->whereAny([
+                    'street',
+                    'barangay',
+                    'city',
+                    'province'
+                ], 'like', '%' . $search . '%');
+            });
         }
 
         if (!empty($this->gender)) {
-            $applicants = $applicants->where('gender', '=', $this->gender);
+            $applicants = $applicants->where('gender', '=', $this->gender - 1);
         }
 
         if (!empty($this->job_status)) {
-            $applicants = $applicants->wherePivot('status', '=', $this->job_status);
+            $applicants = $applicants->wherePivot('status', '=', $this->job_status - 1);
         }
 
         $applicants = $applicants->get();
