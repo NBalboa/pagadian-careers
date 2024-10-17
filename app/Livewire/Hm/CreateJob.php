@@ -8,6 +8,7 @@ use App\Models\HiringManager;
 use App\Models\Score;
 use App\Models\Skill;
 use App\Models\Work;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -62,6 +63,14 @@ class CreateJob extends Component
 
     public $hiring_manager;
 
+    #[Rule('required|numeric|gt:0')]
+    public $max_applicants_hired;
+    #[Rule('required')]
+    public $start_hiring;
+    #[Rule('required')]
+    public $end_hiring;
+
+
     public function mount()
     {
         $this->hiring_manager = HiringManager::where('user_id', Auth::user()->id)->first();
@@ -96,7 +105,17 @@ class CreateJob extends Component
         $this->total_score
             = $this->experience_score + $this->education_score + $this->skill_score;
 
+        $start_date = Carbon::parse($this->start_hiring);
+        $end_date = Carbon::parse($this->end_hiring);
+
+
+        if ($start_date->greaterThan($end_date)) {
+            $this->addError('start_hiring', 'Hiring Starts must be greater than Hiring Ends');
+            return;
+        }
         $this->validate();
+
+
 
         DB::beginTransaction();
         try {
@@ -118,7 +137,10 @@ class CreateJob extends Component
                 'description' => $this->description,
                 'experience' => $this->experience,
                 'show_salary' => ($this->show_salary ? 1 : 0),
-                'edu_attainment' => $this->edu_attainment
+                'edu_attainment' => $this->edu_attainment,
+                'max_applicants_hired' => $this->max_applicants_hired,
+                'start_hiring' => $start_date,
+                'end_hiring' => $end_date,
             ]);
 
             $job->responsibilities()->createMany($this->responsibilities);

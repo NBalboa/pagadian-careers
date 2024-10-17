@@ -53,6 +53,17 @@ class EditHiringManager extends Component
         $this->email = $this->hiring_manager->user->email;
         $this->company = $this->hiring_manager->company_id;
     }
+    public function delete($id)
+    {
+        $hiring_manager = HiringManager::with('user')->findOrFail($id);
+        $user = User::findOrFail($hiring_manager->user->id);
+        $address = Address::findOrFail($hiring_manager->address_id);
+        $hiring_manager->delete();
+        $user->delete();
+        $address->delete();
+
+        redirect('hiringmanager')->with(['success' => 'Hiring Manager deleted successfully']);
+    }
 
     public function save()
     {

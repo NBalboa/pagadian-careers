@@ -9,6 +9,7 @@ use App\Models\Qualification;
 use App\Models\Responsibility;
 use App\Models\Skill;
 use App\Models\Work;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -59,6 +60,13 @@ class EditJob extends Component
     public int $total_score;
 
 
+    #[Rule('required|numeric|gt:0')]
+    public $max_applicants_hired;
+    #[Rule('required')]
+    public $start_hiring;
+    #[Rule('required')]
+    public $end_hiring;
+
     public $score;
 
     public function mount(Work $job)
@@ -86,6 +94,9 @@ class EditJob extends Component
         $this->experience_score = $this->score->experience;
 
         $this->edu_attainment = $this->edu_attainment;
+        $this->max_applicants_hired = $this->job->max_applicants_hired;
+        $this->start_hiring = $this->job->start_hiring;
+        $this->end_hiring = $this->job->end_hiring;
     }
 
 
@@ -95,6 +106,13 @@ class EditJob extends Component
             = $this->experience_score + $this->education_score + $this->skill_score;
 
         $this->validate();
+        $start_date = Carbon::parse($this->start_hiring);
+        $end_date = Carbon::parse($this->end_hiring);
+
+        if ($start_date->greaterThan($end_date)) {
+            $this->addError('start_hiring', 'Hiring Starts must be greater than Hiring Ends');
+            return;
+        }
 
         $score = $this->score->fill([
             'experience' => $this->experience_score,
@@ -109,7 +127,10 @@ class EditJob extends Component
             'description' => $this->description,
             'salary' => $this->salary,
             'experience' => $this->experience,
-            'show_salary' => ($this->show_salary ? 1 : 0)
+            'show_salary' => ($this->show_salary ? 1 : 0),
+            'max_applicants_hired' => $this->max_applicants_hired,
+            'start_hiring' => $start_date,
+            'end_hiring' => $end_date,
         ]);
 
         $score_changes = $score->getDirty();

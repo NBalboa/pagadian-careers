@@ -19,7 +19,11 @@ class Work extends Model
         'experience',
         'salary',
         'show_salary',
-        'edu_attainment'
+        'edu_attainment',
+        'max_applicants_hired',
+        'start_hiring',
+        'end_hiring',
+        'is_closed'
     ];
 
     public function skills()

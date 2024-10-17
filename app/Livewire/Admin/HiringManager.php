@@ -22,16 +22,11 @@ class HiringManager extends Component
     {
         $this->companies = Company::all()->unique('name');
     }
-    public function delete($id)
-    {
-        $hiring_manager = ModelsHiringManager::with('user')->findOrFail($id);
-        $user = User::findOrFail($hiring_manager->user->id);
-        $address = Address::findOrFail($hiring_manager->address_id);
-        $hiring_manager->delete();
-        $user->delete();
-        $address->delete();
 
-        redirect('hiringmanager')->with(['success' => 'Hiring Manager deleted successfully']);
+
+    public function goToEditHiringManager($id)
+    {
+        return redirect('/hiringmanager/edit/' . $id);
     }
 
     public function searchJobs()

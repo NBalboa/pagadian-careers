@@ -34,6 +34,11 @@ class Applicants extends Component
         return ApplicantGender::fromValue($value)->stringValue();
     }
 
+    public function goToApplicantProfile($id)
+    {
+        return redirect('/applicants/profile/' . $id);
+    }
+
     public function verifyApplicant($id)
     {
         $applicant = Applicant::find($id);
@@ -46,6 +51,8 @@ class Applicants extends Component
             $applicant->verifier = Auth::user()->first_name . ' ' . Auth::user()->last_name;
         }
         $applicant->save();
+
+        return;
     }
 
     public function render()

@@ -23,6 +23,11 @@ return new class extends Migration
             $table->string('salary')->nullable();
             $table->tinyInteger('edu_attainment');
             $table->tinyInteger('experience');
+            $table->tinyInteger('is_closed')->default(0); //0 No,  1 Yes
+            $table->integer('max_applicants_hired');
+            $table->date('start_hiring');
+            $table->integer('hired_no')->default(0);
+            $table->date('end_hiring');
             $table->timestamps();
         });
     }

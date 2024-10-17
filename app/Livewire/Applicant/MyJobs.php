@@ -37,7 +37,6 @@ class MyJobs extends Component
         $this->total_rejected += $this->getJobStatusTotal(JobStatus::REJECTED->value);
         $this->total_hired += $this->getJobStatusTotal(JobStatus::HIRED->value);
         $this->job_histories = $this->applicant->jobs()->with('hiring_manager')->wherePivot('status', '=', JobStatus::HIRED)->get();
-
         $this->companies = $this->applicant->jobs()
             ->with('hiring_manager.company')
             ->get()

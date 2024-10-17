@@ -76,39 +76,64 @@
                             {{ $recommendation['job']->hiring_manager->company->address->province }})
                         </span>
                     </a>
-                    <p class="overflow-hidden pr-7 text-sm">
-                        {{ $recommendation['job']->description }}
-                    </p>
+
+                    <div class="overflow-hidden">
+                        <p class="pr-7 text-sm">
+                            {{ $recommendation['job']->description }}
+                        </p>
+
+                        <h2 class="text-black mt-5 font-medium">Hiring Information</h2>
+
+                        <div
+                            class="flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
+
+                            <div>Applicants:
+                                <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                    {{ $recommendation['job']->max_applicants_hired }}
+                                </span>
+                            </div>
+                            <div>Starts:
+                                <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                    {{ $this->formatDate($recommendation['job']->start_hiring) }}
+                                </span>
+                            </div>
+                            <div>Ends:
+                                <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                    {{ $this->formatDate($recommendation['job']->end_hiring) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div
                         class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
+
                         <div>Score:<span
                                 class="block text-center rounded-full bg-orange-100 px-2 py-0.5 text-green-900">
                                 {{ $recommendation['score'] }}%
                             </span>
                         </div>
-                        <div>Experience Required:<span
-                                class="block text-center rounded-full bg-green-100 px-2 py-0.5 text-green-900">
+                        <div>Required Experience:
+                            <span class="block text-center rounded-full bg-green-100 px-2 py-0.5 text-green-900">
                                 {{ $recommendation['job']->experience }}
                                 {{ $recommendation['job']->experience > 1 ? 'Years' : 'Year' }}
                             </span>
                         </div>
                         @if ($recommendation['job']->show_salary === 1 && $recommendation['job']->salary !== null)
-                            <div>Salary:<span
-                                    class="block text-center rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">{{ $recommendation['job']->salary }}</span>
+                            <div class="">Salary:<span
+                                    class="block text-center rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">{{ $recommendation['job']->salary }}
+                                    day</span>
                             </div>
                         @endif
 
                         <div>Job Type:
-                            <span
-                                class="block text-center text-center rounded-full bg-yellow-100 px-2 py-0.5 text-green-900">
+                            <span class="block text-center rounded-full bg-yellow-100 px-2 py-0.5 text-green-900">
                                 {{ $this->getJobType($recommendation['job']->job_type) }}
                             </span>
                         </div>
 
                         <div>Job Setup:
-                            <span
-                                class="block text-center text-center rounded-full bg-purple-100 px-2 py-0.5 text-green-900">
+                            <span class="block text-center rounded-full bg-purple-100 px-2 py-0.5 text-green-900">
                                 {{ $this->getJobSetup($recommendation['job']->job_setup) }}
                             </span>
                         </div>
@@ -146,9 +171,34 @@
                                 {{ $job->hiring_manager->company->address->province }})
                             </span>
                         </a>
-                        <p class="overflow-hidden pr-7 text-sm">
-                            {{ $job->description }}
-                        </p>
+
+                        <div class="overflow-hidden">
+                            <p class="pr-7 text-sm">
+                                {{ $job->description }}
+                            </p>
+
+                            <h2 class="text-black mt-5 font-medium">Hiring Information</h2>
+
+                            <div
+                                class="flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
+
+                                <div>Applicants:
+                                    <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                        {{ $job->max_applicants_hired }}
+                                    </span>
+                                </div>
+                                <div>Starts:
+                                    <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                        {{ $this->formatDate($job->start_hiring) }}
+                                    </span>
+                                </div>
+                                <div>Ends:
+                                    <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                        {{ $this->formatDate($job->end_hiring) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
                         <div
                             class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">

@@ -129,8 +129,7 @@
         </x-table-layout>
     </div>
 
-    @if ($job_histories)
-
+    @if (count($job_histories) > 0)
         <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 ">
 
             <h3 class="text-md font-bold">Job History</h3>

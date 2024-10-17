@@ -51,8 +51,8 @@ class ApplicantDetails extends Component
     public function initStatus($applicants)
     {
         foreach ($applicants as $applicant) {
-            $this->statuses[$applicant->id] = $applicant->jobs()->find($this->job->id)->pivot->status;
-            $this->prev_statuses[$applicant->id] = $applicant->jobs()->find($this->job->id)->pivot->status;
+            $this->statuses[$applicant->id] = $applicant->jobs()->find($this->job->id)->pivot->status + 1;
+            $this->prev_statuses[$applicant->id] = $applicant->jobs()->find($this->job->id)->pivot->status + 1;
             $this->remarks[$applicant->id] = "";
         }
     }
@@ -118,24 +118,35 @@ class ApplicantDetails extends Component
         return $paginator;
     }
 
+    public function goToApplicantProfile($job_id, $applicant_id)
+    {
+        return redirect('/my/job/' . $job_id . '/applicant/profile/' . $applicant_id);
+    }
+
     public function save($id)
     {
 
         if ($this->prev_statuses[$id] !== $this->statuses[$id]) {
             $applicant = $this->job->applicants()->find($id);
-
-            $applicant->pivot->status = $this->statuses[$id];
+            $status = $this->statuses[$id] - 1;
+            $applicant->pivot->status = $status;
             $applicant->pivot->remarks = $this->remarks[$id];
 
             $applicant->pivot->save();
             $applicant_user = $applicant->user()->get()->first();
-            if ($this->statuses[$id] == JobStatus::INTERVIEW->value) {
+            if ($status == JobStatus::INTERVIEW->value) {
                 Mail::to($applicant_user->email)
                     ->send(new JobStatusInterview($applicant_user, $this->job));
-            } else if ($this->statuses[$id] == JobStatus::HIRED->value) {
+            } else if ($status == JobStatus::HIRED->value) {
+                $hired_no = $this->job->applicants()->wherePivot('status', '=', JobStatus::HIRED->value)->get()->count();
+                $this->job->hired_no = $hired_no;
+                $this->job->save();
                 Mail::to($applicant_user->email)
                     ->send(new JobStatusHired($applicant_user, $this->job));
-            } else if ($this->statuses[$id] == JobStatus::REJECTED->value) {
+            } else if ($status == JobStatus::REJECTED->value) {
+                $hired_no = $this->job->applicants()->wherePivot('status', '=', JobStatus::HIRED->value)->get()->count();
+                $this->job->hired_no = $hired_no;
+                $this->job->save();
                 Mail::to($applicant_user->email)
                     ->send(new JobStatusRejected($applicant_user, $this->job));
             }

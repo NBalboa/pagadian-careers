@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\ApplicantOnly;
@@ -9,6 +8,7 @@ use App\Http\Middleware\isLogin;
 use App\Http\Middleware\isUserForgotPassword;
 use App\Http\Middleware\isVerifiedForgotPassword;
 use App\Livewire\Admin\AdminDashboard;
+use App\Livewire\Admin\ApplicantProfile as AdminApplicantProfile;
 use App\Livewire\Admin\Applicants;
 use App\Livewire\Admin\Company;
 use App\Livewire\Admin\CreateCompany;
@@ -36,6 +36,7 @@ use App\Livewire\ForgotPassword;
 use App\Livewire\Hm\ApplicantDetails;
 use App\Livewire\Hm\ApplicantProfile;
 use App\Livewire\Hm\MyCompany;
+use App\Livewire\Hm\PreviewJob;
 use App\Livewire\MyAccountSettings;
 use App\Livewire\VerifyOTP;
 use App\Mail\HiringManagerCreated;
@@ -71,6 +72,7 @@ Route::middleware([AdminOnly::class, 'auth'])->group(function () {
     Route::get('/applicants', Applicants::class);
     Route::get('/company', Company::class);
     Route::get('/company/create', CreateCompany::class);
+    Route::get('/applicants/profile/{applicant}', AdminApplicantProfile::class);
     Route::get('/company/edit/{id}', EditCompany::class);
 });
 
@@ -96,4 +98,5 @@ Route::middleware([HiringManagerOnly::class, 'auth'])->group(function () {
     Route::get('/my/job/{job}/applicants', ApplicantDetails::class);
     Route::get('/my/job/{job}/applicant/profile/{applicant}', ApplicantProfile::class);
     Route::get('/my/company', MyCompany::class);
+    Route::get('/my/job/preview/{job}', PreviewJob::class);
 });

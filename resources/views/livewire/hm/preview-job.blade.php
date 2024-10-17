@@ -1,4 +1,12 @@
 <div>
+    <div class="mb-10 mx-2">
+        <a href="/my/job"
+            class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Back</a>
+        <button type="button"
+            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Delete</button>
+        <a href="/my/job/edit/{{ $job->id }}"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Edit</a>
+    </div>
     <div
         class="mb-10 group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
         <a href="#"
@@ -92,12 +100,6 @@
             </div>
             <div
                 class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
-                @if ($score)
-                    <div>Score:<span class="block text-center rounded-full bg-orange-100 px-2 py-0.5 text-green-900">
-                            {{ $score }}%
-                        </span>
-                    </div>
-                @endif
                 <div>Required Experience:
                     <span class="block text-center rounded-full bg-green-100 px-2 py-0.5 text-green-900">
                         {{ $job->experience }} {{ $job->experience > 1 ? 'Years' : 'Year' }}
@@ -119,11 +121,6 @@
                         {{ $this->getJobSetup($job->job_setup) }}
                     </span>
                 </div>
-                @if (!$this->appliedJob())
-                    <button
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
-                        wire:click="applyJob({{ $job->id }})">Apply</button>
-                @endif
             </div>
         </div>
     </div>

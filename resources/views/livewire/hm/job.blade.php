@@ -60,24 +60,36 @@
             <x-table-header-item>Type</x-table-header-item>
             <x-table-header-item>Salary</x-table-header-item>
             <x-table-header-item>No. of Applicants</x-table-header-item>
-            <x-table-header-item>Action</x-table-header-item>
+            <x-table-header-item>Is Closed?</x-table-header-item>
+            <x-table-header-item>Links</x-table-header-item>
         </x-table-header>
         <tbody>
             @foreach ($jobs as $job)
-                <x-table-row>
+                <x-table-row class="cursor-pointer">
                     <x-table-row-item>{{ $job->job_title }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getJobSetup($job->job_setup) }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getJobType($job->job_type) }}</x-table-row-item>
                     <x-table-row-item>{{ $job->salary }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getTotalApplicants($job) }}</x-table-row-item>
                     <x-table-row-item>
-                        <a href="/my/job/edit/{{ $job->id }}"
-                            class="font-medium text-blue-600  hover:underline">Edit</a>
-                        <button class="font-medium text-red-600  hover:underline"
-                            wire:click="delete({{ $job->id }})"
-                            wire:confirm="Are you sure about that?">Delete</button>
-                        <a href="/my/job/{{ $job->id }}/applicants"
-                            class="font-medium text-green-600  hover:underline">View</a>
+                        <div>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" wire:model="JobIsClosedIds.{{ $job->id }}"
+                                    wire:click="isCloseJob({{ $job->id }})" class="sr-only peer"
+                                    wire:loading.attr="disabled">
+                                <div
+                                    class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                </div>
+                            </label>
+                        </div>
+                    </x-table-row-item>
+                    <x-table-row-item>
+                        <a href="/my/job/preview/{{ $job->id }}"
+                            class="font-medium text-blue-600  hover:underline">Preview</a>
+                        @if ($this->getTotalApplicants($job) > 0)
+                            <a href="/my/job/{{ $job->id }}/applicants"
+                                class="font-medium text-green-600  hover:underline">Applicants</a>
+                        @endif
                     </x-table-row-item>
                 </x-table-row>
             @endforeach

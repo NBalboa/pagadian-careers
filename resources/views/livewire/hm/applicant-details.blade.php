@@ -3,8 +3,8 @@
         <a href="/my/job/"
             class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full sm:w-full md:w-1/4">Back</a>
     </div>
-    <h2 class="text-3xl mb-2">Applicants
-        <span wire:loading>
+    <h2 class="text-3xl mb-2">Applicants ({{ $job->job_title }})
+        <span wire:loading wire:target="save">
             <x-loading />
         </span>
     </h2>
@@ -20,7 +20,7 @@
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="search" id="default-search" wire:model.lazy="search"
+                <input type="search" id="default-search" wire:model.live="search"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="" required />
                 <button type="submit" wire:click="searchJobs"
@@ -29,7 +29,7 @@
         </div>
 
         <div class="w-full md:w-1/4">
-            <select wire:model.lazy="gender"
+            <select wire:model.live="gender"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Gender</option>
                 <option value="{{ $MALE }}">Male</option>
@@ -37,7 +37,7 @@
             </select>
         </div>
         <div class="w-full md:w-1/4">
-            <select wire:model.lazy="job_status"
+            <select wire:model.live="job_status"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected value="">Status</option>
                 <option value="{{ $JOB_PENDING }}">Pending</option>
@@ -63,7 +63,9 @@
         <tbody>
             @foreach ($applicants as $applicant)
                 <x-table-row>
-                    <x-table-row-item>{{ $applicant['applicant']->user->last_name }},
+                    <x-table-row-item isClickable={{ true }}
+                        function="goToApplicantProfile({{ $job->id }}, {{ $applicant['applicant']->id }})">
+                        {{ $applicant['applicant']->user->last_name }},
                         {{ $applicant['applicant']->user->first_name }}</x-table-row-item>
                     @if (!$applicant['applicant']->address)
                         <x-table-row-item>No Address</x-table-row-item>
@@ -89,10 +91,10 @@
                         <select id="applicant_status"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] focus:ring-blue-500 focus:border-blue-500 block w-full py-0.5"
                             wire:model= "statuses.{{ $applicant['applicant']->id }}">
-                            <option value="0">PENDING</option>
-                            <option value="1">INTERVIEW</option>
-                            <option value="2">HIRED</option>
-                            <option value="3">REJECTED</option>
+                            <option value="{{ $JOB_PENDING }}">PENDING</option>
+                            <option value="{{ $JOB_INTERVIEW }}">INTERVIEW</option>
+                            <option value="{{ $JOB_HIRED }}">HIRED</option>
+                            <option value="{{ $JOB_REJECTED }}">REJECTED</option>
                         </select>
                     </x-table-row-item>
                     <x-table-row-item>
@@ -108,10 +110,6 @@
                                 class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full sm:w-full md:w-auto">
                                 Save
                             </button>
-                            <a href="/my/job/{{ $job->id }}/applicant/profile/{{ $applicant['applicant']->id }}"
-                                class="font-medium text-green-600 hover:underline">
-                                Profile
-                            </a>
                         </div>
                     </x-table-row-item>
                 </x-table-row>

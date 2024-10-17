@@ -40,12 +40,12 @@
             <x-table-header-item>Contact No.</x-table-header-item>
             <x-table-header-item>Telephone No.</x-table-header-item>
             <x-table-header-item>Company</x-table-header-item>
-            <x-table-header-item>Action</x-table-header-item>
         </x-table-header>
         <tbody>
             @foreach ($hiring_managers as $hiring_manager)
                 <x-table-row>
-                    <x-table-row-item>
+                    <x-table-row-item isClickable={{ true }}
+                        function="goToEditHiringManager({{ $hiring_manager->id }})">
                         {{ $hiring_manager->user->first_name }}
                         {{ $hiring_manager->user->last_name }}
                     </x-table-row-item>
@@ -66,13 +66,6 @@
                     </x-table-row-item>
                     <x-table-row-item>
                         {{ $hiring_manager->company->name }}
-                    </x-table-row-item>
-                    <x-table-row-item>
-                        <a href="hiringmanager/edit/{{ $hiring_manager->id }}"
-                            class="font-medium text-blue-600  hover:underline">Edit</a>
-                        <button class="font-medium text-red-600  hover:underline"
-                            wire:click="delete({{ $hiring_manager->id }})"
-                            wire:confirm="Are you sure about that?">Delete</button>
                     </x-table-row-item>
                 </x-table-row>
             @endforeach

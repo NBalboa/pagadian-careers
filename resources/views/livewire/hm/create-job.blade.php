@@ -85,9 +85,50 @@
                     Salary<x-required /></label>
                 <input type="text" name="salary" id="salary"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                    placeholder="ex. Cruz" required wire:model="salary" />
+                    placeholder="" required wire:model="salary" />
 
                 @error('salary')
+                    <div class="text-red-600">
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+            </div>
+            <div>
+                <label for="max_applicants_hired" class="block mb-2 text-sm font-medium text-gray-900 ">
+                    No. of Applicants to Hire<x-required /></label>
+                <input type="number" name="max_applicants_hired" id="max_applicants_hired"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
+                    placeholder="" required wire:model="max_applicants_hired" />
+
+                @error('max_applicants_hired')
+                    <div class="text-red-600">
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+            </div>
+            <div>
+                <label for="start_hiring" class="block mb-2 text-sm font-medium text-gray-900 ">
+                    Hiring Starts<x-required /></label>
+
+
+                <input type="date" name="start_hiring" id="start_hiring"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                    placeholder="" required wire:model="start_hiring" />
+
+                @error('start_hiring')
+                    <div class="text-red-600">
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+            </div>
+            <div>
+                <label for="end_hiring" class="block mb-2 text-sm font-medium text-gray-900">
+                    Hiring Ends<x-required /></label>
+                <input type="date" name="end_hiring" id="end_hiring"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                    placeholder="" required wire:model="end_hiring" />
+
+                @error('end_hiring')
                     <div class="text-red-600">
                         <span>{{ $message }}</span>
                     </div>
@@ -147,7 +188,7 @@
                     placeholder="ex. Dela" required wire:model="qualification" />
                 {{-- <h2 class="mb-2 text-lg font-semibold text-gray-900">Password requirements:</h2> --}}
                 <button
-                    class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addJobQualification'>Add Job Qualification</button>
 
             </div>
@@ -182,7 +223,7 @@
                     </div>
                 @enderror
                 <button
-                    class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addJobResponsibility'>Add Job Responsibility</button>
 
 
@@ -210,9 +251,9 @@
                     @endforeach
                 </datalist>
                 <button
-                    class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addJobEducation'>Add Job Education</button>
-                <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside">
+                <ul class="max_w-md space-y-1 text-gray-500 list-disc list-inside">
                     @foreach ($job_educations as $education)
                         <li>
                             {{ $education['name'] }}
@@ -246,9 +287,9 @@
                     @endforeach
                 </datalist>
                 <button
-                    class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addJobSkill'>Save Job Skill</button>
-                <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside">
+                <ul class="max_w-md space-y-1 text-gray-500 list-disc list-inside">
                     @foreach ($job_skills as $skill)
                         <li>
                             {{ $skill['name'] }}
@@ -302,6 +343,6 @@
                 @enderror
             </div>
             <button
-                class="w-full text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                class="text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 wire:click='save'>Create Job</button>
         </div>

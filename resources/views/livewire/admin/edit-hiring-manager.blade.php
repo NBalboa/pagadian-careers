@@ -1,5 +1,13 @@
 <div>
-    <h2 class="text-3xl mb-2">Edit Hiring Manager</h2>
+    <h2 class="text-3xl mb-2">Edit Hiring Manager
+        <button
+            class=" text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
+            wire:confirm="Are you sure to delete this hiring manager?"
+            wire:click="delete({{ $hiring_manager->id }})">Delete</button>
+    </h2>
+
+
+
     @if (session('success'))
         <h3 class="text-green-400 text-center pt-2 pb-2">{{ session('success') }}</h3>
     @endif
@@ -68,7 +76,7 @@
                 </div>
             @enderror
             <button
-                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
+                class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
                 wire:click='save'>Save</button>
         </div>
         <h6 class="text-2xl mb-2 mt-2">Address</h6>
@@ -123,7 +131,7 @@
         @enderror
 
         <button
-            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
+            class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
             wire:click='changeAddress'>Save</button>
         <div>
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
@@ -140,7 +148,7 @@
             @enderror
         </div>
         <button
-            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
+            class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
             wire:click='changeEmail'>Save</button>
 
         <div>
@@ -158,6 +166,6 @@
             @enderror
         </div>
         <button
-            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
+            class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
             wire:click='changePhone'>Save</button>
     </div>

@@ -46,6 +46,21 @@ class EditCompany extends Component
         $this->company_profile = $this->company->profile;
     }
 
+
+    public function delete($id)
+    {
+        $company = Company::with('address')->findOrFail($id);
+        $address = Address::findOrFail($company->address_id);
+        if (Storage::disk("public")->exists($company['profile'])) {
+            Storage::disk('public')->delete($company['profile']);
+        }
+
+        $company->delete();
+        $address->delete();
+
+        redirect('hiringmanager')->with(['success' => 'Hiring Manager deleted successfully']);
+    }
+
     function changeCompanyDetails()
     {
         $this->validate(

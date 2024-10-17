@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Applicant;
 
+use App\Enums\IsJobClose;
 use App\Enums\JobSetup;
 use App\Enums\JobType;
 use App\Enums\Layouts;
@@ -9,8 +10,10 @@ use App\Models\Applicant;
 use App\Models\Company;
 use App\Models\Work;
 use App\Services\JobRecommendationService;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
@@ -73,6 +76,12 @@ class Jobs extends Component
 
         return $recommendations;
     }
+
+    public function formatDate($date)
+    {
+        return Carbon::parse($date)->format('F j, Y');
+    }
+
     public function searchJobs()
     {
         $this->resetPage();
@@ -100,7 +109,12 @@ class Jobs extends Component
     public function render()
     {
         $recommendations = [];
-        $jobs = Work::with('hiring_manager');
+        $jobs = Work::with('hiring_manager')
+            ->where('is_closed', '=', IsJobClose::NO)
+            ->whereColumn('max_applicants_hired', '>', 'hired_no')
+            ->whereDate('start_hiring', '<=', Date::now())
+            ->whereDate('end_hiring', '>=', 'start_hiring');
+
         if (!empty($this->search)) {
             $search = $this->search;
             $jobs =

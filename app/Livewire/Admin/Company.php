@@ -15,19 +15,13 @@ class Company extends Component
     use WithPagination;
     public $search;
 
-    public function delete($id)
+    public function goToEditCompany($id)
     {
-        $company = CompanyModels::with('address')->findOrFail($id);
-        $address = Address::findOrFail($company->address_id);
-        if (Storage::disk("public")->exists($company['profile'])) {
-            Storage::disk('public')->delete($company['profile']);
-        }
 
-        $company->delete();
-        $address->delete();
 
-        redirect('hiringmanager')->with(['success' => 'Hiring Manager deleted successfully']);
+        return redirect('company/edit/' . $id);
     }
+
     public function searchJobs()
     {
         $this->resetPage();

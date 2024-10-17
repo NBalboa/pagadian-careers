@@ -2,9 +2,13 @@
 
 namespace App\Livewire\Applicant;
 
+use App\Enums\JobSetup;
+use App\Enums\JobType;
 use App\Enums\Layouts;
 use App\Models\Applicant;
 use App\Models\Work;
+use App\Services\JobRecommendationService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -20,6 +24,7 @@ class JobDetails extends Component
     public $responsibilities;
     public $qualifications;
     public $applicant;
+    public $score;
     public function mount(Work $job)
     {
         $this->job = $job;
@@ -32,7 +37,40 @@ class JobDetails extends Component
         $this->skills = $this->job->skills()->get()->toArray();
         $this->responsibilities = $this->job->responsibilities()->get();
         $this->qualifications = $this->job->qualifications()->get();
+        $this->score = $this->getScore($job);
     }
+
+    public function getScore($job)
+    {
+
+        $jobRecommendation = new JobRecommendationService();
+        if (
+            !$this->applicant->educations()->get()->isEmpty()
+            && !$this->applicant->skills()->get()->isEmpty()
+            && !$this->applicant->experiences()->get()->isEmpty()
+            && $this->applicant->edu_attainment
+        ) {
+            $score = $jobRecommendation->calculateScore($job, $this->applicant);
+            return $score;
+        } else {
+            return null;
+        }
+    }
+
+    public function formatDate($date)
+    {
+        return Carbon::parse($date)->format('F j, Y');
+    }
+
+    public function getJobType($value)
+    {
+        return JobType::fromValue($value)->stringValue();
+    }
+    public function getJobSetup($value)
+    {
+        return JobSetup::fromValue($value)->stringValue();
+    }
+
     public function appliedJob()
     {
         return $this->applicant->jobs()->where('work_id', $this->job->id)->exists();

@@ -14,6 +14,7 @@ use App\Models\Score;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\Work;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -383,6 +384,9 @@ class DatabaseSeeder extends Seeder
             $educations = $job['educations'];
             $qualifications = $job['qualifications'];
 
+            $job['start_hiring'] = Carbon::now();
+            $job['end_hiring'] = Carbon::now()->addMonth();
+            $job['max_applicants_hired'] = 10;
             unset($job['skills']);
             unset($job['responsibilities']);
             unset($job['educations']);

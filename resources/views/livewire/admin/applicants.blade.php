@@ -53,7 +53,8 @@
         <tbody>
             @foreach ($applicants as $applicant)
                 <x-table-row>
-                    <x-table-row-item>
+                    <x-table-row-item isClickable={{ true }}
+                        function="goToApplicantProfile({{ $applicant->id }})">
                         {{ $applicant->user->first_name }}
                         {{ $applicant->user->last_name }}
                     </x-table-row-item>
