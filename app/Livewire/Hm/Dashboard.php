@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Hm;
 
+use App\Enums\IsDeletedJob;
+use App\Enums\IsDeletedUser;
 use App\Enums\JobStatus;
 use App\Enums\Layouts;
 use App\Models\HiringManager;
@@ -21,13 +23,16 @@ class Dashboard extends Component
     public function mount()
     {
         $this->hiring_manager = HiringManager::where('user_id', Auth::user()->id)->first();
-        $this->jobs = $this->hiring_manager->jobs()->get();
+        $this->jobs = $this->hiring_manager->jobs()->where('is_deleted', '=', IsDeletedJob::NO->value)->get();
         $this->total_jobs = $this->jobs->count();
 
         foreach ($this->jobs as $job) {
-            $this->total_applicants += $job->applicants()->count();
-
-
+            $this->total_applicants += $job->applicants()
+                ->whereHas('user', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+                })
+                ->get()
+                ->count();
             $this->total_pending += $this->countStatus($job, JobStatus::PENDING->value);
             $this->total_interview += $this->countStatus($job, JobStatus::INTERVIEW->value);
             $this->total_hired += $this->countStatus($job, JobStatus::HIRED->value);
@@ -36,8 +41,13 @@ class Dashboard extends Component
     }
     public function countStatus($job, $status)
     {
-        $total = $job->applicants()->wherePivot('status', '=', $status)->count();
-
+        $total = $job->applicants()
+            ->whereHas('user', function ($query) {
+                $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+            })
+            ->wherePivot('status', '=', $status)
+            ->get()
+            ->count();
         return $total;
     }
     public function render()

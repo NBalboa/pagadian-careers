@@ -26,7 +26,7 @@
                 </div>
                 <input type="search" id="default-search" wire:model.live="search"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder=""" required />
+                    placeholder="" required />
                 <button type="submit" wire:click="searchJob"
                     class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
             </div>
@@ -61,12 +61,13 @@
             <x-table-header-item>Salary</x-table-header-item>
             <x-table-header-item>No. of Applicants</x-table-header-item>
             <x-table-header-item>Is Closed?</x-table-header-item>
-            <x-table-header-item>Links</x-table-header-item>
+            <x-table-header-item>Applicants</x-table-header-item>
         </x-table-header>
         <tbody>
             @foreach ($jobs as $job)
                 <x-table-row class="cursor-pointer">
-                    <x-table-row-item>{{ $job->job_title }}</x-table-row-item>
+                    <x-table-row-item isClickable={{ true }}
+                        function="goToJobPreview({{ $job->id }})">{{ $job->job_title }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getJobSetup($job->job_setup) }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getJobType($job->job_type) }}</x-table-row-item>
                     <x-table-row-item>{{ $job->salary }}</x-table-row-item>
@@ -84,11 +85,10 @@
                         </div>
                     </x-table-row-item>
                     <x-table-row-item>
-                        <a href="/my/job/preview/{{ $job->id }}"
-                            class="font-medium text-blue-600  hover:underline">Preview</a>
+
                         @if ($this->getTotalApplicants($job) > 0)
                             <a href="/my/job/{{ $job->id }}/applicants"
-                                class="font-medium text-green-600  hover:underline">Applicants</a>
+                                class="font-medium text-green-600  hover:underline">Details</a>
                         @endif
                     </x-table-row-item>
                 </x-table-row>

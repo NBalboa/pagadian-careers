@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\IsJobDeleted;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->date('start_hiring');
             $table->integer('hired_no')->default(0);
             $table->date('end_hiring');
+            $table->tinyInteger('is_deleted')->default(IsJobDeleted::NO->value);
             $table->timestamps();
         });
     }

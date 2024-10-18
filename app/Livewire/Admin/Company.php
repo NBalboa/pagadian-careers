@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Enums\IsDeletedCompany;
 use App\Models\Address;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -17,8 +18,6 @@ class Company extends Component
 
     public function goToEditCompany($id)
     {
-
-
         return redirect('company/edit/' . $id);
     }
 
@@ -30,7 +29,8 @@ class Company extends Component
     #[Layout('components.admin-layout')]
     public function render()
     {
-        $companies = CompanyModels::with('address');
+        $companies = CompanyModels::with('address')
+            ->where('is_deleted', "=", IsDeletedCompany::NO->value);
         if (!empty($this->search)) {
 
             $search = $this->search;

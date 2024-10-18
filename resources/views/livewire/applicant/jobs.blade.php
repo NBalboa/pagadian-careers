@@ -56,9 +56,9 @@
 
     @if (count($recommendations) > 0)
         @foreach ($recommendations as $recommendation)
-            <div
+            <div wire:loading.remove
                 class="group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
-                <a href="#"
+                <a href="/jobs/{{ $recommendation['job']->id }}"
                     class="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4">
                     <div class="group relative h-16 w-16 overflow-hidden rounded-lg">
                         <img src="{{ asset('storage/' . $recommendation['job']->hiring_manager->company->profile) }}"
@@ -67,7 +67,8 @@
                 </a>
                 <div class="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
                     <h3 class="text-sm text-gray-600">{{ $recommendation['job']->hiring_manager->company->name }}</h3>
-                    <a href="#" class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl">
+                    <a href="/jobs/{{ $recommendation['job']->id }}"
+                        class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl">
                         {{ $recommendation['job']->job_title }}
                         <span class="font-normal text-sm">
                             ({{ $recommendation['job']->hiring_manager->company->address->street }},
@@ -151,9 +152,9 @@
     @else
         @if (count($jobs) > 0)
             @foreach ($jobs as $job)
-                <div
+                <div wire:loading.remove
                     class="group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
-                    <a href="#"
+                    <a href="/jobs/{{ $job->id }}"
                         class="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4">
                         <div class="group relative h-16 w-16 overflow-hidden rounded-lg">
                             <img src="{{ asset('storage/' . $job->hiring_manager->company->profile) }}" alt=""
@@ -162,7 +163,8 @@
                     </a>
                     <div class="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
                         <h3 class="text-sm text-gray-600">{{ $job->hiring_manager->company->name }}</h3>
-                        <a href="#" class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl">
+                        <a href="/jobs/{{ $job->id }}"
+                            class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl">
                             {{ $job->job_title }}
                             <span class="font-normal text-sm">
                                 ({{ $job->hiring_manager->company->address->street }},

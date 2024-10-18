@@ -3,6 +3,7 @@
 namespace App\Livewire\Hm;
 
 use App\Enums\ApplicantGender;
+use App\Enums\IsDeletedUser;
 use App\Enums\JobStatus;
 use App\Enums\Layouts;
 use App\Mail\JobStatusHired;
@@ -158,7 +159,10 @@ class ApplicantDetails extends Component
 
     public function render()
     {
-        $applicants = $this->job->applicants()->with('user', 'address');
+        $applicants = $this->job->applicants()->with('user', 'address')
+            ->whereHas('user', function ($query) {
+                $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+            });
 
         if (!empty($this->search)) {
             $search = $this->search;

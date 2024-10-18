@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Enums\ApplicantGender;
+use App\Enums\IsDeletedUser;
 use App\Enums\Layouts;
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,6 @@ class Applicants extends Component
     public $FEMALE = ApplicantGender::FEMALE->value + 1;
     public $NOT_VERIFIED = 0 + 1;
     public $VERIFIED = 1 + 1;
-
     public function searchJobs()
     {
         $this->resetPage();
@@ -58,7 +58,10 @@ class Applicants extends Component
     public function render()
     {
 
-        $applicants = Applicant::with('user', 'address');
+        $applicants = Applicant::with('user', 'address')
+            ->whereHas('user', function ($query) {
+                $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+            });
 
         if (!empty($this->search)) {
             $search = $this->search;

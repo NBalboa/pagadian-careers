@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Admin;
 
+use App\Enums\IsDeletedUser;
 use App\Models\Address;
 use App\Models\Company;
 use Livewire\Attributes\Layout;
 use App\Models\HiringManager as ModelsHirinManager;
+use App\Models\HiringManager;
 use App\Models\User;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -19,7 +21,6 @@ class EditHiringManager extends Component
 
     public $telephone_no;
     public $middle_name;
-
 
     #[Rule('required|string')]
     public $first_name;
@@ -55,12 +56,10 @@ class EditHiringManager extends Component
     }
     public function delete($id)
     {
-        $hiring_manager = HiringManager::with('user')->findOrFail($id);
+        $hiring_manager = ModelsHirinManager::with('user')->findOrFail($id);
         $user = User::findOrFail($hiring_manager->user->id);
-        $address = Address::findOrFail($hiring_manager->address_id);
-        $hiring_manager->delete();
-        $user->delete();
-        $address->delete();
+        $user->is_deleted = IsDeletedUser::YES->value;
+        $user->save();
 
         redirect('hiringmanager')->with(['success' => 'Hiring Manager deleted successfully']);
     }

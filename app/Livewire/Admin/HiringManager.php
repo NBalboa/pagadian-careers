@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Address;
+use App\Enums\IsDeletedCompany;
+use App\Enums\IsDeletedUser;
 use App\Models\Company;
 use App\Models\HiringManager as ModelsHiringManager;
-use App\Models\User;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -29,6 +29,11 @@ class HiringManager extends Component
         return redirect('/hiringmanager/edit/' . $id);
     }
 
+    public function goToEditCompany($id)
+    {
+        return redirect('company/edit/' . $id);
+    }
+
     public function searchJobs()
     {
         $this->resetPage();
@@ -36,9 +41,13 @@ class HiringManager extends Component
     #[Layout('components.admin-layout')]
     public function render()
     {
-        $hiring_managers = ModelsHiringManager::with('user', 'company', 'address');
-
-
+        $hiring_managers = ModelsHiringManager::with('user', 'company', 'address')
+            ->whereHas('user', function ($query) {
+                $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+            })
+            ->whereHas('company', function ($query) {
+                $query->where('is_deleted', '=', IsDeletedCompany::NO->value);
+            });
 
         if (!empty($this->search)) {
             $search = $this->search;

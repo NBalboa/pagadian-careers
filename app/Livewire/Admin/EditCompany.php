@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Enums\IsDeletedCompany;
 use App\Models\Address;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
@@ -50,15 +51,14 @@ class EditCompany extends Component
     public function delete($id)
     {
         $company = Company::with('address')->findOrFail($id);
-        $address = Address::findOrFail($company->address_id);
         if (Storage::disk("public")->exists($company['profile'])) {
             Storage::disk('public')->delete($company['profile']);
         }
 
-        $company->delete();
-        $address->delete();
+        $company->is_deleted = IsDeletedCompany::YES->value;
+        $company->save();
 
-        redirect('hiringmanager')->with(['success' => 'Hiring Manager deleted successfully']);
+        redirect('/company')->with(['success' => 'Company deleted successfully']);
     }
 
     function changeCompanyDetails()

@@ -1,5 +1,9 @@
     <div class="p-4 md:p-5">
-        <h2 class="text-3xl mb-2">Edit Jobs</h2>
+        <h2 class="text-3xl mb-2">Edit Jobs
+            <button type="button"
+                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                wire:click="deleteJob" wire:confirm="Are you sure to delete this job?">Delete</button>
+        </h2>
         @if (session('success'))
             <h3 class="text-green-400 text-center pt-2 pb-2">{{ session('success') }}</h3>
         @endif

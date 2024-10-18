@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Hm;
 
+use App\Enums\IsDeletedJob;
 use App\Enums\IsJobClose;
 use App\Enums\JobSetup;
 use App\Enums\JobType;
@@ -38,7 +39,10 @@ class Job extends Component
     {
         return $job->applicants()->get()->count();
     }
-
+    function goToJobPreview($id)
+    {
+        return redirect('/my/job/preview/' . $id);
+    }
     public function isCloseJob($id)
     {
         $job = Work::find($id);
@@ -69,7 +73,7 @@ class Job extends Component
     {
         $hiring_manager = HiringManager::where('user_id', Auth::user()->id)->first();
 
-        $jobs = $hiring_manager->jobs();
+        $jobs = $hiring_manager->jobs()->where('is_deleted', "=", IsDeletedJob::NO->value);
         // dd($this->job_setup);
         if (!empty($this->search)) {
             $jobs = $jobs->whereAny(

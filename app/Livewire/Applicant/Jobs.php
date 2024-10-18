@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Applicant;
 
+use App\Enums\IsDeletedCompany;
+use App\Enums\IsDeletedJob;
+use App\Enums\IsDeletedUser;
 use App\Enums\IsJobClose;
 use App\Enums\JobSetup;
 use App\Enums\JobType;
@@ -43,7 +46,7 @@ class Jobs extends Component
         $this->applicant =
             Applicant::where('user_id', Auth::user()->id)->firstOrFail();
 
-        $this->companies = Company::all();
+        $this->companies = Company::where('is_deleted', "=", IsDeletedCompany::NO->value)->get();
     }
 
     public function getJobType($value)
@@ -113,7 +116,17 @@ class Jobs extends Component
             ->where('is_closed', '=', IsJobClose::NO)
             ->whereColumn('max_applicants_hired', '>', 'hired_no')
             ->whereDate('start_hiring', '<=', Date::now())
-            ->whereDate('end_hiring', '>=', 'start_hiring');
+            ->whereDate('end_hiring', '>=', 'start_hiring')
+            ->where('is_deleted', '=', IsDeletedJob::NO->value)
+            ->whereHas('hiring_manager', function ($query) {
+                $query->whereHas('user', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+                });
+
+                $query->whereHas('company', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedCompany::NO->value);
+                });
+            });
 
         if (!empty($this->search)) {
             $search = $this->search;

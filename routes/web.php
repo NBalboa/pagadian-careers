@@ -4,7 +4,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\ApplicantOnly;
 use App\Http\Middleware\HiringManagerOnly;
+use App\Http\Middleware\IsApplicantExist;
+use App\Http\Middleware\IsCompanyExist;
+use App\Http\Middleware\IsJobExist;
 use App\Http\Middleware\isLogin;
+use App\Http\Middleware\IsUserExist;
 use App\Http\Middleware\isUserForgotPassword;
 use App\Http\Middleware\isVerifiedForgotPassword;
 use App\Livewire\Admin\AdminDashboard;
@@ -39,18 +43,12 @@ use App\Livewire\Hm\MyCompany;
 use App\Livewire\Hm\PreviewJob;
 use App\Livewire\MyAccountSettings;
 use App\Livewire\VerifyOTP;
-use App\Mail\HiringManagerCreated;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('test', function () {
-//     Mail::to('nickojek2x@gmail.com')->send(new HiringManagerCreated());
-//     return 'done';
-// });
 
 Route::get('/account-settings', MyAccountSettings::class);
 
@@ -64,39 +62,46 @@ Route::middleware([isLogin::class, 'guest'])->group(function () {
 Route::post('/signin', [UserController::class, 'signin']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
-Route::middleware([AdminOnly::class, 'auth'])->group(function () {
-    Route::get('/dashboard', AdminDashboard::class);
-    Route::get('/hiringmanager', HiringManager::class);
-    Route::get('/hiringmanager/create', CreateHiringManager::class);
-    Route::get('/hiringmanager/edit/{id}', EditHiringManager::class);
-    Route::get('/applicants', Applicants::class);
-    Route::get('/company', Company::class);
-    Route::get('/company/create', CreateCompany::class);
-    Route::get('/applicants/profile/{applicant}', AdminApplicantProfile::class);
-    Route::get('/company/edit/{id}', EditCompany::class);
-});
-
-Route::middleware([ApplicantOnly::class, 'auth'])->group(function () {
-    Route::get('/my/profile', Profile::class);
-    Route::get('/my/profile/create/education', CreateEducation::class);
-    Route::get('/my/profile/edit/education/{id}', EditEducation::class);
-    Route::get('/my/profile/create/skill', CreateSkill::class);
-    Route::get('/my/profile/create/experience', CreateExperience::class);
-    Route::get('/my/profile/edit/experience/{id}', EditExperience::class);
-    Route::get('/my/account/setting', AccountSettings::class);
-    Route::get('/my/jobs', MyJobs::class);
-    Route::get('/jobs', Jobs::class);
-    Route::get('/jobs/{job}', JobDetails::class);
-});
+Route::middleware([IsUserExist::class, 'auth'])->group(function () {
 
 
-Route::middleware([HiringManagerOnly::class, 'auth'])->group(function () {
-    Route::get('/hiringmanager/dashboard', Dashboard::class);
-    Route::get('/my/job', Job::class);
-    Route::get('/my/job/create', CreateJob::class);
-    Route::get('/my/job/edit/{job}', EditJob::class);
-    Route::get('/my/job/{job}/applicants', ApplicantDetails::class);
-    Route::get('/my/job/{job}/applicant/profile/{applicant}', ApplicantProfile::class);
-    Route::get('/my/company', MyCompany::class);
-    Route::get('/my/job/preview/{job}', PreviewJob::class);
+    Route::middleware([AdminOnly::class])->group(function () {
+        Route::get('/dashboard', AdminDashboard::class);
+        Route::get('/hiringmanager', HiringManager::class);
+        Route::get('/hiringmanager/create', CreateHiringManager::class);
+        Route::get('/hiringmanager/edit/{id}', EditHiringManager::class);
+        Route::get('/applicants', Applicants::class);
+        Route::get('/company', Company::class);
+        Route::get('/company/create', CreateCompany::class);
+        Route::get('/applicants/profile/{applicant}', AdminApplicantProfile::class)->middleware(IsApplicantExist::class);
+        Route::get('/company/edit/{id}', EditCompany::class);
+    });
+
+    Route::middleware([ApplicantOnly::class])->group(function () {
+        Route::get('/my/profile', Profile::class);
+        Route::get('/my/profile/create/education', CreateEducation::class);
+        Route::get('/my/profile/edit/education/{id}', EditEducation::class);
+        Route::get('/my/profile/create/skill', CreateSkill::class);
+        Route::get('/my/profile/create/experience', CreateExperience::class);
+        Route::get('/my/profile/edit/experience/{id}', EditExperience::class);
+        Route::get('/my/account/setting', AccountSettings::class);
+        Route::get('/my/jobs', MyJobs::class);
+        Route::get('/jobs', Jobs::class);
+        Route::get('/jobs/{job}', JobDetails::class)->middleware(IsJobExist::class);
+    });
+
+
+
+    Route::middleware([IsCompanyExist::class, HiringManagerOnly::class])->group(function () {
+        Route::get('/hiringmanager/dashboard', Dashboard::class);
+        Route::get('/my/job', Job::class);
+        Route::get('/my/company', MyCompany::class);
+        Route::get('/my/job/create', CreateJob::class);
+        Route::get('/my/job/{job}/applicants', ApplicantDetails::class);
+        Route::get('/my/job/{job}/applicant/profile/{applicant}', ApplicantProfile::class)->middleware(IsApplicantExist::class);
+        Route::middleware([IsJobExist::class])->group(function () {
+            Route::get('/my/job/edit/{job}', EditJob::class);
+            Route::get('/my/job/preview/{job}', PreviewJob::class);
+        });
+    });
 });

@@ -19,6 +19,9 @@
             </div>
         </div>
     </div>
+    @if (session('success'))
+        <h3 class="text-green-400 text-center pt-2 pb-2">{{ session('success') }}</h3>
+    @endif
     <x-table-layout>
         <x-table-header>
             <x-table-header-item>Name</x-table-header-item>

@@ -72,8 +72,11 @@
                     @else
                         <x-table-row-item>
                             {{ $applicant['applicant']->address->street }},
+                            <br />
                             {{ $applicant['applicant']->address->barangay }},
+                            <br />
                             {{ $applicant['applicant']->address->city }},
+                            <br />
                             {{ $applicant['applicant']->address->province }}
                         </x-table-row-item>
                     @endif

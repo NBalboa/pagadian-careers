@@ -107,13 +107,14 @@
                 <x-table-header-item>Job Title</x-table-header-item>
                 <x-table-header-item>Company Name</x-table-header-item>
                 <x-table-header-item>Address</x-table-header-item>
-                <x-table-header-item>Status</x-table-header-item>
                 <x-table-header-item>Remarks</x-table-header-item>
+                <x-table-header-item>Status</x-table-header-item>
             </x-table-header>
             <tbody>
                 @foreach ($jobs as $job)
                     <x-table-row>
-                        <x-table-row-item>{{ $job->job_title }}</x-table-row-item>
+                        <x-table-row-item isClickable={{ true }}
+                            function="goToJob({{ $job->id }})">{{ $job->job_title }}</x-table-row-item>
                         <x-table-row-item>{{ $job->hiring_manager->company->name }}</x-table-row-item>
                         <x-table-row-item>
                             {{ $job->hiring_manager->company->address->street }},

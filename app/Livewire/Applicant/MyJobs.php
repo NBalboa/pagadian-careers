@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Applicant;
 
+use App\Enums\IsDeletedCompany;
+use App\Enums\IsDeletedJob;
+use App\Enums\IsDeletedUser;
 use App\Enums\JobStatus;
 use App\Enums\JobType;
 use App\Enums\Layouts;
@@ -39,9 +42,24 @@ class MyJobs extends Component
         $this->job_histories = $this->applicant->jobs()->with('hiring_manager')->wherePivot('status', '=', JobStatus::HIRED)->get();
         $this->companies = $this->applicant->jobs()
             ->with('hiring_manager.company')
+            ->where('is_deleted', '=', IsDeletedJob::NO->value)
+            ->whereHas('hiring_manager', function ($query) {
+                $query->whereHas('user', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+                });
+
+                $query->whereHas('company', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedCompany::NO->value);
+                });
+            })
             ->get()
             ->pluck('hiring_manager.company')
             ->unique();
+    }
+
+    public function goToJob($id)
+    {
+        return redirect("/jobs/" . $id);
     }
     public function getJobStatus($value)
     {
@@ -49,7 +67,18 @@ class MyJobs extends Component
     }
     public function getJobStatusTotal($status)
     {
-        return $this->applicant->jobs()->wherePivot('status', '=', $status)->count();
+        return $this->applicant->jobs()
+            ->where('is_deleted', '=', IsDeletedJob::NO->value)
+            ->whereHas('hiring_manager', function ($query) {
+                $query->whereHas('user', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+                });
+
+                $query->whereHas('company', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedCompany::NO->value);
+                });
+            })
+            ->wherePivot('status', '=', $status)->count();
     }
     public function searchJobs()
     {
@@ -69,7 +98,17 @@ class MyJobs extends Component
     public function render()
     {
 
-        $jobs = $this->applicant->jobs()->with('hiring_manager');
+        $jobs = $this->applicant->jobs()->with('hiring_manager')
+            ->where('is_deleted', '=', IsDeletedJob::NO->value)
+            ->whereHas('hiring_manager', function ($query) {
+                $query->whereHas('user', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedUser::NO->value);
+                });
+
+                $query->whereHas('company', function ($query) {
+                    $query->where('is_deleted', '=', IsDeletedCompany::NO->value);
+                });
+            });
 
         if (!empty($this->search)) {
             $search = $this->search;

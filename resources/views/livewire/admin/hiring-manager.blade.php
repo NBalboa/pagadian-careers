@@ -35,11 +35,11 @@
     <x-table-layout>
         <x-table-header>
             <x-table-header-item>Name</x-table-header-item>
+            <x-table-header-item>Company</x-table-header-item>
             <x-table-header-item>Email</x-table-header-item>
-            <x-table-header-item>Address</x-table-header-item>
             <x-table-header-item>Contact No.</x-table-header-item>
             <x-table-header-item>Telephone No.</x-table-header-item>
-            <x-table-header-item>Company</x-table-header-item>
+            <x-table-header-item>Address</x-table-header-item>
         </x-table-header>
         <tbody>
             @foreach ($hiring_managers as $hiring_manager)
@@ -49,14 +49,12 @@
                         {{ $hiring_manager->user->first_name }}
                         {{ $hiring_manager->user->last_name }}
                     </x-table-row-item>
-                    <x-table-row-item>
-                        {{ $hiring_manager->user->email }}
+                    <x-table-row-item isClickable={{ true }}
+                        function="goToEditCompany({{ $hiring_manager->company->id }})">
+                        {{ $hiring_manager->company->name }}
                     </x-table-row-item>
                     <x-table-row-item>
-                        {{ mb_strtolower($hiring_manager->address->street) }},
-                        {{ mb_strtolower($hiring_manager->address->barangay) }},
-                        {{ mb_strtolower($hiring_manager->address->city) }},
-                        {{ mb_strtolower($hiring_manager->address->province) }}
+                        {{ $hiring_manager->user->email }}
                     </x-table-row-item>
                     <x-table-row-item>
                         {{ $hiring_manager->user->phone_no }}
@@ -65,7 +63,10 @@
                         {{ $hiring_manager->user->telephone_no }}
                     </x-table-row-item>
                     <x-table-row-item>
-                        {{ $hiring_manager->company->name }}
+                        {{ mb_strtolower($hiring_manager->address->street) }},
+                        {{ mb_strtolower($hiring_manager->address->barangay) }},
+                        {{ mb_strtolower($hiring_manager->address->city) }},
+                        {{ mb_strtolower($hiring_manager->address->province) }}
                     </x-table-row-item>
                 </x-table-row>
             @endforeach

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Hm;
 
+use App\Enums\IsDeletedJob;
 use App\Enums\Layouts;
 use App\Models\Education;
 use App\Models\HiringManager;
@@ -71,6 +72,7 @@ class EditJob extends Component
 
     public function mount(Work $job)
     {
+
         $this->hiring_manager = HiringManager::where('user_id', Auth::user()->id)->first();
         $this->job = $this->hiring_manager->jobs()->where('id', $job->id)->firstOrFail();
         $this->job_title = $this->job->job_title;
@@ -99,7 +101,13 @@ class EditJob extends Component
         $this->end_hiring = $this->job->end_hiring;
     }
 
+    public function deleteJob()
+    {
+        $this->job->is_deleted = IsDeletedJob::YES->value;
+        $this->job->save();
 
+        return redirect('/my/job');
+    }
     public function save()
     {
         $this->total_score
