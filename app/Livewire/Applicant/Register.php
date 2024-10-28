@@ -7,6 +7,7 @@ use App\Enums\Layouts;
 use App\Enums\UserRole;
 use App\Models\Applicant;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -63,16 +64,18 @@ class Register extends Component
 
             Applicant::create([
                 'user_id' => $user->id,
-                'gender' => $this->gender,
+                'gender' => $this->gender - 1,
                 'profile' => ($this->gender - 1 === 0 ? 'profile/user/male.jpg' : 'profile/user/female.jpg'),
             ]);
 
+            Auth::login($user);
+            session()->regenerate();
+
             DB::commit();
-            return redirect('/')->with(['success' => 'Hiring Manager created successfully']);
+            return redirect('/jobs')->with(['success' => 'Applicant created successfully']);
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to create Applicant');
-            dd($e);
-            Log::error('Error creating Hiring Manager: ' . $e->getMessage());
+            Log::error('Error creating Applicant: ' . $e->getMessage());
             DB::rollBack();
         }
     }

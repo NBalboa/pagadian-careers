@@ -48,7 +48,6 @@
             <x-table-header-item>Gender</x-table-header-item>
             <x-table-header-item>Verified</x-table-header-item>
             <x-table-header-item>Verified By</x-table-header-item>
-            <x-table-header-item>Action</x-table-header-item>
         </x-table-header>
         <tbody>
             @foreach ($applicants as $applicant)
@@ -62,10 +61,12 @@
                         {{ $applicant->user->email }}
                     </x-table-row-item>
                     <x-table-row-item>
-                        {{ mb_strtolower($applicant->address->street) }},
-                        {{ mb_strtolower($applicant->address->barangay) }},
-                        {{ mb_strtolower($applicant->address->city) }},
-                        {{ mb_strtolower($applicant->address->province) }}
+                        @if ($applicant->address)
+                            {{ mb_strtolower($applicant->address->street) }},
+                            {{ mb_strtolower($applicant->address->barangay) }},
+                            {{ mb_strtolower($applicant->address->city) }},
+                            {{ mb_strtolower($applicant->address->province) }}
+                        @endif
                     </x-table-row-item>
                     <x-table-row-item>
                         {{ $applicant->user->phone_no }}
@@ -88,11 +89,13 @@
                     <x-table-row-item>
                         {{ $applicant->verifier }}
                     </x-table-row-item>
-                    <x-table-row-item>
-                        <a href="#" class="font-medium text-blue-600  hover:underline">Profile</a>
-                    </x-table-row-item>
                 </x-table-row>
             @endforeach
         </tbody>
     </x-table-layout>
+    @if ($applicants->links())
+        <div class="mt-5">
+            {{ $applicants->links('pagination::tailwind') }}
+        </div>
+    @endif
 </div>

@@ -1,4 +1,4 @@
-<div>
+<div class="p-4">
     <div
         class="mb-10 group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
         <a href="#"
@@ -94,7 +94,7 @@
                 class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
                 @if ($score)
                     <div>Score:<span class="block text-center rounded-full bg-orange-100 px-2 py-0.5 text-green-900">
-                            {{ $score }}%
+                            {{ $score['total'] }}%
                         </span>
                     </div>
                 @endif
@@ -124,6 +124,40 @@
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
                         wire:click="applyJob({{ $job->id }})">Apply</button>
                 @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="px-5 md:px-[200px] pb-2 ">
+        <div class="bg-gray-100 gap-8 sm:grid sm:grid-cols-1 items-center p-4 rounded shadow-xl">
+            <div>
+                <dl>
+                    <dt class="text-sm font-medium text-gray-500">Skills</dt>
+                    <dd class="flex items-center mb-3">
+                        <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                            <div class="bg-blue-600 h-2.5 rounded" style="width: {{ $score['skill'] }}%"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-500">{{ $score['skill'] }}%</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt class="text-sm font-medium text-gray-500">Educations</dt>
+                    <dd class="flex items-center mb-3">
+                        <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                            <div class="bg-blue-600 h-2.5 rounded" style="width: {{ $score['edu'] }}%"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-500">{{ $score['edu'] }}%</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt class="text-sm font-medium text-gray-500">Experience</dt>
+                    <dd class="flex items-center mb-3">
+                        <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                            <div class="bg-blue-600 h-2.5 rounded" style="width: {{ $score['exp'] }}%"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-500">{{ $score['exp'] }}%</span>
+                    </dd>
+                </dl>
             </div>
         </div>
     </div>

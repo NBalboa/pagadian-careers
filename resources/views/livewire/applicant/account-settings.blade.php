@@ -15,9 +15,10 @@
                         </div>
                     @endif
                 </div>
-                @if ($applicant_resume)
-                    <div>
-                        <a href="{{ asset('storage/' . $applicant->resume) }}" class="text-blue-500">My Resume</a>
+                @if ($applicant->resume)
+                    <div class="mt-4">
+                        <a href="{{ asset('storage/' . $applicant->resume) }}"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Resume</a>
                     </div>
                 @endif
                 <div>
@@ -182,9 +183,9 @@
                 @else
                     <p>No Address Yet</p>
                 @endif
-                <div <label for="street" class="block mb-2 text-sm font-medium text-gray-900 ">
-                    House No./Street<x-required />
-                    </label>
+                <div>
+                    <label for="street" class="block mb-2 text-sm font-medium text-gray-900">
+                        House No./Street <x-required /> </label>
                     <input type="text" name="street" id="street"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
                         required wire:model="street" />

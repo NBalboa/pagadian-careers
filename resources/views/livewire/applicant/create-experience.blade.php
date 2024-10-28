@@ -65,50 +65,43 @@
                 class=" text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 wire:click='addApplicantExperience'>Add Education</button>
         </div>
-
-        <div class="bg-gray-100 rounded-lg shadow  my-2 p-3 border border-4 border-blue-700">
-            <h3 class="text-md font-bold">Experience</h3>
-            @foreach ($applicant_experiences as $index => $experience)
-                @if (count($applicant_experiences) - 1 !== $index)
-                    <div class="border-b-2 border-gray-200 py-2">
-                        <div class="relative">
-                            <h4 class="font-bold text-md">{{ $experience->title }}<span class="font-normal text-sm">
-                                    ({{ $experience->start }}-{{ $experience->end }})
+        <div class="bg-gray">
+            <div class="col-span-4 sm:col-span-9">
+                <div class="bg-gray-100 shadow-xl shadow rounded-lg p-6">
+                    <h2 class="text-xl font-bold mt-6 mb-4  gap-2">
+                        Education
+                    </h2>
+                    @foreach ($applicant_experiences as $index => $experience)
+                        <div class="mb-6">
+                            <div class="flex justify-between flex-wrap gap-2 w-full">
+                                <span class="text-gray-700 font-bold">
+                                    {{ $experience->title }}
+                                    <div class="mt-2">
+                                        <a href="/my/profile/edit/experience/{{ $experience->id }}"
+                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
+                                                class="fa-solid fa-pen-to-square"></i></a>
+                                        <button wire:click="delete({{ $experience->id }})"
+                                            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
                                 </span>
-                                <a href="/my/profile/edit/experience/{{ $experience->id }}"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
-                                        class="fa-solid fa-pen-to-square"></i></a>
-                                <button wire:click="delete({{ $experience->id }})"
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </h4>
-                            <p class="absolute -bottom-3">{{ $experience->company_name }}</p>
+                                <p>
+                                    <span class="text-gray-700 mr-2">
+                                        {{ $experience->company_name }}
+                                    </span>
+                                    <span class="text-gray-700">
+                                        {{ $experience->start }} -
+                                        {{ $experience->end }}
+                                    </span>
+                                </p>
+                            </div>
+                            <p class="mt-2">
+                                {{ $experience->description }}
+                            </p>
                         </div>
-                        <p class="mt-2">
-                            {{ $experience->description }}
-                        </p>
-                    </div>
-                @else
-                    <div class=" py-2">
-                        <div class="relative">
-                            <h4 class="font-bold text-md">{{ $experience->title }}<span class="font-normal text-sm">
-                                    ({{ $experience->start }}-{{ $experience->end }})
-                                </span>
-                                <a href="/my/profile/edit/experience/{{ $experience->id }}"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
-                                        class="fa-solid fa-pen-to-square"></i></a>
-                                <button wire:click="delete({{ $experience->id }})"
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </h4>
-                            <p class="absolute -bottom-3">{{ $experience->company_name }}</p>
-                        </div>
-                        <p class="mt-2">
-                            {{ $experience->description }}
-                        </p>
-                    </div>
-                @endif
-            @endforeach
+                    @endforeach
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -43,11 +43,10 @@ use App\Livewire\Hm\MyCompany;
 use App\Livewire\Hm\PreviewJob;
 use App\Livewire\MyAccountSettings;
 use App\Livewire\VerifyOTP;
+use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Welcome::class);
 
 
 Route::get('/account-settings', MyAccountSettings::class);

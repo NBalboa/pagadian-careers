@@ -95,7 +95,6 @@ class Job extends Component
         }
 
         $jobs = $jobs->paginate(10);
-
         foreach ($jobs as $job) {
             $this->isClosed($job);
         }

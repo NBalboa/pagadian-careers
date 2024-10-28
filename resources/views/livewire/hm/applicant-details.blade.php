@@ -105,7 +105,7 @@
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                             wire:model="remarks.{{ $applicant['applicant']->id }}"></textarea>
                     </x-table-row-item>
-                    <x-table-row-item>{{ $applicant['score'] }}%</x-table-row-item>
+                    <x-table-row-item>{{ $applicant['score']['total'] }}%</x-table-row-item>
                     <x-table-row-item>{{ $applicant['rank'] }}</x-table-row-item>
                     <x-table-row-item>
                         <div class="flex flex-row gap-x-4 items-center">
@@ -119,4 +119,9 @@
             @endforeach
         </tbody>
     </x-table-layout>
+    @if ($applicants->links())
+        <div class="mt-5">
+            {{ $applicants->links('pagination::tailwind') }}
+        </div>
+    @endif
 </div>

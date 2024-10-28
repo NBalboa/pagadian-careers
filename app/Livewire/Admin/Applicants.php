@@ -98,7 +98,6 @@ class Applicants extends Component
 
 
         $applicants = $applicants->paginate(10);
-
         foreach ($applicants as $applicant) {
             $this->verified[$applicant->id] = $applicant->verified === 1 ? true : false;
         }

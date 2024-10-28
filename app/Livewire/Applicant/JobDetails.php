@@ -42,7 +42,6 @@ class JobDetails extends Component
 
     public function getScore($job)
     {
-
         $jobRecommendation = new JobRecommendationService();
         if (
             !$this->applicant->educations()->get()->isEmpty()

@@ -111,7 +111,7 @@
 
                         <div>Score:<span
                                 class="block text-center rounded-full bg-orange-100 px-2 py-0.5 text-green-900">
-                                {{ $recommendation['score'] }}%
+                                {{ $recommendation['score']['total'] }}%
                             </span>
                         </div>
                         <div>Required Experience:

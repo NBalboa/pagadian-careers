@@ -13,10 +13,37 @@ class JobRecommendationService
     {
         $total_score = 0;
 
-        $total_score += $this->getEducationScore($job, $applicant);
-        $total_score += $this->getSkillScore($job, $applicant);
-        $total_score += $this->getExperienceScore($job, $applicant);
-        return round(($total_score / 10) * 100, 2);
+        $scores_rating_from_job = $job->score()->get()->first();
+        $job_skill_score = $scores_rating_from_job->skill;
+        $job_edu_score = $scores_rating_from_job->education;
+        $job_exp_score = $scores_rating_from_job->experience;
+
+        $job_total_score = $job_skill_score + $job_edu_score + $job_exp_score;
+
+        $education_score =
+            $this->getEducationScore($job, $applicant);
+
+        $skill_score =
+            $this->getSkillScore($job, $applicant);
+
+        $experience_score
+            = $this->getExperienceScore($job, $applicant);
+
+        $total_score += $education_score;
+        $total_score += $skill_score;
+        $total_score += $experience_score;
+
+        $total_score_percent = $job_total_score > 0 ? round(($total_score / $job_total_score) * 100, 2) : 0;
+        $education_score_percent = $job_edu_score > 0 ? round(($education_score / $job_edu_score) * 100, 2) : 0;
+        $experience_score_percent = $job_exp_score > 0 ? round(($experience_score / $job_exp_score) * 100, 2) : 0;
+        $skill_score_percent = $job_skill_score > 0 ? round(($skill_score / $job_skill_score) * 100, 2) : 0;
+
+        return [
+            "total" => $total_score_percent,
+            'skill' => $skill_score_percent,
+            'exp' => $experience_score_percent,
+            'edu' => $education_score_percent
+        ];
     }
 
     protected function getExperienceScore($job, $applicant)

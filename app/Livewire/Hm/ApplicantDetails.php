@@ -90,10 +90,19 @@ class ApplicantDetails extends Component
                 return $b['score'] <=> $a['score'];
             });
 
+            $rankedResults = [];
+            $rank = 1;
+            $prevScore = null;
+
             foreach ($result as $index => $item) {
-                $result[$index]['rank'] = $index + 1;
+                if ($prevScore !== $item['score']) {
+                    $rank = $index + 1;
+                }
+                $item['rank'] = $rank;
+                $rankedResults[] = $item;
+                $prevScore = $item['score'];
             }
-            return $result;
+            return $rankedResults;
         } else {
             return [];
         }
@@ -197,6 +206,7 @@ class ApplicantDetails extends Component
         $applicants = $applicants->get();
 
         $applicants = $this->paginate($this->getApplicantScore($applicants), 10);
+
         return view(
             'livewire.hm.applicant-details',
             [

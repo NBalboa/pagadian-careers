@@ -40,7 +40,7 @@
             </div>
             <div>
                 <label for="educations" class="block mb-2 text-sm font-medium text-gray-900 ">
-                    Educations</label>
+                    Program/Course</label>
                 <input type="text" list="educations" name="input_educations" disabled
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     wire:model.live="input_educations" />
@@ -63,10 +63,6 @@
                 <button
                     class=" text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='saveChanges'>Save Changes</button>
-                <button
-                    class=" text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    wire:click='saveEducation'>Add Education</button>
-
             </div>
         </div>
     </div>

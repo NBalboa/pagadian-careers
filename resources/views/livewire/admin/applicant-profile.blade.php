@@ -1,124 +1,151 @@
 <div>
-    <div class="mt-2 pb-2 ms-3">
-        <a href="/applicants"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2">Back</a>
-    </div>
-    <div>
-
-        <div class="mt-2 bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
-
-            <div>
-                <div class="rounded-full overflow-hidden h-32 w-32 border border-4 border-gray-500 ">
-                    <img src="{{ asset('storage/' . $applicant->profile) }}" alt="sample image" class="object-cover">
-                </div>
-            </div>
-            <div class="mt-2">
-                <h3 class="text-xl font-bold tracking-light">{{ ucfirst($applicant->user->first_name) }}
-                    {{ ucfirst($applicant->user->last_name) }} <span
-                        class="font-normal text-sm">({{ $this->getGender($applicant->gender) }})</span>
-                </h3>
-                @if ($address)
-                    <p class="text-sm">{{ $address->street }}, {{ $address->barangay }}, {{ $address->city }},
-                        {{ $address->province }}</p>
-                @endif
-            </div>
-
-            @if ($applicant->resume)
-                <div>
-                    <a href="{{ asset('storage/' . $applicant->resume) }}" class="text-blue-500">Applicant Resume</a>
-                </div>
-            @endif
-        </div>
-        <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
-            <h3 class="text-md font-bold">Contact Info</h3>
-            <div>
-                <p class="text-md">{{ $applicant->user->email }} <span class="text-sm">(email)</span></p>
-
-                <p class="text-md">{{ $applicant->user->phone_no }} <span class="text-sm">(phone)</span></p>
-
-            </div>
-        </div>
-        <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
-            <h3 class="text-md font-bold">About</h3>
-            <p>{{ $applicant->about }}</p>
-        </div>
-
-        <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
-
-            </a>
-            <h3 class="text-md font-bold">Education</h3>
-            @if ($applicant->edu_attainment)
-                <div class="mb-2">
-                    <p class="text-md">{{ $this->getEduAttainment($applicant->edu_attainment) }} <span
-                            class="text-sm">(Education Attainment)</span></p>
-                </div>
-            @endif
-
-            @foreach ($applicant_educations as $index => $education)
-                @if (count($applicant_educations) - 1 !== $index)
-                    <div class="border-b-2 border-gray-200 py-2">
-                        <h4 class="font-bold text-md">{{ $education['pivot']['school_name'] }}<span
-                                class="font-normal">({{ $education['pivot']['from'] }}-{{ $education['pivot']['to'] }})</span>
-                        </h4>
-
-                        <p>{{ $education['name'] }}</p>
-                    </div>
-                @else
-                    <div class="py-2">
-                        <h4 class="font-bold text-md">{{ $education['pivot']['school_name'] }}<span
-                                class="font-normal">({{ $education['pivot']['from'] }}-{{ $education['pivot']['to'] }})</span>
-                        </h4>
-                        <p>{{ $education['name'] }}</p>
-                    </div>
-                @endif
-            @endforeach
-        </div>
-        <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
-
-            <h3 class="text-md font-bold">Experience</h3>
-
-            @foreach ($applicant_experiences as $index => $experience)
-                @if (count($applicant_experiences) - 1 !== $index)
-                    <div class="border-b-2 border-gray-200 py-2">
-                        <div class="relative">
-                            <h4 class="font-bold text-md">{{ $experience->title }}<span class="font-normal text-sm">
-                                    ({{ $experience->start }}-{{ $experience->end }})
-                                </span>
-                            </h4>
-                            <p class="absolute -bottom-3">{{ $experience->company_name }}</p>
+    <a href="/applicants"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2">Back</a>
+    <div class="bg-white">
+        <div class="container mx-auto py-8">
+            <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
+                <div class="col-span-4 sm:col-span-3">
+                    <div class="bg-gray-100 shadow-xl rounded-lg p-6">
+                        <div class="flex flex-col items-center">
+                            <img src="{{ asset('storage/' . $applicant->profile) }}"
+                                class="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0">
+                            </img>
+                            <h1 class="text-xl font-bold">
+                                {{ ucfirst($applicant->user->first_name) }}
+                                {{ ucfirst($applicant->user->last_name) }}
+                            </h1>
+                            <p class="text-gray-700 hidden">Software Developer</p>
+                            <div class="mt-6 flex flex-wrap gap-4 justify-center">
+                                @if ($applicant->resume)
+                                    <a href="{{ asset('storage/' . $applicant->resume) }}"
+                                        class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Resume</a>
+                                @endif
+                            </div>
                         </div>
-                        <p class="mt-2">
-                            {{ $experience->description }}
-                        </p>
-                    </div>
-                @else
-                    <div class=" py-2">
-                        <div class="relative">
-                            <h4 class="font-bold text-md">{{ $experience->title }}<span class="font-normal text-sm">
-                                    ({{ $experience->start }}-{{ $experience->end }})
-                                </span>
-                            </h4>
-                            <p class="absolute -bottom-3">{{ $experience->company_name }}</p>
+                        <hr class="my-6 border-t border-gray-300">
+                        <div class="flex flex-col">
+                            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">
+                                Contact
+                            </span>
+                            <ul>
+                                <li class="mb-2">
+                                    <p class="break-all">
+                                        {{ $applicant->user->email }}
+                                    </p>
+                                </li>
+                                <li class="mb-2">
+                                    <p class="break-all">
+                                        {{ $applicant->user->phone_no }}
+                                    </p>
+                                </li>
+                                @if ($applicant->user->telephone_no)
+                                    <li class="mb-2">
+                                        <p class="break-all">
+                                            {{ $applicant->user->telephone_no }}
+                                        </p>
+                                    </li>
+                                @endif
+                            </ul>
                         </div>
-                        <p class="mt-2">
-                            {{ $experience->description }}
-                        </p>
+                        @if ($applicant->edu_attainment)
+                            <hr class="my-6 border-t border-gray-300">
+                            <div class="flex flex-col">
+                                <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">
+                                    Highest Educational Attainment
+                                </span>
+                                <ul>
+                                    <li class="mb-2 ">
+                                        <p class="break-all">{{ $this->getEduAttainment($applicant->edu_attainment) }}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
+                        <hr class="my-6 border-t border-gray-300">
+                        <div class="flex flex-col">
+                            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">
+                                Skills
+                            </span>
+                            <ul>
+                                @foreach ($applicant_skills as $index => $skill)
+                                    <li class="mb-2">
+                                        <p class="break-all">{{ $skill['name'] }}</p>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @if ($address)
+                            <hr class="my-6 border-t border-gray-300">
+                            <div class="flex flex-col">
+                                <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">
+                                    Address
+                                </span>
+                                <ul>
+                                    <li class="mb-2">
+                                        <p class="break-all">
+                                            {{ ucfirst(strtolower($address->street)) }},
+                                            {{ ucfirst(strtolower($address->barangay)) }},
+                                            {{ ucfirst(strtolower($address->city)) }},
+                                            {{ ucfirst(strtolower($address->province)) }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
                     </div>
-                @endif
-            @endforeach
-        </div>
-        <div class="bg-gray-100 rounded-lg shadow mx-3 my-2 p-3 border border-4 border-blue-700">
-
-            <h3 class="text-md font-bold">Skill</h3>
-            <p>
-                @foreach ($applicant_skills as $index => $skill)
-                    @if (count($applicant_skills) - 1 !== $index)
-                        {{ $skill['name'] }} •
-                    @else
-                        {{ $skill['name'] }}
-                    @endif
-                @endforeach
-            </p>
+                </div>
+                <div class="col-span-4 sm:col-span-9">
+                    <div class="bg-gray-100 shadow-xl shadow rounded-lg p-6">
+                        <h2 class="text-xl font-bold mb-4">About</h2>
+                        <p class="text-gray-700">
+                            {{ $applicant->about }}
+                        </p>
+                        <h2 class="text-xl font-bold mt-6 mb-4">
+                            Education
+                        </h2>
+                        @foreach ($applicant_educations as $index => $education)
+                            <div class="mb-6">
+                                <div class="flex justify-between flex-wrap gap-2 w-full">
+                                    <span class="text-gray-700 font-bold">
+                                        {{ $education['name'] }}
+                                    </span>
+                                    <p>
+                                        <span class="text-gray-700 mr-2">
+                                            {{ $education['pivot']['school_name'] }}
+                                        </span>
+                                        <span class="text-gray-700">
+                                            {{ $education['pivot']['from'] }} - {{ $education['pivot']['to'] }}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
+                        <h2 class="text-xl font-bold mt-6 mb-4">
+                            Experience
+                        </h2>
+                        @foreach ($applicant_experiences as $index => $experience)
+                            <div class="mb-6">
+                                <div class="flex justify-between flex-wrap gap-2 w-full">
+                                    <span class="text-gray-700 font-bold">
+                                        {{ $experience->title }}
+                                    </span>
+                                    <p>
+                                        <span class="text-gray-700 mr-2">
+                                            {{ $experience->company_name }}
+                                        </span>
+                                        <span class="text-gray-700">
+                                            {{ $experience->start }} -
+                                            {{ $experience->end }}
+                                        </span>
+                                    </p>
+                                </div>
+                                <p class="mt-2">
+                                    {{ $experience->description }}
+                                </p>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

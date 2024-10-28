@@ -64,40 +64,40 @@
                     class=" text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     wire:click='addApplicantEducation'>Add Education</button>
             </div>
-
-            <div class="bg-gray-100 rounded-lg shadow  my-2 p-3 border border-4 border-blue-700">
-                <h3 class="text-md font-bold">Education</h3>
-                @foreach ($applicant_educations as $index => $education)
-                    @if (count($applicant_educations) - 1 !== $index)
-                        <div class="border-b-2 border-gray-200 py-2">
-                            <h4 class="font-bold text-md">{{ $education['pivot']['school_name'] }}<span
-                                    class="font-normal">({{ $education['pivot']['from'] }}-{{ $education['pivot']['to'] }})</span>
-                                <a href="/my/profile/edit/education/{{ $education['id'] }}"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
-                                        class="fa-solid fa-pen-to-square"></i></a>
-                                <button
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"
-                                    wire:click="removeApplicantEducation({{ $education['id'] }})"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </h4>
-                            <p>{{ $education['name'] }}</p>
-                        </div>
-                    @else
-                        <div class="py-2">
-                            <h4 class="font-bold text-md">{{ $education['pivot']['school_name'] }}<span
-                                    class="font-normal">({{ $education['pivot']['from'] }}-{{ $education['pivot']['to'] }})</span>
-                                <a href="/my/profile/edit/education/{{ $education['id'] }}"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
-                                        class="fa-solid fa-pen-to-square"></i></a>
-                                <button
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"
-                                    wire:click="removeApplicantEducation({{ $education['id'] }})"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </h4>
-                            <p>{{ $education['name'] }}</p>
-                        </div>
-                    @endif
-                @endforeach
+            <div class="bg-gray">
+                <div class="col-span-4 sm:col-span-9">
+                    <div class="bg-gray-100 shadow-xl shadow rounded-lg p-6">
+                        <h2 class="text-xl font-bold mt-6 mb-4  gap-2">
+                            Education
+                        </h2>
+                        @foreach ($applicant_educations as $index => $education)
+                            <div class="mb-6">
+                                <div class="flex justify-between flex-wrap gap-2 w-full">
+                                    <span class="text-gray-700 font-bold">
+                                        {{ $education['name'] }}
+                                        <div class="mt-2">
+                                            <a href="/my/profile/edit/education/{{ $education['id'] }}"
+                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"><i
+                                                    class="fa-solid fa-pen-to-square"></i></a>
+                                            <button
+                                                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center"
+                                                wire:click="removeApplicantEducation({{ $education['id'] }})"><i
+                                                    class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                    </span>
+                                    <p>
+                                        <span class="text-gray-700 mr-2">
+                                            {{ $education['pivot']['school_name'] }}
+                                        </span>
+                                        <span class="text-gray-700">
+                                            {{ $education['pivot']['from'] }} - {{ $education['pivot']['to'] }}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>

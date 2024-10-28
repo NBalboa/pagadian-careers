@@ -36,7 +36,7 @@ class UserController extends Controller
             } else if (UserRole::HIRING_MANAGER->value === $role) {
                 return redirect('/hiringmanager/dashboard');
             } else {
-                return redirect('/my/profile');
+                return redirect('/jobs');
             }
         } else {
             return redirect('login')->withInput()->withErrors(['error' => 'Invalid Email/Phone and Password']);
