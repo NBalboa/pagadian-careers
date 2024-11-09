@@ -11,13 +11,18 @@
                             <h1 class="text-xl font-bold">
                                 {{ ucfirst($applicant->user->first_name) }}
                                 {{ ucfirst($applicant->user->last_name) }}
+                                @if ($applicant->verified === $VERIFIED_YES)
+                                    <span class="text-blue-600">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </span>
+                                @endif
                             </h1>
                             <p class="text-gray-700 hidden">Software Developer</p>
                             <div class="mt-6 flex flex-wrap gap-4 justify-center">
-                                <a href="/my/account/setting"
+                                <a href="/my/account/setting" wire:navigate
                                     class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Settings</a>
                                 @if ($applicant->resume)
-                                    <a href="{{ asset('storage/' . $applicant->resume) }}"
+                                    <a href="{{ asset('storage/' . $applicant->resume) }}" target="_blank"
                                         class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Resume</a>
                                 @endif
                             </div>

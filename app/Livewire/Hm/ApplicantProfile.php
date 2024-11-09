@@ -4,6 +4,7 @@ namespace App\Livewire\Hm;
 
 use App\Enums\ApplicantGender;
 use App\Enums\EducationAttainment;
+use App\Enums\IsVerified;
 use App\Enums\JobStatus;
 use App\Enums\JobType;
 use App\Enums\Layouts;
@@ -22,6 +23,7 @@ class ApplicantProfile extends Component
     public $job;
     public $job_histories;
     public $score;
+    public $VERIFIED_YES = IsVerified::YES->value;
     public function mount(Work $job, Applicant $applicant)
     {
         $this->job = $job;

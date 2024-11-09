@@ -4,6 +4,7 @@ namespace App\Livewire\Applicant;
 
 use App\Enums\ApplicantGender;
 use App\Enums\EducationAttainment;
+use App\Enums\IsVerified;
 use App\Enums\Layouts;
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ class Profile extends Component
     public $applicant_skills;
     public $applicant_experiences;
     public $address;
+    public $VERIFIED_YES = IsVerified::YES->value;
     public function mount()
     {
         $this->applicant = Applicant::with('user')->where('user_id', Auth::user()->id)->firstOrFail();
