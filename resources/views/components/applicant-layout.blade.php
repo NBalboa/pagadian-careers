@@ -8,14 +8,19 @@
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/c393acf5ae.js" crossorigin="anonymous"></script>
-    <script src="/js/navbar.js"></script>
-    <script src="/js/contact-validation.js"></script>
-    <script src="/js/address.js"></script>
+
     @vite('resources/css/app.css')
 </head>
 
 <body>
-    <nav class="border-gray-200 bg-gray-50  rounded-b-lg shadow-sm">
+    @if (Route::is('home') ||
+            Route::is('jobs') ||
+            Route::is('my/jobs') ||
+            Route::is('my/profile') ||
+            Route::is('registerregister') ||
+            Route::is('login') ||
+            Route::is('app.job'))
+
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <span class="self-center text-2xl font-bold text-blue-600 hover:opacity-80 whitespace-nowrap">Pagadian
@@ -34,37 +39,29 @@
             <div class="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
                 <ul
                     class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent   ">
-                    <li>
-                        <a href="/"
-                            class="block py-2 px-3 md:p-2 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700   "
-                            aria-current="page">Home</a>
-                    </li>
+                    <x-app-link :active="Route::is('home')" to="/">
+                        Home
+                    </x-app-link>
+
                     @guest
-                        <li>
-                            <a href="/login"
-                                class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Login</a>
-                        </li>
-                        <li>
-                            <a href="/register"
-                                class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Register</a>
-                        </li>
+                        <x-app-link :active="Route::is('login')" to="/login">
+                            Login
+                        </x-app-link>
+                        <x-app-link :active="Route::is('registerregister')" to="/register">
+                            Register
+                        </x-app-link>
                     @endguest
                     @auth
                         @if (auth()->user()->role === 1)
-                            <li>
-                                <a href="/jobs"
-                                    class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Jobs</a>
-                            </li>
-                            <li>
-                                <a href="/my/jobs"
-                                    class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">My
-                                    Jobs
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/my/profile/"
-                                    class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700">Profile</a>
-                            </li>
+                            <x-app-link :active="Route::is('jobs') || Route::is('app.job')" to="/jobs">
+                                Jobs
+                            </x-app-link>
+                            <x-app-link :active="Route::is('my/jobs')" to="/my/jobs">
+                                My Jobs
+                            </x-app-link>
+                            <x-app-link :active="Route::is('my/profile')" to="/my/profile">
+                                Profile
+                            </x-app-link>
                         @else
                             <li>
                                 <a href="{{ auth()->user()->role === 0 ? '/dashboard' : '/hiringmanager/dashboard' }}"
@@ -76,13 +73,13 @@
                         <form action="/logout" method="POST"
                             class="block py-2 px-3 md:p-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 cursor-pointer">
                             @csrf
-                            <input type="submit" value="Logout" />
+                            <input type="submit" value="Logout" class="cursor-pointer" />
                         </form>
                     @endauth
                 </ul>
             </div>
         </div>
-    </nav>
+    @endif
     <main>
         {{ $slot }}
     </main>
@@ -139,6 +136,10 @@
             </div>
         </div>
     </footer>
+
+    <script src="/js/navbar.js"></script>
+    <script src="/js/contact-validation.js"></script>
+    <script src="/js/address.js"></script>
 </body>
 
 </html>

@@ -27,6 +27,7 @@ class CreateEducation extends Component
     public $applicant_educations;
 
 
+
     public function mount()
     {
         $this->applicant = Applicant::where('user_id', Auth::user()->id)->firstOrFail();

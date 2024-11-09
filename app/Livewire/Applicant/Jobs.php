@@ -167,23 +167,10 @@ class Jobs extends Component
             $jobs = $jobs->where('job_setup', '=', $this->job_setup - 1);
         }
 
-        if (
-            !$this->applicant->educations()->get()->isEmpty()
-            && !$this->applicant->skills()->get()->isEmpty()
-            && !$this->applicant->experiences()->get()->isEmpty()
-            && $this->applicant->edu_attainment
-        ) {
-            $recommendations = $this->paginate($this->getRecommendation($jobs->get()), 10);
-        }
-
-        $jobs = $jobs->paginate(10);
-
-
-
+        $recommendations = $this->paginate($this->getRecommendation($jobs->get()), 10);
         return view(
             'livewire.applicant.jobs',
             [
-                'jobs' => $jobs,
                 'recommendations' => $recommendations
             ]
         )->layout(Layouts::APPLICANT->value);

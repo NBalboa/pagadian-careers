@@ -130,7 +130,7 @@ class ApplicantDetails extends Component
 
     public function goToApplicantProfile($job_id, $applicant_id)
     {
-        return redirect('/my/job/' . $job_id . '/applicant/profile/' . $applicant_id);
+        return $this->redirect('/my/job/' . $job_id . '/applicant/profile/' . $applicant_id, navigate: true);
     }
 
     public function save($id)

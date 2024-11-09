@@ -1,9 +1,9 @@
 <div>
     <div class="mb-10 mx-2">
-        <a href="/my/job"
+        <a href="/my/job" wire:navigate
             class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Back</a>
 
-        <a href="/my/job/edit/{{ $job->id }}"
+        <a href="/my/job/edit/{{ $job->id }}" wire:navigate
             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Edit</a>
     </div>
     <div

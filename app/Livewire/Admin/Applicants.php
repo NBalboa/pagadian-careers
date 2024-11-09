@@ -36,7 +36,7 @@ class Applicants extends Component
 
     public function goToApplicantProfile($id)
     {
-        return redirect('/applicants/profile/' . $id);
+        return $this->redirect('/applicants/profile/' . $id, navigate: true);
     }
 
     public function verifyApplicant($id)

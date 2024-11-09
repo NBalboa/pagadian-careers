@@ -66,8 +66,11 @@
         <tbody>
             @foreach ($jobs as $job)
                 <x-table-row class="cursor-pointer">
-                    <x-table-row-item isClickable={{ true }}
-                        function="goToJobPreview({{ $job->id }})">{{ $job->job_title }}</x-table-row-item>
+                    <x-table-row-item isClickable={{ true }} function="goToJobPreview({{ $job->id }})">
+                        <span class="text-blue-600 hover:underline">
+                            {{ $job->job_title }}
+                        </span>
+                    </x-table-row-item>
                     <x-table-row-item>{{ $this->getJobSetup($job->job_setup) }}</x-table-row-item>
                     <x-table-row-item>{{ $this->getJobType($job->job_type) }}</x-table-row-item>
                     <x-table-row-item>{{ $job->salary }}</x-table-row-item>
@@ -87,7 +90,7 @@
                     <x-table-row-item>
 
                         @if ($this->getTotalApplicants($job) > 0)
-                            <a href="/my/job/{{ $job->id }}/applicants"
+                            <a href="/my/job/{{ $job->id }}/applicants" wire:navigate
                                 class="font-medium text-green-600  hover:underline">Details</a>
                         @endif
                     </x-table-row-item>
@@ -102,7 +105,7 @@
         </div>
     @endif
 
-    <a href="/my/job/create" style="float: right; display: inline-block; margin-top: 1rem;"
+    <a href="/my/job/create" wire:navigate style="float: right; display: inline-block; margin-top: 1rem;"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
         Create Job
     </a>

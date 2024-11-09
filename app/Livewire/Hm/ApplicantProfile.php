@@ -37,17 +37,10 @@ class ApplicantProfile extends Component
     public function getScore()
     {
         $jobRecommendation = new JobRecommendationService();
-        if (
-            !$this->applicant->educations()->get()->isEmpty()
-            && !$this->applicant->skills()->get()->isEmpty()
-            && !$this->applicant->experiences()->get()->isEmpty()
-            && $this->applicant->edu_attainment
-        ) {
-            $score = $jobRecommendation->calculateScore($this->job, $this->applicant);
-            return $score;
-        } else {
-            return null;
-        }
+
+        $score = $jobRecommendation->calculateScore($this->job, $this->applicant);
+
+        return $score;
     }
 
     public function getEduAttainment($value)

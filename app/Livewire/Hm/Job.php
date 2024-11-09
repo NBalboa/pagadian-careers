@@ -41,7 +41,7 @@ class Job extends Component
     }
     function goToJobPreview($id)
     {
-        return redirect('/my/job/preview/' . $id);
+        return $this->redirect('/my/job/preview/' . $id, navigate: true);
     }
     public function isCloseJob($id)
     {

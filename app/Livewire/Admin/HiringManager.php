@@ -26,7 +26,7 @@ class HiringManager extends Component
 
     public function goToEditHiringManager($id)
     {
-        return redirect('/hiringmanager/edit/' . $id);
+        return $this->redirect('/hiringmanager/edit/' . $id, navigate: true);
     }
 
     public function goToEditCompany($id)

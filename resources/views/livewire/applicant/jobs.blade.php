@@ -51,195 +51,103 @@
     </div>
     <div class="text-center w-full" wire:loading>
         <x-loading />
-
     </div>
 
-    @if (count($recommendations) > 0)
-        @foreach ($recommendations as $recommendation)
-            <div wire:loading.remove
-                class="group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
+    @foreach ($recommendations as $recommendation)
+        <div wire:loading.remove
+            class="group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
+            <a href="/jobs/{{ $recommendation['job']->id }}"
+                class="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4">
+                <div class="group relative h-16 w-16 overflow-hidden rounded-lg">
+                    <img src="{{ asset('storage/' . $recommendation['job']->hiring_manager->company->profile) }}"
+                        alt="" class="h-full w-full object-cover text-gray-700" />
+                </div>
+            </a>
+            <div class="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
+                <h3 class="text-sm text-gray-600">{{ $recommendation['job']->hiring_manager->company->name }}</h3>
                 <a href="/jobs/{{ $recommendation['job']->id }}"
-                    class="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4">
-                    <div class="group relative h-16 w-16 overflow-hidden rounded-lg">
-                        <img src="{{ asset('storage/' . $recommendation['job']->hiring_manager->company->profile) }}"
-                            alt="" class="h-full w-full object-cover text-gray-700" />
-                    </div>
+                    class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl">
+                    {{ $recommendation['job']->job_title }}
+                    <span class="font-normal text-sm">
+                        ({{ $recommendation['job']->hiring_manager->company->address->street }},
+                        {{ $recommendation['job']->hiring_manager->company->address->barangay }},
+                        {{ $recommendation['job']->hiring_manager->company->address->city }},
+                        {{ $recommendation['job']->hiring_manager->company->address->province }})
+                    </span>
                 </a>
-                <div class="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
-                    <h3 class="text-sm text-gray-600">{{ $recommendation['job']->hiring_manager->company->name }}</h3>
-                    <a href="/jobs/{{ $recommendation['job']->id }}"
-                        class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl">
-                        {{ $recommendation['job']->job_title }}
-                        <span class="font-normal text-sm">
-                            ({{ $recommendation['job']->hiring_manager->company->address->street }},
-                            {{ $recommendation['job']->hiring_manager->company->address->barangay }},
-                            {{ $recommendation['job']->hiring_manager->company->address->city }},
-                            {{ $recommendation['job']->hiring_manager->company->address->province }})
-                        </span>
-                    </a>
 
-                    <div class="overflow-hidden">
-                        <p class="pr-7 text-sm">
-                            {{ $recommendation['job']->description }}
-                        </p>
+                <div class="overflow-hidden">
+                    <p class="pr-7 text-sm">
+                        {{ $recommendation['job']->description }}
+                    </p>
 
-                        <h2 class="text-black mt-5 font-medium">Hiring Information</h2>
-
-                        <div
-                            class="flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
-
-                            <div>Applicants:
-                                <span class="block text-center px-2 py-0.5 text-bold text-black">
-                                    {{ $recommendation['job']->max_applicants_hired }}
-                                </span>
-                            </div>
-                            <div>Starts:
-                                <span class="block text-center px-2 py-0.5 text-bold text-black">
-                                    {{ $this->formatDate($recommendation['job']->start_hiring) }}
-                                </span>
-                            </div>
-                            <div>Ends:
-                                <span class="block text-center px-2 py-0.5 text-bold text-black">
-                                    {{ $this->formatDate($recommendation['job']->end_hiring) }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="text-black mt-5 font-medium">Hiring Information</h2>
 
                     <div
-                        class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
+                        class="flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
 
-                        <div>Score:<span
-                                class="block text-center rounded-full bg-orange-100 px-2 py-0.5 text-green-900">
+                        <div>Applicants:
+                            <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                {{ $recommendation['job']->max_applicants_hired }}
+                            </span>
+                        </div>
+                        <div>Starts:
+                            <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                {{ $this->formatDate($recommendation['job']->start_hiring) }}
+                            </span>
+                        </div>
+                        <div>Ends:
+                            <span class="block text-center px-2 py-0.5 text-bold text-black">
+                                {{ $this->formatDate($recommendation['job']->end_hiring) }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
+
+                    @if ($recommendation['score']['total'])
+                        <div>
+                            Score:
+                            <span class="block text-center rounded-full bg-orange-100 px-2 py-0.5 text-green-900">
                                 {{ $recommendation['score']['total'] }}%
                             </span>
                         </div>
-                        <div>Required Experience:
-                            <span class="block text-center rounded-full bg-green-100 px-2 py-0.5 text-green-900">
-                                {{ $recommendation['job']->experience }}
-                                {{ $recommendation['job']->experience > 1 ? 'Years' : 'Year' }}
-                            </span>
-                        </div>
-                        @if ($recommendation['job']->show_salary === 1 && $recommendation['job']->salary !== null)
-                            <div class="">Salary:<span
-                                    class="block text-center rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">{{ $recommendation['job']->salary }}
-                                    day</span>
-                            </div>
-                        @endif
-
-                        <div>Job Type:
-                            <span class="block text-center rounded-full bg-yellow-100 px-2 py-0.5 text-green-900">
-                                {{ $this->getJobType($recommendation['job']->job_type) }}
-                            </span>
-                        </div>
-
-                        <div>Job Setup:
-                            <span class="block text-center rounded-full bg-purple-100 px-2 py-0.5 text-green-900">
-                                {{ $this->getJobSetup($recommendation['job']->job_setup) }}
-                            </span>
-                        </div>
-                        <a href="/jobs/{{ $recommendation['job']->id }}"
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                            Details
-                        </a>
+                    @endif
+                    <div>Required Experience:
+                        <span class="block text-center rounded-full bg-green-100 px-2 py-0.5 text-green-900">
+                            {{ $recommendation['job']->experience }}
+                            {{ $recommendation['job']->experience > 1 ? 'Years' : 'Year' }}
+                        </span>
                     </div>
-                </div>
-            </div>
-        @endforeach
-        <div class="flex items-center justify-center my-10">
-            {{ $recommendations->links() }}
-        </div>
-    @else
-        @if (count($jobs) > 0)
-            @foreach ($jobs as $job)
-                <div wire:loading.remove
-                    class="group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
-                    <a href="/jobs/{{ $job->id }}"
-                        class="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4">
-                        <div class="group relative h-16 w-16 overflow-hidden rounded-lg">
-                            <img src="{{ asset('storage/' . $job->hiring_manager->company->profile) }}" alt=""
-                                class="h-full w-full object-cover text-gray-700" />
+                    @if ($recommendation['job']->show_salary === 1 && $recommendation['job']->salary !== null)
+                        <div class="">Salary:<span
+                                class="block text-center rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">{{ $recommendation['job']->salary }}
+                                day</span>
                         </div>
+                    @endif
+
+                    <div>Job Type:
+                        <span class="block text-center rounded-full bg-yellow-100 px-2 py-0.5 text-green-900">
+                            {{ $this->getJobType($recommendation['job']->job_type) }}
+                        </span>
+                    </div>
+
+                    <div>Job Setup:
+                        <span class="block text-center rounded-full bg-purple-100 px-2 py-0.5 text-green-900">
+                            {{ $this->getJobSetup($recommendation['job']->job_setup) }}
+                        </span>
+                    </div>
+                    <a href="/jobs/{{ $recommendation['job']->id }}" wire:navigate
+                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                        Details
                     </a>
-                    <div class="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
-                        <h3 class="text-sm text-gray-600">{{ $job->hiring_manager->company->name }}</h3>
-                        <a href="/jobs/{{ $job->id }}"
-                            class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl">
-                            {{ $job->job_title }}
-                            <span class="font-normal text-sm">
-                                ({{ $job->hiring_manager->company->address->street }},
-                                {{ $job->hiring_manager->company->address->barangay }},
-                                {{ $job->hiring_manager->company->address->city }},
-                                {{ $job->hiring_manager->company->address->province }})
-                            </span>
-                        </a>
-
-                        <div class="overflow-hidden">
-                            <p class="pr-7 text-sm">
-                                {{ $job->description }}
-                            </p>
-
-                            <h2 class="text-black mt-5 font-medium">Hiring Information</h2>
-
-                            <div
-                                class="flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
-
-                                <div>Applicants:
-                                    <span class="block text-center px-2 py-0.5 text-bold text-black">
-                                        {{ $job->max_applicants_hired }}
-                                    </span>
-                                </div>
-                                <div>Starts:
-                                    <span class="block text-center px-2 py-0.5 text-bold text-black">
-                                        {{ $this->formatDate($job->start_hiring) }}
-                                    </span>
-                                </div>
-                                <div>Ends:
-                                    <span class="block text-center px-2 py-0.5 text-bold text-black">
-                                        {{ $this->formatDate($job->end_hiring) }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
-                            <div>Required Experience:
-                                <span class="block text-center rounded-full bg-green-100 px-2 py-0.5 text-green-900">
-                                    {{ $job->experience }} {{ $job->experience > 1 ? 'Years' : 'Year' }}
-                                </span>
-                            </div>
-                            @if ($job->show_salary === 1 && $job->salary !== null)
-                                <div class="">Salary:<span
-                                        class="block text-center rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">{{ $job->salary }}
-                                        day</span>
-                                </div>
-                            @endif
-
-                            <div>Job Type:
-                                <span class="block text-center rounded-full bg-yellow-100 px-2 py-0.5 text-green-900">
-                                    {{ $this->getJobType($job->job_type) }}
-                                </span>
-                            </div>
-
-                            <div>Job Setup:
-                                <span class="block text-center rounded-full bg-purple-100 px-2 py-0.5 text-green-900">
-                                    {{ $this->getJobSetup($job->job_setup) }}
-                                </span>
-                            </div>
-                            <a href="/jobs/{{ $job->id }}"
-                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                                Details
-                            </a>
-                        </div>
-                    </div>
                 </div>
-            @endforeach
-            <div class="flex items-center justify-center my-10">
-                {{ $jobs->links() }}
             </div>
-        @else
-            <div class="flex items-center justify-center my-10">No Jobs Found</div>
-        @endif
-    @endif
+        </div>
+    @endforeach
+    <div class="flex items-center justify-center my-10">
+        {{ $recommendations->links() }}
+    </div>
 </div>

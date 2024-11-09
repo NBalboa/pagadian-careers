@@ -18,7 +18,7 @@ class Company extends Component
 
     public function goToEditCompany($id)
     {
-        return redirect('company/edit/' . $id);
+        return $this->redirect('company/edit/' . $id, navigate: true);
     }
 
     public function searchJobs()

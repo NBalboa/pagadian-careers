@@ -46,14 +46,13 @@ use App\Livewire\VerifyOTP;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', Welcome::class);
+Route::get('/', Welcome::class)->name('home');
 
-
-Route::get('/account-settings', MyAccountSettings::class);
+Route::get('/account-settings', MyAccountSettings::class)->name('admin.settings');
 
 Route::middleware([isLogin::class, 'guest'])->group(function () {
     Route::get('/login', [UserController::class, 'login'])->name('login');
-    Route::get('/register', Register::class);
+    Route::get('/register', Register::class)->name('register')->name('register');
     Route::get('/forgot-password', ForgotPassword::class);
     Route::get('/verify-otp', VerifyOTP::class)->middleware(isUserForgotPassword::class);
     Route::get('/change-password', ChangeForgotPassword::class)->middleware(isVerifiedForgotPassword::class);
@@ -65,42 +64,42 @@ Route::middleware([IsUserExist::class, 'auth'])->group(function () {
 
 
     Route::middleware([AdminOnly::class])->group(function () {
-        Route::get('/dashboard', AdminDashboard::class);
-        Route::get('/hiringmanager', HiringManager::class);
-        Route::get('/hiringmanager/create', CreateHiringManager::class);
-        Route::get('/hiringmanager/edit/{id}', EditHiringManager::class);
-        Route::get('/applicants', Applicants::class);
-        Route::get('/company', Company::class);
-        Route::get('/company/create', CreateCompany::class);
+        Route::get('/dashboard', AdminDashboard::class)->name('admin.dashboard');
+        Route::get('/hiringmanager', HiringManager::class)->name('admin.hm');
+        Route::get('/hiringmanager/create', CreateHiringManager::class)->name('admin.create.hm');
+        Route::get('/hiringmanager/edit/{id}', EditHiringManager::class)->name('admin.edit.hm');
+        Route::get('/applicants', Applicants::class)->name('admin.applicants');
+        Route::get('/company', Company::class)->name('admin.company');
+        Route::get('/company/create', CreateCompany::class)->name('admin.company.create');
+        Route::get('/company/edit/{id}', EditCompany::class)->name('admin.company.edit');
         Route::get('/applicants/profile/{applicant}', AdminApplicantProfile::class)->middleware(IsApplicantExist::class);
-        Route::get('/company/edit/{id}', EditCompany::class);
     });
 
     Route::middleware([ApplicantOnly::class])->group(function () {
-        Route::get('/my/profile', Profile::class);
-        Route::get('/my/profile/create/education', CreateEducation::class);
-        Route::get('/my/profile/edit/education/{id}', EditEducation::class);
-        Route::get('/my/profile/create/skill', CreateSkill::class);
-        Route::get('/my/profile/create/experience', CreateExperience::class);
-        Route::get('/my/profile/edit/experience/{id}', EditExperience::class);
-        Route::get('/my/account/setting', AccountSettings::class);
-        Route::get('/my/jobs', MyJobs::class);
-        Route::get('/jobs', Jobs::class);
-        Route::get('/jobs/{job}', JobDetails::class)->middleware(IsJobExist::class);
+        Route::get('/my/profile', Profile::class)->name('my/profile');
+        Route::get('/my/profile/create/education', CreateEducation::class)->name('app.edu.create');
+        Route::get('/my/profile/edit/education/{id}', EditEducation::class)->name('app.edu.edit');
+        Route::get('/my/profile/create/skill', CreateSkill::class)->name('app.skill.create');
+        Route::get('/my/profile/create/experience', CreateExperience::class)->name('app.create.exp');
+        Route::get('/my/profile/edit/experience/{id}', EditExperience::class)->name('app.edit.exp');
+        Route::get('/my/account/setting', AccountSettings::class)->name('app.settings');
+        Route::get('/my/jobs', MyJobs::class)->name('my/jobs');
+        Route::get('/jobs', Jobs::class)->name('jobs');
+        Route::get('/jobs/{job}', JobDetails::class)->middleware(IsJobExist::class)->name('app.job');
     });
 
 
 
     Route::middleware([IsCompanyExist::class, HiringManagerOnly::class])->group(function () {
-        Route::get('/hiringmanager/dashboard', Dashboard::class);
-        Route::get('/my/job', Job::class);
-        Route::get('/my/company', MyCompany::class);
-        Route::get('/my/job/create', CreateJob::class);
-        Route::get('/my/job/{job}/applicants', ApplicantDetails::class);
-        Route::get('/my/job/{job}/applicant/profile/{applicant}', ApplicantProfile::class)->middleware(IsApplicantExist::class);
+        Route::get('/hiringmanager/dashboard', Dashboard::class)->name('hm.dashboard');
+        Route::get('/my/job', Job::class)->name('hm.my.job');
+        Route::get('/my/company', MyCompany::class)->name('hm.my.company');
+        Route::get('/my/job/create', CreateJob::class)->name('hm.job.create');
+        Route::get('/my/job/{job}/applicants', ApplicantDetails::class)->name('hm.applicant.details');
+        Route::get('/my/job/{job}/applicant/profile/{applicant}', ApplicantProfile::class)->middleware(IsApplicantExist::class)->name('hm.applicant.profile');
         Route::middleware([IsJobExist::class])->group(function () {
-            Route::get('/my/job/edit/{job}', EditJob::class);
-            Route::get('/my/job/preview/{job}', PreviewJob::class);
+            Route::get('/my/job/edit/{job}', EditJob::class)->name('hm.job.edit');
+            Route::get('/my/job/preview/{job}', PreviewJob::class)->name('hm.job.preview');
         });
     });
 });

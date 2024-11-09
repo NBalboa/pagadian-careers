@@ -66,7 +66,7 @@ class CreateCompany extends Component
 
             DB::commit();
 
-            redirect('company')->with(['success' => 'Company created successfully']);
+            return redirect('/company')->with(['success' => 'Company created successfully']);
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
             if (Storage::disk("public")->exists($validated['profile'])) {

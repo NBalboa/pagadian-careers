@@ -54,8 +54,10 @@
                 <x-table-row>
                     <x-table-row-item isClickable={{ true }}
                         function="goToApplicantProfile({{ $applicant->id }})">
-                        {{ $applicant->user->first_name }}
-                        {{ $applicant->user->last_name }}
+                        <span class="text-blue-600 hover:underline">
+                            {{ $applicant->user->first_name }}
+                            {{ $applicant->user->last_name }}
+                        </span>
                     </x-table-row-item>
                     <x-table-row-item>
                         {{ $applicant->user->email }}

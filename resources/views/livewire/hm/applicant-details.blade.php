@@ -1,6 +1,6 @@
-<div>
+<div class="space-y-4">
     <div class="mb-2">
-        <a href="/my/job/"
+        <a href="/my/job/" wire:navigate
             class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full sm:w-full md:w-1/4">Back</a>
     </div>
     <h2 class="text-3xl mb-2">Applicants ({{ $job->job_title }})
@@ -65,8 +65,11 @@
                 <x-table-row>
                     <x-table-row-item isClickable={{ true }}
                         function="goToApplicantProfile({{ $job->id }}, {{ $applicant['applicant']->id }})">
-                        {{ $applicant['applicant']->user->last_name }},
-                        {{ $applicant['applicant']->user->first_name }}</x-table-row-item>
+                        <span class="text-blue-600 hover:underline">
+                            {{ $applicant['applicant']->user->last_name }},
+                            {{ $applicant['applicant']->user->first_name }}
+                        </span>
+                    </x-table-row-item>
                     @if (!$applicant['applicant']->address)
                         <x-table-row-item>No Address</x-table-row-item>
                     @else
