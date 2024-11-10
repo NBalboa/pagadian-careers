@@ -1,5 +1,7 @@
 <div>
     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <x-back to="/my/profile" />
+
         <x-form-wrapper>
             <h2 class="text-3xl mb-2">Account Information</h2>
             <div class="space-y-4">
