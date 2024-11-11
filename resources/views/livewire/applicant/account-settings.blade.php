@@ -279,7 +279,7 @@
                             <input type="{{ $showPassword ? 'text' : 'password' }}" name="old_password"
                                 wire:model="old_password" id="old_password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                            <button class="absolute top-0 right-0 bottom-0 me-2"
+                            <button tabindex="-1" class="absolute top-0 right-0 bottom-0 me-2"
                                 wire:click.prevent="toggleShowPassword">
                                 @if ($showPassword)
                                     <i class="fa-solid fa-eye-slash"></i>
@@ -300,7 +300,7 @@
                             <input type="{{ $showPassword ? 'text' : 'password' }}" name="new_password"
                                 wire:model="new_password" id="new_password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                            <button class="absolute top-0 right-0 bottom-0 me-2"
+                            <button tabindex="-1" class="absolute top-0 right-0 bottom-0 me-2"
                                 wire:click.prevent="toggleShowPassword">
                                 @if ($showPassword)
                                     <i class="fa-solid fa-eye-slash"></i>
@@ -321,7 +321,7 @@
                             <input type="{{ $showPassword ? 'text' : 'password' }}" name="confirm_password"
                                 wire:model="confirm_password" id="confirm_password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                            <button class="absolute top-0 right-0 bottom-0 me-2"
+                            <button tabindex="-1" class="absolute top-0 right-0 bottom-0 me-2"
                                 wire:click.prevent="toggleShowPassword">
                                 @if ($showPassword)
                                     <i class="fa-solid fa-eye-slash"></i>

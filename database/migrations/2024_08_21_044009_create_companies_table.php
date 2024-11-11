@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('profile');
             $table->string('name');
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->text('description');
             $table->foreignId('address_id');
             $table->tinyInteger('is_deleted')->default(IsDeletedCompany::NO->value);

@@ -124,7 +124,7 @@
                     @if ($recommendation['job']->show_salary === 1 && $recommendation['job']->salary !== null)
                         <div class="">Salary:<span
                                 class="block text-center rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">{{ $recommendation['job']->salary }}
-                                day</span>
+                            </span>
                         </div>
                     @endif
 

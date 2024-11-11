@@ -13,7 +13,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/c393acf5ae.js" crossorigin="anonymous"></script>
 
-    @vite('resources/css/app.css')
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 
 <body>
@@ -53,13 +55,13 @@
                 <x-nav-item href="/dashboard" :active="Route::is('admin.dashboard')">
                     Dashboard
                 </x-nav-item>
-                <x-nav-item href="/hiringmanager" :active="Route::is('admin.hm') || Route::is('admin.create.hm') || Route::is('admin.edit.hm')">
-                    Hiring Manager
-                </x-nav-item>
                 <x-nav-item href="/company" :active="Route::is('admin.company') ||
                     Route::is('admin.company.create') ||
                     Route::is('admin.company.edit')">
                     Company
+                </x-nav-item>
+                <x-nav-item href="/hiringmanager" :active="Route::is('admin.hm') || Route::is('admin.create.hm') || Route::is('admin.edit.hm')">
+                    Hiring Manager
                 </x-nav-item>
                 <x-nav-item href="/applicants" :active="Route::is('admin.applicants')">
                     Applicant

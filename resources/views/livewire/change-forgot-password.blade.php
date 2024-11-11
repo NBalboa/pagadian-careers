@@ -21,7 +21,7 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     placeholder="" wire:model="new_password">
 
-                                <button class="absolute top-0 right-0 bottom-0 me-2"
+                                <button tabindex="-1" class="absolute top-0 right-0 bottom-0 me-2"
                                     wire:click.prevent="toggleShowPassword">
                                     @if ($showPassword)
                                         <i class="fa-solid fa-eye-slash"></i>
@@ -46,7 +46,7 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     placeholder="" wire:model="confirm_password">
 
-                                <button class="absolute top-0 right-0 bottom-0 me-2"
+                                <button tabindex="-1" class="absolute top-0 right-0 bottom-0 me-2"
                                     wire:click.prevent="toggleShowPassword">
                                     @if ($showPassword)
                                         <i class="fa-solid fa-eye-slash"></i>

@@ -1,34 +1,5 @@
 $(document).ready(function () {
-    // function showAllProvinces(data) {
-    //     const province = $("#provinces").val();
-
-    //     let provinces = [];
-
-    //     let region_ids = Object.keys(data);
-
-    //     for (let i = 0; i < region_ids.length; i++) {
-    //         if (data.hasOwnProperty(region_ids[i])) {
-    //             let regions_data = data[region_ids[i]];
-    //             if (regions_data.hasOwnProperty("province_list")) {
-    //                 let provinces_data = regions_data.province_list;
-    //                 let province_names = Object.keys(provinces_data);
-    //                 province_names.forEach((name) => {
-    //                     provinces.push(name);
-    //                 });
-    //             }
-    //         }
-    //     }
-
-    //     // console.log(provinces.map((province) => `"${province}"`).join(", "));
-    //     provinces.forEach((provinces) => {
-    //         $("#provinces").append(
-    //             `<option value="${provinces}">${provinces}</option>`
-    //         );
-    //     });
-    // }
-
     function showAllMunicipalitiesByProvince(data) {
-        // console.log(data);
         let municipalities = [];
 
         $("#provinces").on("change", function () {

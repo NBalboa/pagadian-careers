@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AccountVerification;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\ApplicantOnly;
 use App\Http\Middleware\HiringManagerOnly;
@@ -35,6 +36,7 @@ use App\Livewire\Hm\Dashboard;
 use App\Livewire\Hm\EditJob;
 use App\Livewire\Hm\Job;
 use App\Livewire\Applicant\Register;
+use App\Livewire\Applicant\VerifyEmailApplicant;
 use App\Livewire\ChangeForgotPassword;
 use App\Livewire\ForgotPassword;
 use App\Livewire\Hm\ApplicantDetails;
@@ -53,6 +55,7 @@ Route::get('/account-settings', MyAccountSettings::class)->name('admin.settings'
 Route::middleware([isLogin::class, 'guest'])->group(function () {
     Route::get('/login', [UserController::class, 'login'])->name('login');
     Route::get('/register', Register::class)->name('register')->name('register');
+    Route::get('/checkpoint', VerifyEmailApplicant::class)->middleware(AccountVerification::class);
     Route::get('/forgot-password', ForgotPassword::class);
     Route::get('/verify-otp', VerifyOTP::class)->middleware(isUserForgotPassword::class);
     Route::get('/change-password', ChangeForgotPassword::class)->middleware(isVerifiedForgotPassword::class);

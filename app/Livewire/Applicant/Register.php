@@ -5,12 +5,16 @@ namespace App\Livewire\Applicant;
 use App\Enums\ApplicantGender;
 use App\Enums\Layouts;
 use App\Enums\UserRole;
+use App\Mail\ApplicantAccountOTP;
 use App\Models\Applicant;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Rule;
@@ -20,20 +24,20 @@ class Register extends Component
 
     public $showPassword = false;
 
-    #[Rule('string|required')]
+    #[Rule('required|string')]
     public $first_name;
     public $middle_name;
-    #[Rule('string|required')]
+    #[Rule('required|string')]
     public $last_name;
-    #[Rule('email|required|unique:users')]
+    #[Rule('required|email|unique:users')]
     public $email;
-    #[Rule('string|required|unique:users|min:11|max:11')]
-    public $phone_no;
-    #[Rule('string|required|same:confirm_password|min:7')]
+    #[Rule('required|string|unique:users|min:11|max:11')]
+    public $phone_no = "09";
+    #[Rule('required|string|same:confirm_password|min:7')]
     public $password;
-    #[Rule('string|required')]
+    #[Rule('required|string')]
     public $confirm_password;
-    #[Rule('string|required')]
+    #[Rule('required|string')]
     public $gender;
 
 
@@ -48,36 +52,23 @@ class Register extends Component
             $this->phone_no = substr($this->phone_no, 0, -1);
         }
         $this->validate();
+        $otp  = rand(100000, 999999);
+        $expiration = Carbon::now()->addMinutes(5);
+        $user_data = [
+            'email' => $this->email,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'middle_name' => $this->middle_name,
+            'phone_no' => $this->phone_no,
+            'password' => Hash::make($this->password),
+            'gender' => $this->gender,
+            'otp' => $otp,
+            'expiration' => $expiration
+        ];
+        Session::put('register', $user_data);
+        Mail::to($user_data['email'])->send(new ApplicantAccountOTP($user_data['otp']));
 
-        DB::beginTransaction();
-        try {
-            $user = User::create([
-                'email' => $this->email,
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
-                'middle_name' => $this->middle_name,
-                'phone_no' => $this->phone_no,
-                'password' => Hash::make($this->password),
-                'remember_token' => Str::random(10),
-                'role' => UserRole::APPLICANTS->value
-            ]);
-
-            Applicant::create([
-                'user_id' => $user->id,
-                'gender' => $this->gender - 1,
-                'profile' => ($this->gender - 1 === 0 ? 'profile/user/male.jpg' : 'profile/user/female.jpg'),
-            ]);
-
-            Auth::login($user);
-            session()->regenerate();
-
-            DB::commit();
-            return redirect('/jobs')->with(['success' => 'Applicant created successfully']);
-        } catch (\Exception $e) {
-            session()->flash('error', 'Failed to create Applicant');
-            Log::error('Error creating Applicant: ' . $e->getMessage());
-            DB::rollBack();
-        }
+        return $this->redirect('/checkpoint', navigate: true);
     }
 
     public function toggleShowPassword()

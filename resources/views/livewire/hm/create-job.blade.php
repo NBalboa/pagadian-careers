@@ -3,14 +3,16 @@
             class="px-4 py-2 text-md font-bold bg-blue-600 hover:bg-blue-800 rounded-lg text-white">Back</a>
         <h2 class="text-3xl mb-2">Create Jobs</h2>
         <div class="space-y-4">
+            <h2 class="font-bold text-2xl max-w-2xl mx-auto">Job Requirements</h2>
             <x-form-wrapper>
+
                 <div class="space-y-4">
                     <div>
                         <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 ">
                             Job Title<x-required /></label>
                         <input type="text" name="job_title" id="job_title"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                            placeholder="ex. Juan" required wire:model="job_title" />
+                            placeholder="" required wire:model="job_title" />
                         <div class="text-red-600">
                             @error('job_title')
                                 <span>{{ $message }}</span>
@@ -19,7 +21,7 @@
                     </div>
                     <div>
                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 ">
-                            Description</label>
+                            Description<x-required /></label>
                         <textarea id="description" rows="4"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  "
                             wire:model="description"></textarea>
@@ -67,7 +69,8 @@
                         @enderror
                     </div>
                     <div>
-                        <label for="edu_attainment" class="block mb-2 mt-2 text-sm font-medium text-gray-900 ">Education
+                        <label for="edu_attainment" class="block mb-2 mt-2 text-sm font-medium text-gray-900 ">Highest
+                            Education
                             Attainment<x-required /></label>
                         <select id="edu_attainment"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -149,10 +152,10 @@
                     </div>
                     <div>
                         <label for="experience" class="block mb-2 text-sm font-medium text-gray-900 ">
-                            Experience</label>
+                            Experience<x-required /></label>
                         <input type="number" name="experience" id="experience" wire:model="experience"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                            placeholder="ex. Dela" required wire:model="experience" />
+                            placeholder="" required wire:model="experience" />
                         @error('experience')
                             <div class="text-red-600">
                                 <span>{{ $message }}</span>
@@ -161,11 +164,11 @@
                     </div>
                 </div>
             </x-form-wrapper>
-
+            <h2 class="font-bold text-2xl max-w-2xl mx-auto">Applicant Requirements</h2>
             <x-form-wrapper>
                 <div>
                     <label for="qualification" class="block mb-2 text-sm font-medium text-gray-900 ">
-                        Qualifications</label>
+                        Qualifications<x-required /></label>
 
                     @error('qualification')
                         <div class="text-red-600">
@@ -193,7 +196,7 @@
                     @endforeach
                     <input type="text" name="qualification" id="qualification"
                         class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                        placeholder="ex. Dela" required wire:model="qualification" />
+                        placeholder="" required wire:model="qualification" />
                     {{-- <h2 class="mb-2 text-lg font-semibold text-gray-900">Password requirements:</h2> --}}
                     <button
                         class="text-white bg-blue-700 mt-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
@@ -205,7 +208,7 @@
 
                 <div>
                     <label for="reponsibility" class="block mb-2 text-sm font-medium text-gray-900 ">
-                        Responsibilities</label>
+                        Responsibilities<x-required /></label>
                     @foreach ($responsibilities as $index => $reponsiblity)
                         <div class="flex flex-col sm:flex-row w-full space-y-2 sm:space-y-0 sm:space-x-2 mt-2 mb-2">
                             <input type="text" wire:model='responsibilities.{{ $index }}.description'
@@ -222,7 +225,7 @@
                     @endforeach
                     <input type="text" name="reponsibility" id="reponsibility"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="ex. Dela" required wire:model="reponsibility" />
+                        placeholder="" required wire:model="reponsibility" />
                     @error('reponsibility')
                         <div class="text-red-600">
                             <span>{{ $message }}</span>
@@ -243,7 +246,7 @@
             <x-form-wrapper>
                 <div>
                     <label for="educations" class="block mb-2 text-sm font-medium text-gray-900 ">
-                        Educations</label>
+                        Education<x-required /></label>
                     <ul class="w-full space-y-1 text-gray-500 list-disc list-inside">
                         @foreach ($job_educations as $education)
                             <li class="flex items-center justify-between">
@@ -286,7 +289,7 @@
             <x-form-wrapper>
                 <div>
                     <label for="skills" class="block mb-2 text-sm font-medium text-gray-900 ">
-                        Skills</label>
+                        Skills<x-required /></label>
 
                     <ul class="w-full space-y-1 text-gray-500 list-disc list-inside">
                         @foreach ($job_skills as $skill)
@@ -336,10 +339,10 @@
                 @enderror
                 <div>
                     <label for="education_score" class="block mb-2 text-sm font-medium text-gray-900 ">
-                        Education</label>
+                        Education<x-required /></label>
                     <input type="number" name="education_score" id="education_score"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                        placeholder="ex. Dela" required wire:model="education_score" />
+                        placeholder="" required wire:model="education_score" />
                     @error('education_score')
                         <div class="text-red-600">
                             <span>{{ $message }}</span>
@@ -348,10 +351,10 @@
                 </div>
                 <div>
                     <label for="skill_score" class="block mb-2 text-sm font-medium text-gray-900 ">
-                        Skill</label>
+                        Skill<x-required /></label>
                     <input type="number" name="skill_score" id="skill_score"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                        placeholder="ex. Dela" required wire:model="skill_score" />
+                        placeholder="" required wire:model="skill_score" />
                     @error('skill_score')
                         <div class="text-red-600">
                             <span>{{ $message }}</span>
@@ -360,10 +363,10 @@
                 </div>
                 <div>
                     <label for="experience_score" class="block mb-2 text-sm font-medium text-gray-900 ">
-                        Experience</label>
+                        Experience<x-required /></label>
                     <input type="number" name="experience_score" id="experience_score"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
-                        placeholder="ex. Dela" required wire:model="experience_score" />
+                        placeholder="" required wire:model="experience_score" />
                     @error('experience_score')
                         <div class="text-red-600">
                             <span>{{ $message }}</span>

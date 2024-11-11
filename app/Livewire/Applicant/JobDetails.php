@@ -68,6 +68,15 @@ class JobDetails extends Component
     public function applyJob($id)
     {
         $this->applicant->jobs()->attach([$id]);
+        $this->js("
+        Toastify({
+            text: 'Applied Job Successfully',
+            duration: 3000,
+            close: false,
+            style: {
+                background: 'linear-gradient(135deg, #4CAF50, #66BB6A, #81C784)'
+            }
+        }).showToast()");
     }
     public function render()
     {

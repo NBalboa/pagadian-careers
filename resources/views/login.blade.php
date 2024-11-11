@@ -6,7 +6,7 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                         Sign in to your account
                     </h1>
-                    <form class="space-y-4 md:space-y-6" action="/signin" method="POST">
+                    <form id="login" class="space-y-4 md:space-y-6" action="/signin" method="POST">
                         @csrf
                         <div>
                             @error('error')
@@ -23,8 +23,15 @@
                         </div>
                         <div>
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                            <input type="password" name="password" id="password" value="{{ old('password') }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <div class="relative">
+                                <input type="password" name="password" id="password" value="{{ old('password') }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <button id="showPassword" tabindex="-1" type="button"
+                                    class="absolute top-0 right-0 bottom-0 me-2">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                    {{-- <i class="fa-solid fa-eye "></i> --}}
+                                </button>
+                            </div>
                             @error('password')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -43,9 +50,12 @@
                                 class="text-sm font-medium text-primary-600 hover:underline">Forgot
                                 password?</a>
                         </div>
-                        <button type="submit"
-                            class="w-full text-white bg-blue-700 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign
-                            in</button>
+                        <button type="submit" id="login-btn"
+                            class="w-full text-white bg-blue-700 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            Sign in</button>
+                        <div id="spinner" style="display: none">
+                            <x-spinner />
+                        </div>
                         <p class="text-sm font-light text-gray-500">
                             Don’t have an account yet? <a href="/register"
                                 class="font-medium text-primary-600 text-blue-700 hover:underline">Sign up</a>

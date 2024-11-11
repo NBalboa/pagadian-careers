@@ -47,11 +47,11 @@ class CreateJob extends Component
     public string $description;
     #[Rule('required')]
     public string $job_title;
-    #[Rule('required')]
+    #[Rule('required|numeric|between:0,10')]
     public int $education_score = 0;
-    #[Rule('required')]
+    #[Rule('required|numeric|between:0,10')]
     public int $skill_score = 0;
-    #[Rule('required')]
+    #[Rule('required|numeric|between:0,10')]
     public int $experience_score = 0;
     #[Rule('required|in:10')]
     public int $total_score;

@@ -13,8 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/c393acf5ae.js" crossorigin="anonymous"></script>
 
-
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -60,7 +59,8 @@
                     Route::is('hm.job.preview') ||
                     Route::is('hm.job.edit') ||
                     Route::is('hm.applicant.details') ||
-                    Route::is('hm.applicant.profile')">
+                    Route::is('hm.applicant.profile') ||
+                    Route::is('hm.job.create')">
                     Jobs
                 </x-nav-item>
                 <x-nav-item href="/my/company" :active="Route::is('hm.my.company')">
