@@ -64,6 +64,30 @@ class MyCompany extends Component
         redirect("/my/company")->with(['success' => 'Logo updated successfully']);
     }
 
+    function changeCompanyDetails()
+    {
+        $this->validate(
+            [
+                'name' => 'required|string',
+                'description' => 'required|string'
+            ]
+        );
+
+        $this->company->fill([
+            'name' => $this->name,
+            'url' => $this->url,
+            'description' => $this->description
+        ]);
+
+        $changes = $this->company->getDirty();
+
+        if ($changes) {
+            $this->company->update($changes);
+
+            redirect("/my/company")->with(['success' => 'Company details updated successfully']);
+        }
+    }
+
     public function changeAddress()
     {
         $this->validate(

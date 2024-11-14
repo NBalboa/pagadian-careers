@@ -22,15 +22,10 @@ class EditHiringManager extends Component
     public $telephone_no;
     public $middle_name;
 
-    #[Rule('required|string')]
     public $first_name;
-    #[Rule('required|string')]
     public $last_name;
-    #[Rule('required|string')]
     public $phone_no;
-    #[Rule('required|')]
     public $company;
-    #[Rule('required|email')]
     public $email;
 
     #[Rule('required|string')]
@@ -66,7 +61,13 @@ class EditHiringManager extends Component
 
     public function save()
     {
-        $this->validate();
+        $this->validate([
+            "first_name" => 'required|string',
+            "last_name" => 'required|string',
+            "phone_no" => 'required|string',
+            "company" => 'required|exists:companies,id',
+            "email" => 'required|email',
+        ]);
 
         $user = User::findOrFail($this->hiring_manager->user->id);
         $user->fill([

@@ -84,7 +84,7 @@ class VerifyEmailApplicant extends Component
             Session::forget('register');
             DB::commit();
 
-            return redirect('/jobs')->with(['success' => 'Applicant created successfully']);
+            return $this->redirect('/jobs');
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to create Applicant');
             Log::error('Error creating Applicant: ' . $e->getMessage());

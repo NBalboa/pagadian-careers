@@ -66,6 +66,7 @@ class EditCompany extends Component
         $this->validate(
             [
                 'name' => 'required|string',
+                'description' => 'required|string'
             ]
         );
 

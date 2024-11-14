@@ -47,8 +47,16 @@ use App\Livewire\MyAccountSettings;
 use App\Livewire\VerifyOTP;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
+// use Illuminate\Support\Facades\Artisan;
+
+// Route::get('/storage-link', function () {
+//     Artisan::call('storage:link');
+
+//     return "Storage link created successfully!";
+// });
 
 Route::get('/', Welcome::class)->name('home');
+
 
 Route::get('/account-settings', MyAccountSettings::class)->name('admin.settings');
 
