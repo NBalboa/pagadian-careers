@@ -148,6 +148,6 @@
         </div>
     @endforeach
     <div class="flex items-center justify-center my-10">
-        {{ $recommendations->links() }}
+        {{ $recommendations->links('pagination::tailwind') }}
     </div>
 </div>
