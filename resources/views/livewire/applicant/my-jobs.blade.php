@@ -107,8 +107,8 @@
                 <x-table-header-item>Job Title</x-table-header-item>
                 <x-table-header-item>Company Name</x-table-header-item>
                 <x-table-header-item>Address</x-table-header-item>
-                <x-table-header-item>Remarks</x-table-header-item>
                 <x-table-header-item>Status</x-table-header-item>
+                <x-table-header-item>Remarks</x-table-header-item>
             </x-table-header>
             <tbody>
                 @foreach ($jobs as $job)
