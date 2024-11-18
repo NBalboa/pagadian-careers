@@ -18,7 +18,7 @@
 
 </head>
 
-<body>
+<body class="min-h-screen flex flex-col">
     @if (Route::is('home') ||
             Route::is('jobs') ||
             Route::is('my/jobs') ||
@@ -27,7 +27,7 @@
             Route::is('login') ||
             Route::is('app.job'))
 
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <span class="self-center text-2xl font-bold text-blue-600 hover:opacity-80 whitespace-nowrap">Pagadian
                     Careers</span>
@@ -90,7 +90,7 @@
         {{ $slot }}
     </main>
 
-    <footer class="bg-gray-100">
+    <footer class="bg-gray-100 mt-auto">
         <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
